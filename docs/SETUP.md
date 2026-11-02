@@ -10,7 +10,14 @@ Read only for toolchain problems. Versions are pinned at step 01 and recorded he
 
 ## Pinned versions
 
-_To be filled at step 01 from the lockfile: node, vite, preact, dexie, vite-plugin-pwa, vitest._
+- Node 22 (Actions and the container; any 20+ should do)
+- vite 6.4.5
+- preact 11.1.1
+- dexie 4.4.7
+- vite-plugin-pwa 2.0.0
+- vitest 5.0.5
+- typescript 7.0.2
+- @preact/preset-vite 2.10.6
 
 ## Commands
 
