@@ -4,8 +4,11 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { version } from './package.json';
 
 // base is the repo name because GitHub Pages serves a project site under it.
+// Pages matches the path case-sensitively: '/sweetspot/' 404s every asset.
+const base = '/SweetSpot/';
+
 export default defineConfig({
-  base: '/sweetspot/',
+  base,
   define: { __APP_VERSION__: JSON.stringify(version) },
   plugins: [
     preact(),
@@ -18,8 +21,8 @@ export default defineConfig({
         description: 'יומן ההזמנות שלך',
         lang: 'he',
         dir: 'rtl',
-        start_url: '/sweetspot/',
-        scope: '/sweetspot/',
+        start_url: base,
+        scope: base,
         display: 'standalone',
         background_color: '#FBF8F3',
         theme_color: '#FBF8F3',

@@ -116,3 +116,13 @@ Dated, append-only. A decision is reversed only by a new entry naming the one it
 **Decision.** Settings has "business logo": she picks an image from her phone, it is resized to ≤512 px and stored as a blob in the `settings` row, shown in the app header and carried by backups. The home-screen icon stays SweetSpot's own generic icon.
 **Rejected.** Committing her logo as the PWA icon and header image.
 **Why.** The logo carries her name and brand; D22 keeps real names out of the public repo. The manifest icon cannot be user-supplied, but it is a thumbnail she taps, not something she looks at; the header is where the brand lives. Branding as data also means the app is not hers alone — a second baker gets her own.
+
+## D24 · 2026-11-02 · Base path is `/SweetSpot/`, the repo name's exact case; stack on current majors
+**Decision.** `base`, the manifest's `start_url` and `scope` are `/SweetSpot/`, written once in `vite.config.ts` (`index.html` uses `%BASE_URL%`). In the same change the toolchain moves to current majors: Vite 8, Vitest 5.1, Node 26 in Actions, and the Actions themselves to the majors that run on Node 24 (checkout/setup-node v7, upload-pages-artifact v5, deploy-pages v5).
+**Rejected.** (a) Renaming the repo to `sweetspot` to keep the lowercase URL in the docs. (b) Staying on Vite 6 and the v4 actions until something breaks.
+**Why.** The first deploy served an empty page that Chrome refused to install: Pages serves `/SweetSpot/` and 404s `/sweetspot/`, so every asset and the manifest were missing. (a) is equally valid but needs a rename on GitHub and a new remote; fixing the config is one line and keeps the repo as the programmer created it. If the baker's install URL should be lowercase, rename later and change this one constant. (b): Vite 6 was a stale default from the scaffolding container, not a choice; every plugin here accepts Vite 8, and Actions already warns that the Node 20 action runtime is deprecated. Upgrading at step 01, with nothing built on top, is the cheapest it will ever be.
+
+## D25 · 2026-11-02 · Claude writes the verification line on the programmer's word
+**Decision.** The programmer runs the check and says what happened; Claude writes the `verified YYYY-MM-DD, <device>, <who>` line in the task record, naming the programmer as the one who verified, and ticks the boxes his report covers. Supersedes the "He writes the 'verified …' line" clause in `CLAUDE.md`.
+**Rejected.** The programmer editing the task file himself.
+**Why.** Writing records is Claude's side of the division of labour; the programmer's side is running it and saying whether it works. Who ran it is unchanged — Claude still never verifies a device step on its own and never names itself for one.

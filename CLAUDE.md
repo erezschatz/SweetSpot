@@ -48,5 +48,5 @@ of all this is `docs/working-on-a-task.md`.
 ## Division of labour
 
 - **Claude** writes code, tests, docs and task records, in one scene per step. Claude never claims a build is green or a feature works on the device.
-- **Erez** builds, deploys to GitHub Pages, installs on his Pixel, and says whether it works. He writes the "verified …" line.
+- **Erez** builds, deploys to GitHub Pages, installs on his Pixel, and says whether it works. Claude writes the "verified …" line from his report, naming him (D25).
 - **The baker** receives the finished 1.0 at step 09 and is the only acceptance test that counts for Hebrew wording and tap-target size. Her feedback becomes new task files, not edits to shipped ones.

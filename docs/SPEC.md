@@ -70,7 +70,7 @@ What she juggles on the phone with a customer — event date, number of guests, 
 | Dependency | What it replaces | Why it is rote |
 |---|---|---|
 | TypeScript | — | The programmer's language. |
-| Vite | hand-written bundling | Standard; `base` set to `/sweetspot/` for Pages. |
+| Vite | hand-written bundling | Standard; `base` set to `/SweetSpot/` for Pages, matching the repo name's case (D24). |
 | Preact (+ `preact/hooks`) | React | Same mental model as React, 4 kB, no need for React's weight in a five-screen app. |
 | Dexie (+ `dexie-react-hooks`, works with Preact's compat) | raw IndexedDB | Schema versioning, live queries, transactions; raw IDB is boilerplate the programmer does not want to own. |
 | vite-plugin-pwa | hand-written manifest + service worker | Generates both, handles update strategy. |
@@ -89,7 +89,7 @@ No CSS framework, no component library, no router, no date library (`Intl` and I
 ## Hosting and repo
 
 - Public GitHub repo (GitHub Pages on a private repo requires a paid plan; D11).
-- Deployed URL: `https://<user>.github.io/sweetspot/`.
+- Deployed URL: `https://erezschatz.github.io/SweetSpot/` (case-sensitive path; D24).
 - Her data never touches the repo or the host. The host serves static files and nothing else.
 
 ## Verification
