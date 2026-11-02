@@ -1,0 +1,4 @@
+#!/bin/sh
+# stdin closed: the script reads hook JSON from stdin when not a TTY, and git
+# passes pre-commit whatever stdin it was given, which can be an open pipe.
+exec node "$(git rev-parse --show-toplevel)/.claude/hooks/check-unit.mjs" --staged </dev/null

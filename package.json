@@ -1,0 +1,26 @@
+{
+  "name": "sweetspot",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
+    "changelog": "node scripts/compile-changelog.mjs",
+    "test:unities": "node --test .claude/hooks/check-unit.test.mjs",
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.6",
+    "typescript": "^7.0.2",
+    "vite": "^6.4.5",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "dexie": "^4.4.7",
+    "preact": "^11.1.1"
+  }
+}
