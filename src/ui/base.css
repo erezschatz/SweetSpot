@@ -29,3 +29,35 @@ html, body {
 
 h1 { font-size: 1.6rem; margin: 0 0 0.25em; }
 .muted { color: var(--muted); margin: 0.25em 0; }
+
+h2 { font-size: 1.15rem; margin: 1.5em 0 0.5em; }
+
+.app-header { display: flex; align-items: center; gap: 12px; }
+.header-logo { width: 56px; height: 56px; object-fit: contain; border-radius: 12px; }
+.logo-preview { max-width: 160px; max-height: 160px; object-fit: contain; display: block; margin-block: 8px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; margin-block: 12px; }
+
+input[type='text'] {
+  min-height: var(--tap);
+  padding-inline: 12px;
+  font: inherit;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+}
+
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+button {
+  min-height: var(--tap);
+  padding-inline: 18px;
+  font: inherit;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+}
+button.secondary { background: var(--card); color: var(--accent); border: 1px solid var(--line); }
+
+.message { padding: 10px 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); }

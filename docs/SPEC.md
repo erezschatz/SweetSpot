@@ -40,13 +40,14 @@ GitHub repo ──(Actions on push to main)──► GitHub Pages ──► Chro
                                                     share sheet ◄─ backup JSON
 ```
 
-- **Data** lives only in IndexedDB on the phone. `navigator.storage.persist()` is requested on first run so Chrome does not evict it.
+- **Data** lives only in IndexedDB on the phone. `navigator.storage.persist()` is requested on every start (a no-op once granted) so Chrome does not evict it.
 - **Updates** arrive through the service worker (vite-plugin-pwa, `autoUpdate`): she opens the app, it fetches the new build, next open runs it. No store, no sideloading.
 - **Routing** is a hand-rolled hash router (`#/orders`, `#/orders/:id`, `#/customers`, `#/products`, `#/money`, `#/settings`). Five screens do not justify a router library.
 - **State**: Dexie's live queries (`useLiveQuery`) feed screens directly. No global store.
 - **WhatsApp**: `https://wa.me/<E.164>?text=<encoded>`; opened with `window.open`. Israeli numbers are normalised from `05x-xxxxxxx` to `9725xxxxxxxx` in `src/lib/phone.ts`.
 - **Contacts**: `navigator.contacts.select(['name', 'tel'], { multiple: false })` behind a user gesture; feature-detected (`'contacts' in navigator && 'select' in navigator.contacts`). Returns only the picked contact; nothing is stored beyond the customer row it fills.
-- **Backup**: `navigator.share({ files: [sweetspot-YYYY-MM-DD.json] })` with a download fallback. Import reads the file, validates the schema version, replaces all tables inside one Dexie transaction.
+- **Backup**: `navigator.share({ files: [sweetspot-YYYY-MM-DD.json] })`; if Chrome will not share a `.json`, the same content as `sweetspot-YYYY-MM-DD.txt`; if neither, a download (D27). The file is versioned JSON (`app`, `schemaVersion`, `exportedAt`, the settings row with the logo as base64, and the three tables). Closing the share sheet does not count as a backup. Import accepts `.json` and `.txt`, validates every row, unique ids and order→customer links (`src/lib/backup.ts`) before asking to replace anything, refuses a newer `schemaVersion`, replaces all tables inside one Dexie transaction, and reloads the app.
+- **Code layout**: `src/db/schema.ts` (Dexie tables, version 1), `src/db/repositories.ts` (the only way screens touch tables), `src/db/backup.ts` (file I/O around the pure `src/lib/backup.ts`).
 
 ## Data model
 
@@ -72,7 +73,7 @@ What she juggles on the phone with a customer — event date, number of guests, 
 | TypeScript | — | The programmer's language. |
 | Vite | hand-written bundling | Standard; `base` set to `/SweetSpot/` for Pages, matching the repo name's case (D24). |
 | Preact (+ `preact/hooks`) | React | Same mental model as React, 4 kB, no need for React's weight in a five-screen app. |
-| Dexie (+ `dexie-react-hooks`, works with Preact's compat) | raw IndexedDB | Schema versioning, live queries, transactions; raw IDB is boilerplate the programmer does not want to own. |
+| Dexie (+ `dexie-react-hooks`, works with Preact's compat; npm installs `react` as its peer, but `@preact/preset-vite` aliases it to `preact/compat`, so none ships) | raw IndexedDB | Schema versioning, live queries, transactions; raw IDB is boilerplate the programmer does not want to own. |
 | vite-plugin-pwa | hand-written manifest + service worker | Generates both, handles update strategy. |
 | Vitest | — | Tests for `src/lib`. Same config as Vite. |
 | GitHub Actions `actions/deploy-pages` | manual upload | Push to `main` → deployed. |

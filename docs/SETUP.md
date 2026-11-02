@@ -14,6 +14,7 @@ Read only for toolchain problems. Versions are pinned at step 01 and recorded he
 - vite 8.3.5
 - preact 11.1.1
 - dexie 4.4.7
+- dexie-react-hooks 4.4.0 (pulls `react` 19 into `node_modules` as a peer; the build aliases it to `preact/compat`)
 - vite-plugin-pwa 2.0.0
 - vitest 5.1.0
 - Actions: checkout v7, setup-node v7, upload-pages-artifact v5, deploy-pages v5 (the v4/v3 majors ran on the deprecated Node 20 action runtime)
@@ -24,7 +25,7 @@ Read only for toolchain problems. Versions are pinned at step 01 and recorded he
 
 ```
 npm ci            # install
-npm run dev       # local, http://localhost:5173
+npm run dev       # local, http://localhost:5173/SweetSpot/ (also `.claude/launch.json` "dev" for the Claude browser pane)
 npm test          # vitest, src/lib only
 npm run build     # dist/, base /SweetSpot/
 npm run preview   # serve dist/ locally
