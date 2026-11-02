@@ -8,12 +8,12 @@
 
 - [x] Dexie database with the four tables of the spec, version 1, and typed repositories in `src/db`.
 - [x] `navigator.storage.persist()` requested on first run; the result is readable on the (temporary) settings screen.
-- [ ] Settings screen: business name, business logo (pick from phone, resized to ≤512 px, stored as a blob, shown in the app header; remove button — D23), "Backup now", "Restore from file", last-backup date.
-- [ ] "Backup now" opens the Android share sheet with `sweetspot-YYYY-MM-DD.json`; falls back to a download where `navigator.share` with files is unsupported.
-- [ ] Restore replaces all tables in one transaction after a confirm; a malformed file is refused with a Hebrew message and nothing is changed.
+- [x] Settings screen: business name, business logo (pick from phone, resized to ≤512 px, stored as a blob, shown in the app header; remove button — D23), "Backup now", "Restore from file", last-backup date.
+- [x] "Backup now" opens the Android share sheet with `sweetspot-YYYY-MM-DD.json`; falls back to a download where `navigator.share` with files is unsupported.
+- [x] Restore replaces all tables in one transaction after a confirm; a malformed file is refused with a Hebrew message and nothing is changed.
 - [x] `src/lib/backup.ts` (serialise/validate) and `src/lib/money.ts` (agorot ↔ shekels) have Vitest tests.
 - [x] Backup JSON carries the logo (base64) and restore brings it back.
-- [ ] Verified on the Pixel: enter a business name and a logo, back up to Drive, clear site data, restore, both are back.
+- [x] Verified on the Pixel: enter a business name and a logo, back up to Drive, clear site data, restore, both are back.
 
 ## What was done
 
@@ -48,3 +48,7 @@ Observed by Claude in the desktop browser pane against the dev server, not on a 
 - a backup round-trips the name, a logo (byte-identical) and a customer.
 
 Not observed: the share sheet, the file pickers, image resizing on a real photo, the restore confirm and reload. On the Pixel, check which D27 branch Chrome takes. Also check that the share sheet still opens after the database reads, since the tap's user activation could expire and turn it into a download. Not verified on a device; boxes 3, 4, 5 and 8 wait for the Pixel.
+
+## What was done
+
+2026-11-02, on the Pixel, by the programmer, from the deploy of `d50c879`. He entered a business name and picked a logo from the phone. "Backup now" opened the share sheet with `sweetspot-YYYY-MM-DD.json`, so Chrome on Android does share `.json`, and D27's `.txt` and download fallbacks were not needed on this phone; they stay for other browsers. He saved the file to Drive, cleared the site data and restored from the file: the name and the logo came back. All acceptance boxes ticked. verified 2026-11-02, Pixel 9, Erez.
