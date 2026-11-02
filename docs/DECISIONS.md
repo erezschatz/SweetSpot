@@ -111,3 +111,8 @@ Dated, append-only. A decision is reversed only by a new entry naming the one it
 **Decision.** The predecessor service is referred to only as "the predecessor" (`docs/PREDECESSOR.md`); no product names, URLs or prices identify it. The baker's catalogue, customers and any real name stay out of the repo; examples use invented names. The repository was deleted and recreated on 2026-11-02 and its two steps committed again from the scrubbed tree, so no commit in this history has ever carried either.
 **Rejected.** Keeping the name in the docs for precision; keeping her catalogue as a seed.
 **Why.** The repo went public for Pages (D2). Nothing is gained by naming a small business's competitor in public, and her prices are hers.
+
+## D23 · 2026-11-02 · Her logo is data she uploads, not an asset in the repo
+**Decision.** Settings has "business logo": she picks an image from her phone, it is resized to ≤512 px and stored as a blob in the `settings` row, shown in the app header and carried by backups. The home-screen icon stays SweetSpot's own generic icon.
+**Rejected.** Committing her logo as the PWA icon and header image.
+**Why.** The logo carries her name and brand; D22 keeps real names out of the public repo. The manifest icon cannot be user-supplied, but it is a thumbnail she taps, not something she looks at; the header is where the brand lives. Branding as data also means the app is not hers alone — a second baker gets her own.

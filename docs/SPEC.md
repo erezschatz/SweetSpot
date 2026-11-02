@@ -54,7 +54,7 @@ All ids are `crypto.randomUUID()`. Dates are ISO `YYYY-MM-DD` strings; timestamp
 
 | Table | Fields |
 |---|---|
-| `settings` (single row, id `'me'`) | `businessName`, `templates: { accepted, reminder, ready, payment }` (strings with `{name} {items} {guests} {eventDate} {deliveryDate} {total} {paid} {owes} {business}` placeholders), `lastBackupAt?`, `schemaVersion` |
+| `settings` (single row, id `'me'`) | `businessName`, `logo?` (Blob, ≤512 px, D23), `templates: { accepted, reminder, ready, payment }` (strings with `{name} {items} {guests} {eventDate} {deliveryDate} {total} {paid} {owes} {business}` placeholders), `lastBackupAt?`, `schemaVersion` |
 | `products` | `id`, `name`, `price` (agorot), `active` (bool), `createdAt` |
 | `customers` | `id`, `name`, `phone` (as typed), `notes`, `createdAt` |
 | `orders` | `id`, `customerId`, `title` (defaults to the customer's name), `items: [{ productId?, name, qty, unitPrice, details }]`, `guests?` (number), `eventDate?`, `deliveryDate`, `fulfilment: 'pickup' \| 'delivery'`, `address?`, `designNotes`, `status: 'new' \| 'confirmed' \| 'delivered' \| 'cancelled'`, `total` (agorot, stored, recomputed on save), `paidAmount` (agorot), `paidAt?`, `paidMethod?: 'cash' \| 'bit' \| 'paybox' \| 'transfer' \| 'other'`, `deposit?` (agorot), `depositPaidAt?`, `depositMethod?`, `notes`, `createdAt`, `updatedAt` |
