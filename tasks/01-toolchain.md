@@ -6,9 +6,9 @@
 
 **Acceptance**
 
-- [ ] `npm ci && npm test && npm run build` succeed on the programmer's machine; versions pinned in `docs/SETUP.md`.
-- [ ] Push to `main` deploys to `https://erezschatz.github.io/SweetSpot/` by Actions.
-- [ ] On the Pixel: Chrome offers "Install" (current Chrome's name for Add to Home screen); the icon opens the app without an address bar; airplane mode, reopen — still opens.
+- [x] `npm ci && npm test && npm run build` succeed on the programmer's machine; versions pinned in `docs/SETUP.md`.
+- [x] Push to `main` deploys to `https://erezschatz.github.io/SweetSpot/` by Actions.
+- [x] On the Pixel: Chrome offers "Install" (current Chrome's name for Add to Home screen); the icon opens the app without an address bar; airplane mode, reopen — still opens.
 - [x] `<html lang="he" dir="rtl">`, light theme colour in the manifest, 192/512 icons present.
 - [x] One Vitest test exists and runs (a placeholder in `src/lib`).
 
@@ -29,3 +29,9 @@ Same change, D24: Vite 6.4.5 → 8.3.5 and Vitest 5.0.5 → 5.1.0. Vite 6 was th
 D25 in the same change: Claude writes the verification line from the programmer's report; `CLAUDE.md`'s division of labour says so. `docs/SETUP.md` gains the empty-page gotcha.
 
 `npm ci`, `npm test` and `npm run build` were reported green by the programmer on Vite 6. The upgrade replaced esbuild with rolldown and lightningcss in the lockfile, so box 1 is open again until he reruns all three on Vite 8. Also not yet seen: the deploy on the new action versions, and the three phone checks (install, no address bar, airplane mode). verified 2026-11-02, programmer's Mac (Vite 6 build and tests only, no device), Erez.
+
+## What was done
+
+2026-11-02. Deploy of `c8b3cbe` served the app at `https://erezschatz.github.io/SweetSpot/`. On the Pixel the page shows "יומן ההזמנות שלך", Chrome's install banner appears, the installed app opens from its icon, and reopens in airplane mode. On the programmer's Mac `npm ci && npm test && npm run build` passed on Vite 8 (5/5 tests).
+
+His run surfaced warnings, cleared in this change: Vite's native config loader wanted the `package.json` import in `vite.config.ts` to carry `with { type: 'json' }`; `fsevents`' install script is denied in `package.json` `allowScripts` (binary ships prebuilt). The `glob@11` deprecation and the audit findings are in `workbox-build`, build-time only, and left as they are (D26; `docs/SETUP.md` gotcha). Claude reran `npm ci`, `npm test` and `npm run build` after these edits; the two warnings no longer print. verified 2026-11-02, Pixel 9 + programmer's Mac, Erez.

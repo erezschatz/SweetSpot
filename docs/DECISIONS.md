@@ -126,3 +126,8 @@ Dated, append-only. A decision is reversed only by a new entry naming the one it
 **Decision.** The programmer runs the check and says what happened; Claude writes the `verified YYYY-MM-DD, <device>, <who>` line in the task record, naming the programmer as the one who verified, and ticks the boxes his report covers. Supersedes the "He writes the 'verified …' line" clause in `CLAUDE.md`.
 **Rejected.** The programmer editing the task file himself.
 **Why.** Writing records is Claude's side of the division of labour; the programmer's side is running it and saying whether it works. Who ran it is unchanged — Claude still never verifies a device step on its own and never names itself for one.
+
+## D26 · 2026-11-02 · Build-time audit findings in workbox-build are tolerated
+**Decision.** The `glob@11` deprecation and the `npm audit` findings (deepmerge, glob, minimatch; low/moderate) are all inside `workbox-build`, which vite-plugin-pwa runs at build time to generate the service worker. They are left until vite-plugin-pwa/workbox ships newer versions. `fsevents`' install script is denied (`allowScripts`): the package already carries its macOS binary.
+**Rejected.** (a) `npm audit fix --force`, which proposes breaking changes to the PWA plugin chain. (b) `overrides` forcing newer glob/minimatch into workbox-build, an untested combination owned by nobody here.
+**Why.** None of that code ships to the phone; it reads files from `dist/` on the programmer's machine and in Actions. The exposure is a malicious glob pattern or object fed to a build tool we control, which does not occur. Forcing versions under a dependency trades a theoretical advisory for a real chance of a broken service worker.

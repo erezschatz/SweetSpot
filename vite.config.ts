@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitest/config';
 import preact from '@preact/preset-vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import { version } from './package.json';
+import pkg from './package.json' with { type: 'json' };
 
 // base is the repo name because GitHub Pages serves a project site under it.
 // Pages matches the path case-sensitively: '/sweetspot/' 404s every asset.
@@ -9,7 +9,7 @@ const base = '/SweetSpot/';
 
 export default defineConfig({
   base,
-  define: { __APP_VERSION__: JSON.stringify(version) },
+  define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   plugins: [
     preact(),
     VitePWA({
