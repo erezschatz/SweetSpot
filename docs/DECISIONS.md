@@ -136,3 +136,25 @@ Dated, append-only. A decision is reversed only by a new entry naming the one it
 **Decision.** "Backup now" offers the share sheet a `sweetspot-YYYY-MM-DD.json` file (`application/json`). If `navigator.canShare` refuses it, the same content is offered as `sweetspot-YYYY-MM-DD.txt` (`text/plain`); if that is refused too, the `.json` is downloaded. Restore accepts either extension. Closing the share sheet is "cancelled", and `lastBackupAt` is not updated.
 **Rejected.** (a) `.json` only, falling straight to a download: Chrome on Android shares only a fixed list of file types, and as far as Claude knows JSON is not on it; a download lands in a folder she never opens instead of in Drive. (b) `.txt` always: loses the `.json` name where Chrome does accept it.
 **Why.** The promise of step 02 is "hand a copy to anywhere she likes with one tap". The share sheet is that tap; a download is not. Which branch the Pixel takes is a device fact, recorded at verification.
+
+## D28 · 2026-11-02 · Order screens: every status has a way back; title is the customer's name; the catalogue only suggests
+**Decision.**
+- Status buttons offer:
+  - new → confirmed / delivered / cancelled;
+  - confirmed → delivered / cancelled;
+  - delivered → confirmed;
+  - cancelled → new.
+  Only cancelling asks for confirmation.
+- An order's `title` is set to the customer's name on every save; the form has no title field.
+- The line's product is a free-text field with the active catalogue as suggestions (`<datalist>`). Picking a catalogue name links `productId` and fills the price if she has not typed one.
+- In the UI the customer is "לקוח" (generic masculine); only the baker is addressed in the feminine.
+**Rejected.**
+- (a) A strict forward-only pipeline.
+- (b) An editable title field.
+- (c) A separate product picker with a "free text" escape.
+- (d) "לקוחה" for the customer.
+**Why.**
+- (a) On a phone a mis-tap is likelier than a real reversal, and a delivered order that cannot be un-delivered would show as owing forever.
+- (b) Her notebook keys every order by the customer's name; a title field is one more thing to fill in for nothing. If she wants a different label, it becomes a task.
+- (c) The catalogue ships empty (D20) and many lines are one-offs; one field that does both is faster one-handed.
+- (d) Her customers are not all women; Hebrew UI convention for an unknown person is the generic masculine.

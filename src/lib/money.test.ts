@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatShekels, parseShekels, sum } from './money';
+import { agorotToInput, formatShekels, parseShekels, sum } from './money';
 
 describe('parseShekels', () => {
   it('reads plain and decorated numbers', () => {
@@ -29,5 +29,14 @@ describe('sum', () => {
   it('adds agorot exactly', () => {
     expect(sum([1, 2, 3])).toBe(6);
     expect(sum([])).toBe(0);
+  });
+});
+
+describe('agorotToInput', () => {
+  it('gives back what parseShekels reads', () => {
+    expect(agorotToInput(32000)).toBe('320');
+    expect(agorotToInput(12050)).toBe('120.5');
+    expect(agorotToInput(0)).toBe('0');
+    for (const a of [1, 99, 12345, 100000]) expect(parseShekels(agorotToInput(a))).toBe(a);
   });
 });

@@ -23,6 +23,11 @@ export function parseShekels(text: string): Agorot | null {
   return Math.round(value * 100);
 }
 
+/** Agorot → the text an input field starts with: "320", "320.5", no symbol or separators. */
+export function agorotToInput(amount: Agorot): string {
+  return String(amount / 100);
+}
+
 export function sum(amounts: Agorot[]): Agorot {
   return amounts.reduce((total, a) => total + a, 0);
 }

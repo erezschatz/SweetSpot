@@ -51,4 +51,10 @@ export const ordersRepo = {
   byCustomer: (customerId: string): Promise<Order[]> =>
     db.orders.where('customerId').equals(customerId).sortBy('deliveryDate'),
   put: (order: Order) => db.orders.put(order),
+  /** A new customer and the order are written together or not at all. */
+  saveWithCustomer: (order: Order, newCustomer?: Customer): Promise<void> =>
+    db.transaction('rw', db.customers, db.orders, async () => {
+      if (newCustomer) await db.customers.put(newCustomer);
+      await db.orders.put(order);
+    }),
 };
