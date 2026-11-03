@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { useLiveQuery } from 'dexie-react-hooks';
+import type { TemplateKey } from '../db/schema';
 import { he } from '../i18n/he';
 import { settingsRepo } from '../db/repositories';
 import { backupNow, restoreBackup } from '../db/backup';
@@ -25,6 +26,13 @@ export function SettingsScreen() {
 
       <LogoPicker logo={settings.logo} onError={setMessage} />
 
+      <h2>{he.templates.title}</h2>
+      <p class="muted">{he.templates.explain}</p>
+      <p class="muted legend">{he.templates.legend}</p>
+      {templateKeys.map((key) => (
+        <TemplateEditor key={key} templateKey={key} saved={settings.templates[key]} />
+      ))}
+
       <h2>{he.backup.title}</h2>
       <p class="muted">{he.backup.explain}</p>
       <p>
@@ -40,6 +48,41 @@ export function SettingsScreen() {
 
       <p class="muted">{he.version} {__APP_VERSION__}</p>
     </section>
+  );
+}
+
+const templateKeys: TemplateKey[] = ['accepted', 'reminder', 'ready', 'payment'];
+
+// Like the business name: local state while she types, saved on every keystroke.
+// No saved text means the default from he.ts applies.
+function TemplateEditor({ templateKey, saved }: { templateKey: TemplateKey; saved?: string }) {
+  const defaultText = he.whatsapp.defaults[templateKey];
+  const [value, setValue] = useState(saved ?? defaultText);
+  return (
+    <label class="field template">
+      <span>{he.whatsapp.send[templateKey]}</span>
+      <textarea
+        value={value}
+        onInput={(e) => {
+          const next = e.currentTarget.value;
+          setValue(next);
+          // Typed back to the default, it is the default again, so a later improvement reaches her.
+          void settingsRepo.setTemplate(templateKey, next === defaultText ? undefined : next);
+        }}
+      />
+      {value !== defaultText && (
+        <button
+          type="button"
+          class="link"
+          onClick={() => {
+            setValue(defaultText);
+            void settingsRepo.setTemplate(templateKey, undefined);
+          }}
+        >
+          {he.templates.reset}
+        </button>
+      )}
+    </label>
   );
 }
 

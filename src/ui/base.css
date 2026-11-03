@@ -160,3 +160,12 @@ button.back {
 .deposit-amount .field { flex: 1; margin-block: 0; }
 /* Four statuses on one row at phone width. */
 .segmented.statuses button { padding-inline: 4px; }
+
+/* Two by two, big enough for a thumb; WhatsApp's own green so she knows where it goes. */
+.whatsapp { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-block-end: 20px; }
+a.button.whatsapp-button {
+  justify-content: center; text-align: center; padding-inline: 8px;
+  background: #1f7a4d; color: #fff; font-weight: 600;
+}
+.template textarea { min-block-size: 14em; font-size: 0.95rem; }
+.legend { font-size: 0.85rem; }

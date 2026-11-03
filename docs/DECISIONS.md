@@ -174,3 +174,26 @@ Erez's first run of step 03 on the Pixel. This reopens D28's status moves; D28's
 - (d) A separate "paid in advance" flag or a second payment slot before delivery: the deposit already is a payment with a date and a method; a new field would need a schema version and change `paidSoFar`.
 - (e) Waiting for step 06's catalogue for any suggestions: the catalogue ships empty (D20), and her past orders are already the list of what she sells.
 **Why.** Each item is something Erez hit on the phone. The changes stay inside step 03's screens and `src/lib`; no schema change.
+
+## D30 · 2026-11-03 · WhatsApp messages: plain wa.me links; empty lines dropped; the customer is not addressed in the feminine
+**Decision.**
+- Each of the four buttons is an `<a href="https://wa.me/…?text=…" target="_blank">`.
+- A template line whose placeholder has nothing to say is left out of the message.
+- The default texts avoid gendered verbs where Hebrew allows it (רשמתי, הזמנת, נתראה). Where it does not, they use the generic masculine of D28.
+- A template she never edited is not stored; the default from `he.ts` applies, so a better default in a later version reaches her. "Reset" removes her version, as does typing the default text back. A template emptied to nothing counts as no template.
+- The payment reminder is offered only while something is owed; with nothing owed it would be a bare "thank you".
+- `{paid}`, `{owes}` and `{total}` are empty at ₪0, and `{guests}`, `{eventDate}` and `{business}` are empty when not filled.
+**Rejected.**
+- (a) `window.open(url)` from a click handler, as SPEC said.
+- (b) The `whatsapp://send` scheme.
+- (c) Leaving empty placeholders in place ("אורחים: ").
+- (d) Two template sets, by the customer's gender.
+- (e) The feminine for the customer, as task 04's acceptance text says. That text was written before D28.
+- (f) Storing the defaults into settings on first run.
+**Why.**
+- (a) A link does the same with no script, keeps working if a handler throws, and is what Android's intent handling expects.
+- (b) The scheme fails silently in a browser without WhatsApp; wa.me has a fallback page.
+- (c) She would have to fix every message by hand before sending, which defeats one tap.
+- (d) She would have to record a gender for every customer, for a difference most of the messages no longer have.
+- (e) D28 decided the customer is the generic masculine, and the step 04 text is superseded here rather than edited.
+- (f) Storing them would freeze today's wording in her data.

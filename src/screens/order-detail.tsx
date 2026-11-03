@@ -9,6 +9,7 @@ import { allStatuses, clearPayment, lineTotal, outstanding, paidInFull, paidSoFa
 import { href } from '../lib/route';
 import { PaymentBadge, StatusBadge } from '../ui/badges';
 import { selectAll } from '../ui/inputs';
+import { WhatsAppButtons } from '../ui/whatsapp-buttons';
 import { returnTo } from '../ui/router';
 
 const methods: PaymentMethod[] = ['cash', 'bit', 'paybox', 'transfer', 'other'];
@@ -51,6 +52,9 @@ export function OrderDetailScreen({ id }: { id: string }) {
         <StatusBadge status={order.status} />
         <PaymentBadge order={order} />
       </p>
+
+      {/* Right under the name: "order accepted" is the first thing she does after saving. */}
+      <WhatsAppButtons order={order} customer={customer ?? null} />
 
       <ul class="lines">
         {order.items.map((item, i) => (

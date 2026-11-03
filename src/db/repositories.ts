@@ -1,4 +1,4 @@
-import { db, type Customer, type Order, type Product, type Settings } from './schema';
+import { db, type Customer, type Order, type Product, type Settings, type TemplateKey } from './schema';
 import { BACKUP_SCHEMA_VERSION } from '../lib/backup';
 
 // Screens read and write through these, never through db.<table> directly, so a later
@@ -22,6 +22,14 @@ export const settingsRepo = {
     return db.transaction('rw', db.settings, async () => {
       const current = await settingsRepo.get();
       await db.settings.put({ ...current, ...changes });
+    });
+  },
+  /** `undefined` removes her version, so the default text applies again. */
+  setTemplate(key: TemplateKey, text: string | undefined): Promise<void> {
+    return db.transaction('rw', db.settings, async () => {
+      const current = await settingsRepo.get();
+      const { [key]: _old, ...others } = current.templates;
+      await db.settings.put({ ...current, templates: text === undefined ? others : { ...others, [key]: text } });
     });
   },
   removeLogo(): Promise<void> {

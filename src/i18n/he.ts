@@ -148,6 +148,33 @@ export const he = {
     delivery: 'מסירה',
   },
 
+  // The four WhatsApp messages (D17, D30). The customer is addressed without gendered
+  // verbs where Hebrew allows it; where it does not, in the generic masculine (D28).
+  whatsapp: {
+    title: 'וואטסאפ ללקוח',
+    send: {
+      accepted: 'הזמנה התקבלה',
+      reminder: 'תזכורת לפני מסירה',
+      ready: 'ההזמנה מוכנה',
+      payment: 'תזכורת תשלום',
+    },
+    noPhone: 'ללקוח אין מספר טלפון, אז אי אפשר לשלוח וואטסאפ.',
+    badPhone: 'המספר של הלקוח לא נראה כמו מספר טלפון:',
+    defaults: {
+      accepted: 'שלום {name}, תודה על ההזמנה!\nזה מה שרשמתי:\n{items}\nמסירה: {deliveryDate}\nאירוע: {eventDate}\nמספר אורחים: {guests}\nסה״כ: {total}\nשולם מראש: {paid}\n\nאפשר לאשר שהכול נכון?\n{business}',
+      reminder: 'שלום {name}, תזכורת להזמנה ל{deliveryDate}:\n{items}\nנשאר לתשלום: {owes}\n\nנתראה!\n{business}',
+      ready: 'שלום {name}, ההזמנה מוכנה!\n{items}\nנשאר לתשלום: {owes}\n\n{business}',
+      payment: 'שלום {name}, תודה שהזמנת!\nתזכורת קטנה: נשאר לתשלום {owes} על ההזמנה מ{deliveryDate}.\nאפשר במזומן, בביט, בפייבוקס או בהעברה.\n\nתודה!\n{business}',
+    },
+  },
+
+  templates: {
+    title: 'הודעות וואטסאפ',
+    explain: 'כך ייראו ההודעות שנפתחות בוואטסאפ. מה שבסוגריים מסולסלים מתמלא מההזמנה; שורה שאין לה מה להגיד (למשל בלי תאריך אירוע) לא תישלח.',
+    legend: '{name} שם הלקוח · {items} מה הוזמן · {deliveryDate} תאריך מסירה · {eventDate} תאריך האירוע · {guests} מספר אורחים · {total} סה״כ · {paid} שולם · {owes} נשאר לתשלום · {business} שם העסק',
+    reset: 'חזרה לנוסח המקורי',
+  },
+
   storage: {
     title: 'אחסון',
     persisted: 'הנתונים שמורים לצמיתות בטלפון.',
