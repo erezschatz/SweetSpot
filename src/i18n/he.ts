@@ -39,6 +39,7 @@ export const he = {
 
   nav: {
     orders: 'הזמנות',
+    customers: 'לקוחות',
     settings: 'הגדרות',
   },
 
@@ -67,6 +68,38 @@ export const he = {
     moreLines: 'ועוד',
     notFound: 'ההזמנה לא נמצאה.',
     backToList: 'לרשימת ההזמנות',
+  },
+
+  customers: {
+    title: 'לקוחות',
+    search: 'חיפוש לפי שם או טלפון',
+    newCustomer: 'לקוח חדש',
+    empty: 'עוד אין לקוחות. לקוח נוסף כשמוסיפים הזמנה, או בכפתור למטה.',
+    noMatches: 'לא נמצא לקוח.',
+    fromContacts: 'מאנשי הקשר',
+    contactsFailed: 'לא הצלחנו לפתוח את אנשי הקשר.',
+    name: 'שם',
+    phone: 'טלפון',
+    notes: 'הערות',
+    notesPlaceholder: 'מה כדאי לזכור: אלרגיות, טעמים, איך מגיעים',
+    nameMissing: 'חסר שם.',
+    phoneTaken: 'כבר יש לקוח עם המספר הזה:',
+    save: 'שמירה',
+    saveFailed: 'השמירה נכשלה. נסי שוב.',
+    newTitle: 'לקוח חדש',
+    editTitle: 'עריכת לקוח',
+    edit: 'עריכה',
+    delete: 'מחיקה',
+    deleteConfirm: 'למחוק את הלקוח?',
+    deleteRefused: 'אי אפשר למחוק לקוח שיש לו הזמנות. אפשר לערוך את הפרטים שלו.',
+    call: 'חיוג',
+    whatsapp: 'וואטסאפ',
+    history: 'הזמנות',
+    noOrders: 'עוד אין הזמנות ללקוח הזה.',
+    totalPaid: 'שולם עד היום',
+    orderCount: 'מספר הזמנות',
+    notFound: 'הלקוח לא נמצא.',
+    backToList: 'לרשימת הלקוחות',
   },
 
   orderForm: {

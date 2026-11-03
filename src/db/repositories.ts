@@ -50,7 +50,26 @@ export const customersRepo = {
   all: (): Promise<Customer[]> => db.customers.orderBy('name').toArray(),
   get: (id: string) => db.customers.get(id),
   put: (customer: Customer) => db.customers.put(customer),
-  delete: (id: string) => db.customers.delete(id),
+  /**
+   * Saves an edit. An order's title is the customer's name at save (D28), so a rename is
+   * carried to her orders in the same transaction; otherwise the list keeps the old name.
+   */
+  save: (customer: Customer): Promise<void> =>
+    db.transaction('rw', db.customers, db.orders, async () => {
+      await db.customers.put(customer);
+      await db.orders.where('customerId').equals(customer.id).modify((order) => {
+        order.title = customer.name;
+      });
+    }),
+  /** A partial update, so notes saved as she types never overwrite an edit to the name. */
+  updateNotes: (id: string, notes: string) => db.customers.update(id, { notes }),
+  /** Refused (false) while she has orders: an order must always have its customer. */
+  deleteIfNoOrders: (id: string): Promise<boolean> =>
+    db.transaction('rw', db.customers, db.orders, async () => {
+      if ((await db.orders.where('customerId').equals(id).count()) > 0) return false;
+      await db.customers.delete(id);
+      return true;
+    }),
 };
 
 export const ordersRepo = {

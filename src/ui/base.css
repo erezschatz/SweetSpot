@@ -133,6 +133,7 @@ a.button {
   min-height: var(--tap); display: inline-flex; align-items: center; padding-inline: 18px;
   border-radius: 10px; text-decoration: none;
 }
+a.button { background: var(--accent); color: #fff; justify-content: center; }
 a.button.secondary { background: var(--card); color: var(--accent); border: 1px solid var(--line); }
 
 .total { font-size: 1.1rem; margin-block: 12px; }
@@ -169,3 +170,9 @@ a.button.whatsapp-button {
 }
 .template textarea { min-block-size: 14em; font-size: 0.95rem; }
 .legend { font-size: 0.85rem; }
+
+.detail-head h2 a { color: inherit; text-decoration-color: var(--line); }
+.customer-list .card-top { min-block-size: 32px; }
+/* Delete sits apart at the bottom, away from the thumb's usual path. */
+.danger-zone { margin-block-start: 32px; }
+.contact-actions a.button { flex: 1; }

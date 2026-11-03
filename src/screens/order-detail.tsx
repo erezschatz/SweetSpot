@@ -44,7 +44,9 @@ export function OrderDetailScreen({ id }: { id: string }) {
         → {he.orders.backToList}
       </button>
       <div class="detail-head">
-        <h2>{order.title}</h2>
+        <h2>
+          <a href={href({ name: 'customer', id: order.customerId })}>{order.title}</a>
+        </h2>
         <a class="button secondary" href={href({ name: 'orderEdit', id: order.id })}>{he.orderDetail.edit}</a>
       </div>
       {customer?.phone && <p class="muted" dir="ltr">{customer.phone}</p>}

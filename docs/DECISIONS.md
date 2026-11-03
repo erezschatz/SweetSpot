@@ -197,3 +197,25 @@ Erez's first run of step 03 on the Pixel. This reopens D28's status moves; D28's
 - (d) She would have to record a gender for every customer, for a difference most of the messages no longer have.
 - (e) D28 decided the customer is the generic masculine, and the step 04 text is superseded here rather than edited.
 - (f) Storing them would freeze today's wording in her data.
+
+## D31 · 2026-11-03 · Customers: a rename carries to her orders; one customer per number, warned not enforced
+**Decision.**
+- Saving a customer edit also sets the title of every order of hers to the new name, in the same transaction.
+- A contact picked in the order form whose number (normalised by `toWhatsAppNumber`) is already on a customer selects that customer.
+- On the customer form, a number already on file shows "a customer with this number already exists", linking to them, but does not block the save.
+- From a contact with several numbers, the first Israeli mobile is taken, else the first number.
+- Notes are edited in place on the customer card and saved as she types; name and phone go through the edit form.
+- "Total paid" is what came in over all her orders, deposits and payments, cancelled orders included.
+- Delete is refused while the customer has orders, checked inside the delete transaction.
+**Rejected.**
+- (a) Leaving old titles alone, or dropping `title` and reading the name live.
+- (b) Refusing a duplicate number.
+- (c) Asking which number to use when a contact has several.
+- (d) "Total spent" as the sum of order totals.
+- (e) Deleting a customer together with her orders.
+**Why.**
+- (a) Old titles would show a name she just corrected. Dropping the field is a schema change for no gain while D28 says title = name.
+- (b) Two people can share a home phone, and a warning is enough to avoid an accidental second customer.
+- (c) WhatsApp needs a mobile; asking is a dialog for a choice she almost always makes the same way.
+- (d) Unpaid and cancelled orders are not money she received.
+- (e) Orders are her income record (step 08); losing them by deleting a contact is too easy.

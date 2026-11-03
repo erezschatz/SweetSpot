@@ -2,8 +2,9 @@ import { useState } from 'preact/hooks';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { customersRepo } from '../db/repositories';
 import { he } from '../i18n/he';
-import { matchCustomers } from '../lib/customers';
+import { findByPhone, matchCustomers } from '../lib/customers';
 import type { CustomerChoice } from '../lib/order-draft';
+import { canPickContact, pickContact } from './contacts';
 
 const MAX_MATCHES = 6;
 
@@ -17,7 +18,35 @@ export function CustomerPicker({
   onChange: (choice: CustomerChoice | null) => void;
 }) {
   const [query, setQuery] = useState('');
+  const [contactsFailed, setContactsFailed] = useState(false);
   const customers = useLiveQuery(() => customersRepo.all(), [], []);
+
+  // Same path as the customers screen (step 05). A contact already on file is picked as
+  // that customer, so ordering twice from the same contact does not make a second one.
+  async function fromContacts() {
+    setContactsFailed(false);
+    try {
+      const picked = await pickContact();
+      if (!picked) return;
+      const known = findByPhone(customers, picked.phone);
+      onChange(known ? { kind: 'existing', id: known.id, name: known.name } : { kind: 'new', ...picked });
+    } catch {
+      setContactsFailed(true);
+    }
+  }
+
+  const contactsButton = canPickContact() && (
+    <button type="button" class="secondary" onClick={() => void fromContacts()}>
+      {he.customers.fromContacts}
+    </button>
+  );
+  const contactsError = contactsFailed && <p class="errors" role="alert">{he.customers.contactsFailed}</p>;
+
+  // Whatever she does next, an old "could not open contacts" no longer applies.
+  function choose(choice: CustomerChoice | null) {
+    setContactsFailed(false);
+    onChange(choice);
+  }
 
   if (value?.kind === 'existing') {
     const phone = customers.find((c) => c.id === value.id)?.phone;
@@ -27,7 +56,7 @@ export function CustomerPicker({
           <strong>{value.name}</strong>
           {phone && <span class="muted"> · {phone}</span>}
         </span>
-        <button type="button" class="secondary" onClick={() => onChange(null)}>{he.orderForm.change}</button>
+        <button type="button" class="secondary" onClick={() => choose(null)}>{he.orderForm.change}</button>
       </div>
     );
   }
@@ -37,13 +66,15 @@ export function CustomerPicker({
       <div class="subform">
         <label class="field">
           <span>{he.orderForm.customerName}</span>
-          <input type="text" value={value.name} onInput={(e) => onChange({ ...value, name: e.currentTarget.value })} />
+          <input type="text" value={value.name} onInput={(e) => choose({ ...value, name: e.currentTarget.value })} />
         </label>
         <label class="field">
           <span>{he.orderForm.customerPhone}</span>
-          <input type="tel" dir="ltr" value={value.phone} onInput={(e) => onChange({ ...value, phone: e.currentTarget.value })} />
+          <input type="tel" dir="ltr" value={value.phone} onInput={(e) => choose({ ...value, phone: e.currentTarget.value })} />
         </label>
-        <button type="button" class="secondary" onClick={() => onChange(null)}>{he.orderForm.change}</button>
+        {contactsButton}
+        {contactsError}
+        <button type="button" class="secondary" onClick={() => choose(null)}>{he.orderForm.change}</button>
       </div>
     );
   }
@@ -63,7 +94,7 @@ export function CustomerPicker({
         <ul class="choices">
           {matches.map((c) => (
             <li key={c.id}>
-              <button type="button" class="choice" onClick={() => onChange({ kind: 'existing', id: c.id, name: c.name })}>
+              <button type="button" class="choice" onClick={() => choose({ kind: 'existing', id: c.id, name: c.name })}>
                 <strong>{c.name}</strong> <span class="muted" dir="ltr">{c.phone}</span>
               </button>
             </li>
@@ -75,11 +106,13 @@ export function CustomerPicker({
         type="button"
         class="secondary"
         onClick={() =>
-          onChange({ kind: 'new', name: typedDigits ? '' : query.trim(), phone: typedDigits ? query.trim() : '' })
+          choose({ kind: 'new', name: typedDigits ? '' : query.trim(), phone: typedDigits ? query.trim() : '' })
         }
       >
         + {he.orderForm.newCustomer}
       </button>
+      {contactsButton}
+      {contactsError}
     </div>
   );
 }
