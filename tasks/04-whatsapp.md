@@ -6,12 +6,12 @@
 
 **Acceptance**
 
-- [ ] Four buttons on the order detail — *order accepted*, *reminder*, *ready*, *payment* — each opening `https://wa.me/<E.164>?text=<filled template>` in WhatsApp (not in a browser tab).
+- [x] Four buttons on the order detail — *order accepted*, *reminder*, *ready*, *payment* — each opening `https://wa.me/<E.164>?text=<filled template>` in WhatsApp (not in a browser tab).
 - [x] `src/lib/phone.ts` normalises Israeli numbers (`050-1234567`, `0501234567`, `+972 50 123 4567`) to `972501234567`; tested.
 - [x] `src/lib/template.ts` fills `{name} {items} {guests} {eventDate} {deliveryDate} {total} {paid} {owes} {business}` with Hebrew formatting (`{items}` is one line per order line: product + details); tested.
-- [ ] Settings screen: the four templates are editable with Hebrew defaults written in the feminine, addressed to the customer; "reset to default" per template.
-- [ ] Verified on the Pixel: create an order for the programmer's own number, tap *order accepted*, WhatsApp opens with the summary to the right number; force-stop Chrome, reboot the phone, open from the icon: the order is there.
-- [ ] Milestone recorded in `## What was done` with the date. If this step fails, stop and re-decide D1 before continuing.
+- [x] Settings screen: the four templates are editable with Hebrew defaults written in the feminine, addressed to the customer; "reset to default" per template.
+- [x] Verified on the Pixel: create an order for the programmer's own number, tap *order accepted*, WhatsApp opens with the summary to the right number; force-stop Chrome, reboot the phone, open from the icon: the order is there.
+- [x] Milestone recorded in `## What was done` with the date. If this step fails, stop and re-decide D1 before continuing.
 
 ## What was done
 
@@ -51,3 +51,15 @@
 - "Ready" used the edited text. After "reset" it went back to the default, and the reset link disappeared.
 
 Not observed: whether Android opens the WhatsApp app rather than a tab, how the text looks in WhatsApp, and the reboot. One extra tap remains: since D29, saving a new order returns to the list, so "order accepted" is one tap into the order away. A fresh-reader review of this diff led to the fixes above: templates typed back to the default or emptied, the payment reminder with nothing owed, the lone heading, the left-to-right number, and direction marks. Not verified on a device; boxes 1, 4 and 5 wait for the Pixel, box 6 for the milestone. Box 4 is to be ticked against D30 (no feminine for the customer), not its own wording.
+
+## What was done
+
+2026-11-03, on the Pixel, by the programmer, from the deploy of `03b23e5`. **The proving milestone passed:** D1 (a PWA on GitHub Pages) stands, and the plan continues.
+
+He created an order and tapped the WhatsApp buttons. WhatsApp opened with the filled message, addressed to the right number, including a number that was not in the phone's contacts; he called it brilliant. He force-stopped Chrome, rebooted the phone and opened the app from its icon, and the order was still there.
+
+All acceptance boxes ticked. Box 4 is ticked against D30, which supersedes its "in the feminine".
+
+He noticed there is no way to edit a customer's phone after the order is saved. That is step 05's "edit and delete" box, so it was left to step 05 rather than patched here.
+
+verified 2026-11-03, Pixel 9, Erez.
