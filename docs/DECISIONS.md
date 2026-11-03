@@ -158,3 +158,19 @@ Dated, append-only. A decision is reversed only by a new entry naming the one it
 - (b) Her notebook keys every order by the customer's name; a title field is one more thing to fill in for nothing. If she wants a different label, it becomes a task.
 - (c) The catalogue ships empty (D20) and many lines are one-offs; one field that does both is faster one-handed.
 - (d) Her customers are not all women; Hebrew UI convention for an unknown person is the generic masculine.
+
+## D29 · 2026-11-03 · Order screens after the first Pixel run: any status from any status; save returns to the list; past orders suggest
+Erez's first run of step 03 on the Pixel. This reopens D28's status moves; D28's title, catalogue and wording rules stand.
+**Decision.**
+- The order detail shows all four statuses as one segmented control with the current one marked. Any of them can be tapped from any other; only cancelling asks for confirmation. Replaces D28's per-status list of moves.
+- Saving a new order returns to the orders list. Saving an edit returns to the order. The detail has a "back to the list" button at the top.
+- The product field suggests, after the active catalogue, every product name from past orders, with the unit price she charged most recently (none if it was ₪0). A suggested price is replaced when she picks another suggestion, never one she typed.
+- Number fields (qty, price, guests, deposit, payment amount) select their whole content on focus.
+- "Paid in advance in full" is a deposit equal to the total: the deposit editor has an "all of it" button that fills the current total. When the paid deposit alone covers the total, the detail calls it "paid in advance" and offers no payment button; whenever the order is paid in full it says "paid in full, nothing owed". The button fills the total once; it does not follow later edits to the lines.
+**Rejected.**
+- (a) Keeping D28's moves: from *delivered* she had to go through *confirmed* to reach *cancel*, and it read as "no undo".
+- (b) An undo toast after each change: one more mechanism, and tapping the right status is already the undo.
+- (c) Staying on the order after creating it: Erez found it unclear how to go on.
+- (d) A separate "paid in advance" flag or a second payment slot before delivery: the deposit already is a payment with a date and a method; a new field would need a schema version and change `paidSoFar`.
+- (e) Waiting for step 06's catalogue for any suggestions: the catalogue ships empty (D20), and her past orders are already the list of what she sells.
+**Why.** Each item is something Erez hit on the phone. The changes stay inside step 03's screens and `src/lib`; no schema change.

@@ -150,3 +150,13 @@ a.button.secondary { background: var(--card); color: var(--accent); border: 1px 
 .facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin-block: 14px; }
 .facts dt { color: var(--muted); }
 .facts dd { margin: 0; }
+
+/* Back to the list sits above the title, where she looks first after saving. */
+button.back {
+  background: none; color: var(--accent); padding-inline: 0; min-height: var(--tap); font-weight: 600;
+}
+.message.paid-in-full { border-color: #3f7d4e; color: #3f7d4e; font-weight: 600; }
+.deposit-amount { display: flex; gap: 8px; align-items: end; }
+.deposit-amount .field { flex: 1; margin-block: 0; }
+/* Four statuses on one row at phone width. */
+.segmented.statuses button { padding-inline: 4px; }

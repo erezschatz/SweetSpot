@@ -1,4 +1,4 @@
-import type { Order, PaymentMethod } from '../db/schema';
+import type { Order, PaymentMethod, Product } from '../db/schema';
 import { agorotToInput, parseShekels, type Agorot } from './money';
 import { orderTotal } from './orders';
 
@@ -10,6 +10,8 @@ export interface LineDraft {
   name: string;
   qty: string;
   unitPrice: string;
+  /** The price was filled from a suggestion, not typed by her; the next suggestion may replace it. */
+  priceFromSuggestion?: boolean;
   details: string;
 }
 
@@ -77,6 +79,51 @@ export function draftFromOrder(order: Order, customerName: string): OrderDraft {
     depositPaidAt: order.depositPaidAt ?? '',
     depositMethod: order.depositMethod ?? '',
   };
+}
+
+/** A product name the line field offers while she types, with the price it fills in. */
+export interface LineSuggestion {
+  name: string;
+  unitPrice?: Agorot;
+  productId?: string;
+}
+
+/**
+ * The catalogue first (D28), then every product name she has written on a past order,
+ * at the price she charged most recently (D29). A past line with no price leaves the
+ * price empty rather than suggesting ₪0.
+ */
+export function lineSuggestions(
+  products: Pick<Product, 'id' | 'name' | 'price' | 'active'>[],
+  orders: Pick<Order, 'items' | 'createdAt'>[],
+): LineSuggestion[] {
+  const result: LineSuggestion[] = products
+    .filter((p) => p.active)
+    .map((p) => ({ name: p.name, unitPrice: p.price, productId: p.id }));
+  const taken = new Set(result.map((s) => s.name));
+
+  const newestFirst = [...orders].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  for (const order of newestFirst) {
+    for (const item of order.items) {
+      if (taken.has(item.name)) continue;
+      taken.add(item.name);
+      result.push(item.unitPrice > 0 ? { name: item.name, unitPrice: item.unitPrice } : { name: item.name });
+    }
+  }
+  return result;
+}
+
+/**
+ * She typed or picked `name` in a line. A matching suggestion links its product and fills
+ * its price, unless the price there is one she typed herself.
+ */
+export function setLineName(line: LineDraft, name: string, suggestions: LineSuggestion[]): LineDraft {
+  const next = suggestions.find((s) => s.name === name);
+  const priceIsHers = line.unitPrice.trim() !== '' && !line.priceFromSuggestion;
+  const { productId: _old, ...rest } = line;
+  const linked = next?.productId ? { productId: next.productId } : {};
+  if (next?.unitPrice === undefined || priceIsHers) return { ...rest, ...linked, name };
+  return { ...rest, ...linked, name, unitPrice: agorotToInput(next.unitPrice), priceFromSuggestion: true };
 }
 
 /** A line she left completely empty is ignored, not an error. */

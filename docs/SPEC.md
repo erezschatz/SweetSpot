@@ -12,7 +12,7 @@ SweetSpot is that, and nothing else. It is also, openly, a learning project for 
 
 ### Phase 1 (release 1.0)
 
-- **Products** — name and sale price. Used to fill order lines quickly. The baker enters her own catalogue at hand-off; the repo is public and ships no business data (D20).
+- **Products** — name and sale price. Used to fill order lines quickly. The baker enters her own catalogue at hand-off; the repo is public and ships no business data (D20). Until then, and alongside it, a line's product field also suggests every name from her past orders at the price she last charged (D29).
 - **Customers** — name, phone, free-text notes, derived order history.
 - **Orders** — customer, one or more lines (product or free text, qty, unit price, one free-text details line in her own notation), event date, delivery date, pickup/delivery, number of guests, design notes, status, total, payment (after delivery; optional deposit).
 - **Diary** — the front screen: today, this week, next week, as a list of orders by delivery date. A week grid is explicitly *not* required; a list grouped by day is.
@@ -42,7 +42,7 @@ GitHub repo ──(Actions on push to main)──► GitHub Pages ──► Chro
 
 - **Data** lives only in IndexedDB on the phone. `navigator.storage.persist()` is requested on every start (a no-op once granted) so Chrome does not evict it.
 - **Updates** arrive through the service worker (vite-plugin-pwa, `autoUpdate`): she opens the app, it fetches the new build, next open runs it. No store, no sideloading.
-- **Routing** is a hand-rolled hash router (`src/lib/route.ts`): `#/orders`, `#/orders/new`, `#/orders/:id`, `#/orders/:id/edit`, `#/settings`, and later `#/customers`, `#/products`, `#/money`. Five screens do not justify a router library. Until the diary (step 07), anything unknown and the empty hash go to the orders list. Saving a form replaces its history entry, so Back from an order goes to the list, not to the form again.
+- **Routing** is a hand-rolled hash router (`src/lib/route.ts`): `#/orders`, `#/orders/new`, `#/orders/:id`, `#/orders/:id/edit`, `#/settings`, and later `#/customers`, `#/products`, `#/money`. Five screens do not justify a router library. Until the diary (step 07), anything unknown and the empty hash go to the orders list. Saving a new order returns to the list; saving an edit returns to that order (D29). Leaving a form steps back in history when the target is the screen she was on just before, and otherwise replaces the form's entry, so Back does not reopen a saved form. The order detail has its own "back to the list" button.
 - **State**: Dexie's live queries (`useLiveQuery`) feed screens directly. No global store.
 - **WhatsApp**: `https://wa.me/<E.164>?text=<encoded>`; opened with `window.open`. Israeli numbers are normalised from `05x-xxxxxxx` to `9725xxxxxxxx` in `src/lib/phone.ts`.
 - **Contacts**: `navigator.contacts.select(['name', 'tel'], { multiple: false })` behind a user gesture; feature-detected (`'contacts' in navigator && 'select' in navigator.contacts`). Returns only the picked contact; nothing is stored beyond the customer row it fills.

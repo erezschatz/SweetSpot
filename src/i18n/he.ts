@@ -49,14 +49,6 @@ export const he = {
     cancelled: 'בוטלה',
   },
 
-  // Button labels that move an order to that status.
-  toStatus: {
-    new: 'החזרת ההזמנה',
-    confirmed: 'סימון כמאושרת',
-    delivered: 'סימון כנמסרה',
-    cancelled: 'ביטול ההזמנה',
-  },
-
   method: {
     cash: 'מזומן',
     bit: 'ביט',
@@ -113,6 +105,7 @@ export const he = {
     depositMethod: 'אמצעי תשלום',
     methodNone: 'לא צוין',
     removeDeposit: 'הסרת המקדמה',
+    fullAmount: 'כל הסכום',
     save: 'שמירה',
     saveFailed: 'השמירה נכשלה. שום דבר לא נשמר; נסי שוב.',
     cancel: 'ביטול',
@@ -135,10 +128,12 @@ export const he = {
     total: 'סה״כ',
     depositPaid: 'מקדמה ששולמה',
     depositUnpaid: 'מקדמה (לא שולמה)',
+    paidInAdvance: 'שולם מראש',
     paidSoFar: 'שולם עד עכשיו',
     outstanding: 'נשאר לתשלום',
     finalPayment: 'תשלום',
-    markPaid: 'שולם',
+    markPaid: 'רישום תשלום',
+    paidInFull: 'שולם במלואו. אין יתרה לתשלום.',
     editPayment: 'עריכת התשלום',
     removePayment: 'ביטול התשלום',
     amount: 'סכום',

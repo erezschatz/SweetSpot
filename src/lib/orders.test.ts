@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Order } from '../db/schema';
-import { clearPayment, listOrders, nextStatuses, orderTotal, outstanding, paidSoFar, paymentBadge, recordPayment } from './orders';
+import { clearPayment, listOrders, orderTotal, outstanding, paidInFull, paidSoFar, paymentBadge, recordPayment } from './orders';
 
 const base = { total: 32000, paidAmount: 0, status: 'confirmed' as const };
 
@@ -84,12 +84,17 @@ describe('listOrders', () => {
   });
 });
 
-describe('nextStatuses', () => {
-  it('offers a way back from every status', () => {
-    expect(nextStatuses('new')).toEqual(['confirmed', 'delivered', 'cancelled']);
-    expect(nextStatuses('confirmed')).toEqual(['delivered', 'cancelled']);
-    expect(nextStatuses('delivered')).toEqual(['confirmed']);
-    expect(nextStatuses('cancelled')).toEqual(['new']);
+describe('paidInFull', () => {
+  it('is true when a deposit alone covers the whole order, before delivery', () => {
+    const prepaid = { ...base, status: 'new' as const, deposit: 32000, depositPaidAt: '2026-11-02' };
+    expect(paidInFull(prepaid)).toBe(true);
+    expect(outstanding(prepaid)).toBe(0);
+    expect(paymentBadge(prepaid)).toBe('paid');
+  });
+
+  it('is false while something is left, and for a free order', () => {
+    expect(paidInFull({ ...base, deposit: 10000, depositPaidAt: '2026-11-02' })).toBe(false);
+    expect(paidInFull({ ...base, total: 0 })).toBe(false);
   });
 });
 

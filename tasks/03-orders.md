@@ -53,3 +53,35 @@
 - `docs/SPEC.md`: routes, title = customer name, and the badge rule as coded. D28 records the status moves, the title, catalogue suggestions and "לקוח".
 
 **Observed by Claude** in the browser pane at 375×812 against the dev server, not on a device. Her notebook example (new customer with a phone, the line with its details, delivery and event dates, 30 guests, a ₪100 deposit by bit) saved as expected. The detail showed ₪220 outstanding. Marking it delivered showed a "owes ₪220" badge on the card. "Paid" was prefilled with 220 and today; with cash, the badge became "paid". Editing qty to 2 kept the status and payment, made the total ₪640, and created no second customer. A backup holding these orders still passes `parseBackup`. After the review fixes: a double-tapped save of a new order with a new customer made one order and one customer, and a ₪0 payment was refused with the Hebrew error and nothing saved. Not observed: the one-handed under-a-minute entry, the datalist with a real catalogue (empty until step 06), and the Android date picker. Tap-target size is unmeasured: the box stays open for the Pixel and the baker (`CLAUDE.md`). Not verified on a device; boxes 1–5 and 7 wait for the Pixel.
+
+## What was done
+
+2026-11-03, programmer's Mac. Follow-up to Erez's first run of step 03 on the Pixel.
+
+**Erez's report, in his words in short:** the screens work, update and are well designed. Six things to change, all done here and recorded as D29, which reopens D28's status moves:
+
+1. **Qty kept the 1 when he typed 5, giving 15.** Number fields now select their whole content on focus: qty, unit price, guests, deposit and the payment amount. The helper `selectAll` is in `src/ui/inputs.ts`; the select is deferred one tick so that the tap does not undo it.
+2. **After saving a new order it stayed on the order, and it wasn't clear how to go on.** A new order now returns to the list; an edit returns to its order. `returnTo` in `src/ui/router.ts` steps back in history when the screen she was on just before is the target (compared as routes, so the empty hash the installed app opens with counts as the list); otherwise a form's entry is replaced. After a reload that memory is empty and the fallback applies.
+3. **No way back from an order to the list.** The detail now has "→ לרשימת ההזמנות" above the title. It steps back when she came from the list, and otherwise pushes the list, so Android's Back from there returns to the order rather than showing the list twice.
+4. **No suggestions from past orders.** The product field now suggests the active catalogue first, then every product name from past orders, with the price last charged for it. Picking a suggestion fills the price; a price she typed is never overwritten. A new `priceFromSuggestion` flag on the line draft says which is which (it is not saved on the order), so a short name that is the start of a longer one ("מגש", "מגש קאפקייקס") still lets the longer one's price replace the shorter one's. This is `lineSuggestions` and `setLineName` in `src/lib/order-draft.ts`, replacing the catalogue-only logic that was in the form.
+5. **Paying in advance in full.** It is still a deposit (no schema change), but now:
+   - the deposit editor has a "כל הסכום" button that fills the total as it is at that moment; if she changes the lines afterwards the deposit does not follow, and the order is no longer paid in full;
+   - when the paid deposit alone covers the total, the detail labels it "שולם מראש" and hides the payment button;
+   - whenever the order is paid in full, by the deposit or by a final payment, the detail says "שולם במלואו. אין יתרה לתשלום."
+   The payment button is renamed from "שולם" to "רישום תשלום", so it no longer reads like the badge. `paidInFull` in `src/lib/orders.ts` is shared with the badge.
+6. **From "delivered" he had to go through "confirmed" to reach "cancel".** The detail now shows all four statuses in one row with the current one marked, and any can be tapped. Only cancelling asks for confirmation. `nextStatuses` and the `toStatus` strings are gone; `allStatuses` replaces them.
+
+**Tests:** 66 pass (9 new, 1 removed). New: `paidInFull` (a deposit covering everything before delivery; something still left; a free order), `lineSuggestions` (catalogue first, most recent price, ₪0 gives no price, empty catalogue) and `setLineName` (fill, switch, never overwrite her price, a name that is the start of another, typing past a suggestion keeps the price and drops the link). Removed: the `nextStatuses` test. `docs/SPEC.md` has the new save/back behaviour and the suggestions from past orders.
+
+**Observed by Claude** in the browser pane at 375×812, not on a device:
+- A new order with a new customer and "כל הסכום" filled the deposit with 320 and today's date. Saving returned to the list, where the card showed "שולם".
+- The detail showed "שולם מראש", ₪0 outstanding, the paid-in-full line, and no payment button.
+- Status went new → delivered → cancelled → new, each in one tap.
+- The back button returned to the list. In a second new order, "עוגת פרחים" was suggested from the first and filled ₪320.
+- A real click on qty, then typing 5, gave "5".
+- After a review found the Back problems above, the app was opened with no hash, as the installed app is:
+  - saving a new order returned to that same entry without adding one;
+  - saving an edit returned to the order;
+  - "back to the list" then pushed the list, and the browser's Back returned to the order.
+
+Not observed: Android Chrome's handling of the selection on a real tap, and the datalist's look on the phone. Boxes 1–5 and 7 still wait for Erez's re-run on the Pixel.

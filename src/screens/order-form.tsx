@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'preact/hooks';
 import { useLiveQuery } from 'dexie-react-hooks';
-import type { Customer, PaymentMethod, Product } from '../db/schema';
+import type { Customer, PaymentMethod } from '../db/schema';
 import { customersRepo, ordersRepo, productsRepo } from '../db/repositories';
 import { he } from '../i18n/he';
 import { localIsoDate } from '../lib/dates';
@@ -10,14 +10,18 @@ import {
   draftTotal,
   emptyDraft,
   emptyLine,
+  lineSuggestions,
   orderFromDraft,
+  setLineName,
   validateDraft,
   type DraftError,
   type LineDraft,
+  type LineSuggestion,
   type OrderDraft,
 } from '../lib/order-draft';
 import { CustomerPicker } from '../ui/customer-picker';
-import { navigate } from '../ui/router';
+import { selectAll } from '../ui/inputs';
+import { navigate, returnTo } from '../ui/router';
 
 const methods: PaymentMethod[] = ['cash', 'bit', 'paybox', 'transfer', 'other'];
 
@@ -27,7 +31,9 @@ export function OrderFormScreen({ id }: { id?: string }) {
   const [errors, setErrors] = useState<DraftError[]>([]);
   const [saving, setSaving] = useState(false);
   const [saveFailed, setSaveFailed] = useState(false);
-  const products = useLiveQuery(() => productsRepo.all(), [], []).filter((p) => p.active);
+  const products = useLiveQuery(() => productsRepo.all(), [], []);
+  const pastOrders = useLiveQuery(() => ordersRepo.all(), [], []);
+  const suggestions = lineSuggestions(products, pastOrders);
 
   // Editing: load the order once into a draft; later database changes do not overwrite her typing.
   useEffect(() => {
@@ -65,7 +71,9 @@ export function OrderFormScreen({ id }: { id?: string }) {
       const existing = id ? await ordersRepo.get(id) : undefined;
       const order = orderFromDraft(draft!, { id: id ?? crypto.randomUUID(), customerId }, now, existing);
       await ordersRepo.saveWithCustomer(order, newCustomer);
-      navigate({ name: 'order', id: order.id }, { replace: true });
+      // A new order goes back to the list, where she sees it among the others and the
+      // next one starts from the same button; an edit goes back to the order it edited.
+      returnTo(id ? { name: 'order', id } : { name: 'orders' });
     } catch {
       setSaveFailed(true);
       setSaving(false);
@@ -83,13 +91,13 @@ export function OrderFormScreen({ id }: { id?: string }) {
 
       <h3>{he.orderForm.lines}</h3>
       <datalist id="product-names">
-        {products.map((p) => <option key={p.id} value={p.name} />)}
+        {suggestions.map((s) => <option key={s.name} value={s.name} />)}
       </datalist>
       {draft.lines.map((line, i) => (
         <LineEditor
           key={i}
           line={line}
-          products={products}
+          suggestions={suggestions}
           onChange={(next) => setLine(i, next)}
           onRemove={draft.lines.length > 1 ? () => set({ lines: draft.lines.filter((_, j) => j !== i) }) : undefined}
         />
@@ -128,7 +136,7 @@ export function OrderFormScreen({ id }: { id?: string }) {
         </label>
         <label class="field">
           <span>{he.orderForm.guests}</span>
-          <input type="text" inputMode="numeric" value={draft.guests} onInput={(e) => set({ guests: e.currentTarget.value })} />
+          <input type="text" inputMode="numeric" value={draft.guests} onFocus={selectAll} onInput={(e) => set({ guests: e.currentTarget.value })} />
         </label>
       </div>
 
@@ -165,28 +173,15 @@ export function OrderFormScreen({ id }: { id?: string }) {
 
 function LineEditor({
   line,
-  products,
+  suggestions,
   onChange,
   onRemove,
 }: {
   line: LineDraft;
-  products: Product[];
+  suggestions: LineSuggestion[];
   onChange: (line: LineDraft) => void;
   onRemove?: () => void;
 }) {
-  // Picking a catalogue product links it and fills its price, unless she typed a price
-  // herself. A price that came from the previous product is replaced by the new one's.
-  function onName(name: string) {
-    const product = products.find((p) => p.name === name);
-    const priceIsHers = line.unitPrice.trim() !== '' && !line.productId;
-    onChange({
-      ...line,
-      name,
-      productId: product?.id,
-      unitPrice: product && !priceIsHers ? agorotToInput(product.price) : line.unitPrice,
-    });
-  }
-
   return (
     <div class="line">
       <label class="field">
@@ -196,17 +191,17 @@ function LineEditor({
           list="product-names"
           value={line.name}
           placeholder={he.orderForm.productPlaceholder}
-          onInput={(e) => onName(e.currentTarget.value)}
+          onInput={(e) => onChange(setLineName(line, e.currentTarget.value, suggestions))}
         />
       </label>
       <div class="two">
         <label class="field">
           <span>{he.orderForm.qty}</span>
-          <input type="text" inputMode="numeric" value={line.qty} onInput={(e) => onChange({ ...line, qty: e.currentTarget.value })} />
+          <input type="text" inputMode="numeric" value={line.qty} onFocus={selectAll} onInput={(e) => onChange({ ...line, qty: e.currentTarget.value })} />
         </label>
         <label class="field">
           <span>{he.orderForm.unitPrice}</span>
-          <input type="text" inputMode="decimal" value={line.unitPrice} onInput={(e) => onChange({ ...line, unitPrice: e.currentTarget.value })} />
+          <input type="text" inputMode="decimal" value={line.unitPrice} onFocus={selectAll} onInput={(e) => onChange({ ...line, unitPrice: e.currentTarget.value, priceFromSuggestion: false })} />
         </label>
       </div>
       <label class="field">
@@ -229,16 +224,26 @@ function DepositEditor({ draft, set }: { draft: OrderDraft; set: (c: Partial<Ord
   return (
     <div class="subform">
       <h3>{he.orderForm.deposit}</h3>
-      <div class="two">
+      {/* Paid up front in full is a deposit of the whole total: one tap, not typing the sum. */}
+      <div class="deposit-amount">
         <label class="field">
           <span>{he.orderForm.depositAmount}</span>
-          <input type="text" inputMode="decimal" value={draft.deposit} onInput={(e) => set({ deposit: e.currentTarget.value })} />
+          <input
+            type="text"
+            inputMode="decimal"
+            value={draft.deposit}
+            onFocus={selectAll}
+            onInput={(e) => set({ deposit: e.currentTarget.value })}
+          />
         </label>
-        <label class="field">
-          <span>{he.orderForm.depositPaidAt}</span>
-          <input type="date" value={draft.depositPaidAt} onInput={(e) => set({ depositPaidAt: e.currentTarget.value })} />
-        </label>
+        <button type="button" class="secondary" onClick={() => set({ deposit: agorotToInput(draftTotal(draft)) })}>
+          {he.orderForm.fullAmount}
+        </button>
       </div>
+      <label class="field">
+        <span>{he.orderForm.depositPaidAt}</span>
+        <input type="date" value={draft.depositPaidAt} onInput={(e) => set({ depositPaidAt: e.currentTarget.value })} />
+      </label>
       <label class="field">
         <span>{he.orderForm.depositMethod}</span>
         <select

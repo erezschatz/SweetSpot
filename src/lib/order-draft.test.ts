@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Order } from '../db/schema';
-import { draftFromOrder, draftTotal, emptyDraft, emptyLine, orderFromDraft, validateDraft, type OrderDraft } from './order-draft';
+import { draftFromOrder, draftTotal, emptyDraft, emptyLine, lineSuggestions, orderFromDraft, setLineName, validateDraft, type OrderDraft } from './order-draft';
 
 // Her notebook line: "דנה לוי- עוגת פרחים, 4 שכבות, שוקולד +שוקולד- פרווה".
 function notebookDraft(): OrderDraft {
@@ -128,5 +128,71 @@ describe('draftFromOrder', () => {
     const d = { ...notebookDraft(), hasDeposit: true, deposit: '120.5', depositPaidAt: '2026-11-02', depositMethod: 'paybox' as const, fulfilment: 'delivery' as const, address: 'הרצל 1', designNotes: 'פרחים ורודים', notes: 'בלי אגוזים' };
     const order = orderFromDraft(d, ids, now);
     expect(orderFromDraft(draftFromOrder(order, 'דנה לוי'), ids, now, order)).toEqual(order);
+  });
+});
+
+describe('lineSuggestions', () => {
+  const products = [
+    { id: 'p1', name: 'עוגת פרחים', price: 32000, active: true },
+    { id: 'p2', name: 'עוגה ישנה', price: 10000, active: false },
+  ];
+  const line = (name: string, unitPrice: number) => ({ name, qty: 1, unitPrice, details: '' });
+  const orders = [
+    { createdAt: '2026-10-01T00:00:00Z', items: [line('מגש קאפקייקס', 15000), line('עוגת פרחים', 30000)] },
+    { createdAt: '2026-10-20T00:00:00Z', items: [line('מגש קאפקייקס', 18000), line('עוגת גבינה', 0)] },
+  ];
+
+  it('offers the active catalogue first, then past names at their most recent price', () => {
+    expect(lineSuggestions(products, orders)).toEqual([
+      { name: 'עוגת פרחים', unitPrice: 32000, productId: 'p1' },
+      { name: 'מגש קאפקייקס', unitPrice: 18000 },
+      { name: 'עוגת גבינה' },
+    ]);
+  });
+
+  it('works with an empty catalogue, which is how it ships', () => {
+    expect(lineSuggestions([], orders).map((s) => s.name)).toEqual(['מגש קאפקייקס', 'עוגת גבינה', 'עוגת פרחים']);
+  });
+});
+
+describe('setLineName', () => {
+  const suggestions = [
+    { name: 'עוגת פרחים', unitPrice: 32000, productId: 'p1' },
+    { name: 'מגש קאפקייקס', unitPrice: 18000 },
+  ];
+
+  it('fills the price of a past-order name and links a catalogue product', () => {
+    const past = setLineName(emptyLine(), 'מגש קאפקייקס', suggestions);
+    expect([past.unitPrice, past.productId]).toEqual(['180', undefined]);
+    const catalogue = setLineName(emptyLine(), 'עוגת פרחים', suggestions);
+    expect([catalogue.unitPrice, catalogue.productId]).toEqual(['320', 'p1']);
+  });
+
+  it('replaces a suggested price when she switches to another suggestion', () => {
+    const first = setLineName(emptyLine(), 'עוגת פרחים', suggestions);
+    const second = setLineName(first, 'מגש קאפקייקס', suggestions);
+    expect([second.unitPrice, second.productId]).toEqual(['180', undefined]);
+  });
+
+  it('never overwrites a price she typed herself', () => {
+    const typed = { ...emptyLine(), unitPrice: '250' };
+    expect(setLineName(typed, 'עוגת פרחים', suggestions).unitPrice).toBe('250');
+    const picked = { ...setLineName(emptyLine(), 'עוגת פרחים', suggestions), unitPrice: '300', priceFromSuggestion: false };
+    expect(setLineName(picked, 'מגש קאפקייקס', suggestions).unitPrice).toBe('300');
+  });
+
+  it('fills the longer name when one suggestion is the start of another', () => {
+    const both = [{ name: 'מגש', unitPrice: 10000 }, { name: 'מגש קאפקייקס', unitPrice: 18000 }];
+    let line = setLineName(emptyLine(), 'מגש', both);
+    expect(line.unitPrice).toBe('100');
+    line = setLineName(line, 'מגש ק', both);
+    line = setLineName(line, 'מגש קאפקייקס', both);
+    expect(line.unitPrice).toBe('180');
+  });
+
+  it('keeps the price but drops the product link when she types past a suggestion', () => {
+    const picked = setLineName(emptyLine(), 'עוגת פרחים', suggestions);
+    const typedOn = setLineName(picked, 'עוגת פרחים גדולה', suggestions);
+    expect([typedOn.unitPrice, 'productId' in typedOn]).toEqual(['320', false]);
   });
 });

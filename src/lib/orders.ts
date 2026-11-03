@@ -26,11 +26,15 @@ export function outstanding(order: Payments): Agorot {
 
 export type PaymentBadge = 'paid' | 'owes' | null;
 
+/** Something was paid and nothing is left; a free order is never "paid in full". */
+export function paidInFull(order: Payments): boolean {
+  return paidSoFar(order) > 0 && outstanding(order) <= 0;
+}
+
 /** "owes" only once delivered: before that, an unpaid order is simply not due yet. */
 export function paymentBadge(order: Payments & Pick<Order, 'status'>): PaymentBadge {
   if (order.status === 'cancelled') return null;
-  const paid = paidSoFar(order);
-  if (paid > 0 && outstanding(order) <= 0) return 'paid';
+  if (paidInFull(order)) return 'paid';
   if (order.status === 'delivered' && outstanding(order) > 0) return 'owes';
   return null;
 }
@@ -48,21 +52,10 @@ export function listOrders<T extends Pick<Order, 'status' | 'deliveryDate' | 'cr
 }
 
 /**
- * The status buttons the order detail offers. Every move has a way back, because a
- * mis-tap on a phone is more likely than a real reversal and must not be permanent.
+ * The order detail shows all four, the current one marked, and any can be tapped (D29):
+ * a mis-tap is undone by tapping the status it should have been.
  */
-export function nextStatuses(status: OrderStatus): OrderStatus[] {
-  switch (status) {
-    case 'new':
-      return ['confirmed', 'delivered', 'cancelled'];
-    case 'confirmed':
-      return ['delivered', 'cancelled'];
-    case 'delivered':
-      return ['confirmed'];
-    case 'cancelled':
-      return ['new'];
-  }
-}
+export const allStatuses: OrderStatus[] = ['new', 'confirmed', 'delivered', 'cancelled'];
 
 /** The one payment tap (D16): replaces any earlier final payment on the order. */
 export function recordPayment(
