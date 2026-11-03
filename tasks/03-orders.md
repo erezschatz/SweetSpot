@@ -6,13 +6,13 @@
 
 **Acceptance**
 
-- [ ] Orders list: one card per order — title (customer's name by default), first line's product and details, delivery date, status, total, and a *paid* / *owes* badge; sorted by delivery date; delivered and cancelled hidden by default behind a toggle.
-- [ ] New/edit order form, top to bottom: customer (pick existing by name/phone, or new — see step 05 for contacts), lines (product from the catalogue or free text; qty; unit price prefilled from the product; one details line), delivery date, pickup/delivery (+ address), event date, number of guests, design notes, notes. Total recomputed live. Deposit hidden behind "add deposit" (amount, paid date, method).
-- [ ] Order detail: everything above, plus status buttons (confirm / delivered / cancel) and one payment tap: "paid" → amount (defaults to outstanding), method (cash / bit / PayBox / transfer / other), today's date, all editable.
-- [ ] Entering her notebook example takes under a minute on the phone, one-handed.
-- [ ] All strings in `src/i18n/he.ts`; tap targets ≥ 48 px.
+- [x] Orders list: one card per order — title (customer's name by default), first line's product and details, delivery date, status, total, and a *paid* / *owes* badge; sorted by delivery date; delivered and cancelled hidden by default behind a toggle.
+- [x] New/edit order form, top to bottom: customer (pick existing by name/phone, or new — see step 05 for contacts), lines (product from the catalogue or free text; qty; unit price prefilled from the product; one details line), delivery date, pickup/delivery (+ address), event date, number of guests, design notes, notes. Total recomputed live. Deposit hidden behind "add deposit" (amount, paid date, method).
+- [x] Order detail: everything above, plus status buttons (confirm / delivered / cancel) and one payment tap: "paid" → amount (defaults to outstanding), method (cash / bit / PayBox / transfer / other), today's date, all editable.
+- [x] Entering her notebook example takes under a minute on the phone, one-handed.
+- [x] All strings in `src/i18n/he.ts`; tap targets ≥ 48 px.
 - [x] `src/lib/orders.ts` (total, paid-so-far, outstanding, paid badge) has Vitest tests.
-- [ ] Verified on the Pixel with three real-shaped orders, one with a deposit.
+- [x] Verified on the Pixel with three real-shaped orders, one with a deposit.
 
 ## What was done
 
@@ -85,3 +85,7 @@
   - "back to the list" then pushed the list, and the browser's Back returned to the order.
 
 Not observed: Android Chrome's handling of the selection on a real tap, and the datalist's look on the phone. Boxes 1–5 and 7 still wait for Erez's re-run on the Pixel.
+
+## What was done
+
+2026-11-03, on the Pixel, by the programmer, from the deploys of `63f6d4a` and `48b1358`. On the first deploy every acceptance item worked, but parts of the interface were unclear. He reported six points, which `48b1358` fixed (D29): qty selected on focus, saving returns to the list, a back button, suggestions from past orders, paid in advance in full, and any status from any status. On the second deploy all the items he had tested still worked, and so did the six fixes. All acceptance boxes ticked. Tap-target size gets its final word from the baker at step 09 (`CLAUDE.md`). verified 2026-11-03, Pixel 9, Erez.
