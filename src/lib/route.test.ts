@@ -12,6 +12,9 @@ describe('parseRoute', () => {
     expect(parseRoute('#/customers/new')).toEqual({ name: 'customerNew' });
     expect(parseRoute('#/customers/c1')).toEqual({ name: 'customer', id: 'c1' });
     expect(parseRoute('#/customers/c1/edit')).toEqual({ name: 'customerEdit', id: 'c1' });
+    expect(parseRoute('#/products')).toEqual({ name: 'products' });
+    expect(parseRoute('#/products/new')).toEqual({ name: 'productNew' });
+    expect(parseRoute('#/products/p1')).toEqual({ name: 'productEdit', id: 'p1' });
   });
 
   it('sends anything unknown, and no hash at all, to the orders list', () => {
@@ -25,6 +28,7 @@ describe('parseRoute', () => {
       { name: 'orders' }, { name: 'orderNew' }, { name: 'order', id: 'a b/c' },
       { name: 'orderEdit', id: 'x' }, { name: 'settings' }, { name: 'customers' }, { name: 'customerNew' },
       { name: 'customer', id: 'a b/c' }, { name: 'customerEdit', id: 'y' },
+      { name: 'products' }, { name: 'productNew' }, { name: 'productEdit', id: 'p 1' },
     ];
     for (const r of routes) expect(parseRoute(href(r))).toEqual(r);
   });

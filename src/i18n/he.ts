@@ -40,6 +40,7 @@ export const he = {
   nav: {
     orders: 'הזמנות',
     customers: 'לקוחות',
+    products: 'מוצרים',
     settings: 'הגדרות',
   },
 
@@ -68,6 +69,28 @@ export const he = {
     moreLines: 'ועוד',
     notFound: 'ההזמנה לא נמצאה.',
     backToList: 'לרשימת ההזמנות',
+  },
+
+  products: {
+    title: 'מוצרים',
+    empty: 'עוד אין מוצרים. הוסיפי כל עוגה שאת מוכרת פעם אחת, עם המחיר שלה, ומאז היא תופיע בהזמנה בהקשה.',
+    newProduct: 'מוצר חדש',
+    retired: 'הוצאו ממכירה',
+    newTitle: 'מוצר חדש',
+    editTitle: 'עריכת מוצר',
+    name: 'שם המוצר',
+    namePlaceholder: 'למשל: עוגת פרחים',
+    price: 'מחיר',
+    active: 'במכירה',
+    activeHint: 'מוצר שהוצא ממכירה לא מוצע בהזמנה חדשה, ונשאר בהזמנות הקודמות.',
+    nameTaken: 'כבר יש מוצר בשם הזה:',
+    priceNote: 'שינוי מחיר לא משנה הזמנות שכבר נשמרו.',
+    save: 'שמירה',
+    saveFailed: 'השמירה נכשלה. נסי שוב.',
+    errors: {
+      name: 'חסר שם למוצר.',
+      price: 'מחיר צריך להיות מספר.',
+    },
   },
 
   customers: {

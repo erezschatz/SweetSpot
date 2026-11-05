@@ -91,7 +91,8 @@ export interface LineSuggestion {
 /**
  * The catalogue first (D28), then every product name she has written on a past order,
  * at the price she charged most recently (D29). A past line with no price leaves the
- * price empty rather than suggesting ₪0.
+ * price empty rather than suggesting ₪0. A product she retired is not suggested, not
+ * even through an old order that used it (step 06).
  */
 export function lineSuggestions(
   products: Pick<Product, 'id' | 'name' | 'price' | 'active'>[],
@@ -100,7 +101,7 @@ export function lineSuggestions(
   const result: LineSuggestion[] = products
     .filter((p) => p.active)
     .map((p) => ({ name: p.name, unitPrice: p.price, productId: p.id }));
-  const taken = new Set(result.map((s) => s.name));
+  const taken = new Set(products.map((p) => p.name));
 
   const newestFirst = [...orders].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   for (const order of newestFirst) {

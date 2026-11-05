@@ -9,6 +9,9 @@ export type Route =
   | { name: 'customerNew' }
   | { name: 'customer'; id: string }
   | { name: 'customerEdit'; id: string }
+  | { name: 'products' }
+  | { name: 'productNew' }
+  | { name: 'productEdit'; id: string }
   | { name: 'settings' };
 
 export function parseRoute(hash: string): Route {
@@ -19,6 +22,12 @@ export function parseRoute(hash: string): Route {
     if (second === 'new') return { name: 'orderNew' };
     if (second && third === 'edit') return { name: 'orderEdit', id: second };
     if (second) return { name: 'order', id: second };
+  }
+  // A product has no screen of its own: tapping it opens the form.
+  if (first === 'products') {
+    if (!second) return { name: 'products' };
+    if (second === 'new') return { name: 'productNew' };
+    return { name: 'productEdit', id: second };
   }
   if (first === 'customers') {
     if (!second) return { name: 'customers' };
@@ -48,6 +57,12 @@ export function href(route: Route): string {
       return `#/customers/${encodeURIComponent(route.id)}`;
     case 'customerEdit':
       return `#/customers/${encodeURIComponent(route.id)}/edit`;
+    case 'products':
+      return '#/products';
+    case 'productNew':
+      return '#/products/new';
+    case 'productEdit':
+      return `#/products/${encodeURIComponent(route.id)}`;
     case 'settings':
       return '#/settings';
   }

@@ -38,7 +38,7 @@ h1 { font-size: 1.6rem; margin: 0 0 0.25em; }
 
 h2 { font-size: 1.15rem; margin: 1.5em 0 0.5em; }
 
-.app-header { display: flex; align-items: center; gap: 12px; }
+.app-header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .header-logo { width: 56px; height: 56px; object-fit: contain; border-radius: 12px; }
 .logo-preview { max-width: 160px; max-height: 160px; object-fit: contain; display: block; margin-block: 8px; }
 
@@ -86,10 +86,10 @@ h3 { font-size: 1rem; margin: 1.25em 0 0.5em; }
 a { color: var(--accent); }
 
 .header-text { flex: 1; }
-.top-nav { display: flex; gap: 6px; margin-block-start: 6px; }
+.top-nav { display: flex; flex-basis: 100%; gap: 6px; }
 .top-nav a {
-  flex: 1; min-height: var(--tap); display: inline-flex; align-items: center; justify-content: center;
-  padding-inline: 10px; text-decoration: none; font-weight: 600; border-radius: 999px;
+  flex: 1; min-inline-size: 0; min-height: var(--tap); display: inline-flex; align-items: center; justify-content: center;
+  padding-inline: 6px; text-decoration: none; font-weight: 600; border-radius: 999px;
   background: var(--button-tint); color: var(--accent); border: 1px solid var(--button-edge);
   box-shadow: 0 2px 0 var(--button-edge);
 }
@@ -201,3 +201,4 @@ a.button.whatsapp-button {
 .contact-actions a.button { flex: 1; }
 .detail-sub { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-block: 6px; }
 a.button.small { font-size: 0.9rem; padding-inline: 14px; }
+.card.retired { opacity: 0.6; }

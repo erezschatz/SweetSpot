@@ -12,6 +12,9 @@ describe('parseShekels', () => {
     expect(parseShekels('')).toBeNull();
     expect(parseShekels('לא ידוע')).toBeNull();
   });
+  it('reads "-0" as plain 0', () => {
+    expect(Object.is(parseShekels('-0'), 0)).toBe(true);
+  });
   it('rounds to the agora', () => {
     expect(parseShekels('0.005')).toBe(1);
   });

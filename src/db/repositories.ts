@@ -45,6 +45,8 @@ export const productsRepo = {
   get: (id: string) => db.products.get(id),
   put: (product: Product) => db.products.put(product),
 };
+// No delete for products: an order line may point at one (productId), and a retired
+// product keeps its name and price for that history (step 06).
 
 export const customersRepo = {
   all: (): Promise<Customer[]> => db.customers.orderBy('name').toArray(),

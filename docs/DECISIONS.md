@@ -256,3 +256,25 @@ Erez's Pixel feedback across the screens.
 - Delete on the customer card gives up the separate band step 05 gave it and sits beside back. It still asks for confirmation, and it is refused outright while the customer has orders.
 - A test file anywhere, the hook's own tests included, satisfies the rule; it is a reminder, not a proof.
 - `src/db` has no tests yet, so the first change there will need a real one, likely with an in-memory IndexedDB, and a stack-table row for it.
+
+## D34 · 2026-11-05 · Products: retire, never delete; a tap opens the form; a retired name is not suggested
+**Decision.**
+- A product is added, renamed, repriced or retired, and never deleted.
+- Retiring is a "במכירה" checkbox on the edit form. A new product is always on sale.
+- The products list shows what is on sale by Hebrew name, then the retired ones under "הוצאו ממכירה", dimmed.
+- Tapping a product opens its edit form directly; a product has no detail screen.
+- A product needs a price (₪0 allowed), unlike an order line.
+- A name already in the catalogue is warned, not refused.
+- A retired product's name is not suggested in the order form, not even through a past order that used it. This narrows D29.
+- "מוצרים" is a fourth pill. The pills move to their own full-width row under the logo and name, since four beside a logo do not fit 360 px.
+**Rejected.**
+- (a) Deleting a product.
+- (b) A product detail screen.
+- (c) Refusing a duplicate name.
+- (d) Letting past orders keep suggesting a retired name.
+**Why.**
+- (a) Order lines may point at it (`productId`), and step 08's history should keep the name.
+- (b) A product is two fields; a detail screen is a tap that shows nothing new.
+- (c) Two sizes of one cake may share a name on purpose.
+- (d) "Hidden from the order form" is the acceptance. Retiring would otherwise come back whenever an old order used it.
+- Saved orders carry their own `unitPrice`, so repricing cannot change them. This is by design since step 03, not new code.

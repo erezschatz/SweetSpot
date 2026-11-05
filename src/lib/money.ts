@@ -20,7 +20,8 @@ export function parseShekels(text: string): Agorot | null {
   if (cleaned === '' || cleaned === '-' || cleaned === '.') return null;
   const value = Number(cleaned);
   if (!Number.isFinite(value)) return null;
-  return Math.round(value * 100);
+  // `|| 0` turns -0 (from "-0") into 0, so it is neither stored nor shown as "-₪0".
+  return Math.round(value * 100) || 0;
 }
 
 /** Agorot → the text an input field starts with: "320", "320.5", no symbol or separators. */

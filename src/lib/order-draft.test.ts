@@ -150,6 +150,11 @@ describe('lineSuggestions', () => {
     ]);
   });
 
+  it('does not bring back a retired product through an old order', () => {
+    const withRetired = [...orders, { createdAt: '2026-10-25T00:00:00Z', items: [line('עוגה ישנה', 12000)] }];
+    expect(lineSuggestions(products, withRetired).map((s) => s.name)).not.toContain('עוגה ישנה');
+  });
+
   it('works with an empty catalogue, which is how it ships', () => {
     expect(lineSuggestions([], orders).map((s) => s.name)).toEqual(['מגש קאפקייקס', 'עוגת גבינה', 'עוגת פרחים']);
   });
