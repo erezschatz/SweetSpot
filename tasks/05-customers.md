@@ -78,3 +78,25 @@ A fresh-reader review led to three small fixes before commit: delete refuses bef
 - To stand in for the keyboard, the viewport was shrunk to 375×420. The qty field was scrolled to sit under the save bar (bottom at 416, bar from 347). Focusing it moved it to 138–186, clear of the bar.
 
 A fresh-reader review led to the pinch-zoom guard, the instant scroll, counting only the visible part of the bar, and the pill, suggestion and Delete-order fixes above. Not observed: the real Android keyboard, and whether Chrome's own scroll or the handler does the work there. Not verified on a device; step 05's boxes still wait for the Pixel.
+
+## What was done
+
+2026-11-05, programmer's Mac. Erez's second look on the Pixel at the D32 changes, which he called very good, with two changes; plus the commit-gate rule he chose (D33).
+
+1. **"עריכה" on an order was unclear next to "פרטי הלקוח".** `he.orderDetail.edit` is now "עריכת הזמנה". The customer card keeps "עריכה".
+2. **"Back to the list" belongs in the same row as the screen's other last actions.**
+   - On the customer card, Delete and "→ לרשימת הלקוחות" share one row (`.bottom-row`), with back at the far end (`.leave`).
+   - On the order detail, `PaymentSection` takes the back button as `leave` and puts it last in the row with "רישום תשלום" or "עריכת התשלום / ביטול התשלום". While the payment form is open, back stays in that row on its own.
+   - The `.wide` and `.danger-zone` styles are gone.
+3. **Commit gate (D33).** `.claude/hooks/check-unit.mjs` asks for a test change only when `src/lib` or `src/db` changes (`TESTED`). Doc and task are still required for every source change.
+   - Its tests (`npm run test:unities`, 14 pass, 2 new) cover a logic change without a test being refused, and a screen-only change passing with just its doc and task.
+   - `CLAUDE.md` and `docs/working-on-a-task.md` state the narrower rule, and `docs/SPEC.md` the bottom row.
+
+No Vitest change: this commit touches only screens, CSS and `he.ts`. 94 Vitest tests still pass.
+
+**Observed by Claude** in the browser pane at 375×812, not on a device:
+- An unpaid order ends with "רישום תשלום" and "→ לרשימת ההזמנות" side by side, and its edit button reads "עריכת הזמנה".
+- After recording a payment, "עריכת התשלום" and "ביטול התשלום" share the first line, and back wraps to a second line.
+- The customer card ends with "מחיקה" and "→ לרשימת הלקוחות" in one row.
+
+Not verified on a device; step 05's boxes still wait for the Pixel.

@@ -75,7 +75,7 @@ Dated, append-only. A decision is reversed only by a new entry naming the one it
 ## D15 · 2026-10-31 · A source commit requires a test change
 **Decision.** `REQUIRED = ["test", "doc", "task"]`: any commit touching `src/` must also touch a test file.
 **Rejected.** Dropping `test` from `REQUIRED` because screens are verified on the phone, not unit-tested (`CLAUDE.md`, Code rules).
-**Why.** It pushes each step to put its logic in `src/lib` with a test and keep screens thin, which is the design the spec wants anyway. The cost: a screen-only fix needs a (possibly small) test change in the same commit. If that turns ceremonial after a few steps, a new entry drops `test` from `REQUIRED`; it is one line.
+**Why.** It pushes each step to put its logic in `src/lib` with a test and keep screens thin, which is the design the spec wants anyway. The cost: a screen-only fix needs a (possibly small) test change in the same commit. If that turns ceremonial after a few steps, a new entry drops `test` from `REQUIRED`; it is one line. (Narrowed by D33: a test is required only for `src/lib` and `src/db`.)
 
 ## D16 · 2026-11-02 · Payment is after delivery; deposit is the exception
 **Decision.** An order is paid or unpaid: `paidAt`, `paidMethod` (cash / bit / PayBox / transfer / other), `paidAmount`. A deposit is an optional second record on the same order (`deposit`, `depositPaidAt`, `depositMethod`), hidden behind "add deposit". Outstanding = delivered and not fully paid. Supersedes the deposit-first framing in D9.
@@ -236,5 +236,23 @@ Erez's Pixel feedback across the screens.
 - (a) Making the save bar non-sticky while a field is focused: Erez liked the buttons riding up with the keyboard.
 - (b) `scrollIntoView({ block: 'center' })` on every focus: it jumps even when the field is already visible, and centring puts a tall text box's cursor off screen.
 - (c) A bottom tab bar now: that is step 07's navigation, and the header pills fix "looks like text" without moving it.
-- (d) Back at both the top and the bottom: two ways to do one thing on a short screen.
+- (d) Back at both the top and the bottom: two ways to do one thing on a short screen. (Its full-width form is replaced by D33's shared bottom row.)
 **Why.** He saw the field he typed into vanish under the bar on every form, and read bold links as text. A home baker tapping one-handed needs every target to say "tap me". Hebrew wording and tap-target size still get their final word from the baker at step 09.
+
+## D33 · 2026-11-05 · A test is required only for logic; every screen ends in one row of actions
+**Decision.**
+- **Commit gate:** `check-unit.mjs` requires a test change only when a commit touches `src/lib` or `src/db`. Every source change still needs its doc and task record. This narrows D15 as D15 itself foresaw; Erez chose it.
+- **Bottom row:** the order detail and the customer card end in one row of actions, with "back to the list" last, at the far end. On an order it shares the row with the payment buttons; on a customer, with Delete. This replaces D32's full-width back button.
+- **Label:** the order detail's edit button reads "עריכת הזמנה". It sits next to "פרטי הלקוח", where a bare "עריכה" is ambiguous; on the customer card it stays "עריכה".
+**Rejected.**
+- (a) Keeping D15 and adding a test that checks nothing, to satisfy the gate.
+- (b) Dropping the test requirement altogether.
+- (c) A full-width back button on its own row, as in D32.
+**Why.**
+- (a) A ceremonial test is noise that says the rule is wrong.
+- (b) The rule still earns its keep where the logic lives: money, dates, phones, templates and the data layer.
+- (c) Erez wants the screen's last actions together, so leaving is one more button in that row, not a separate band.
+- With three buttons (edit and cancel a recorded payment, plus back), the row wraps at phone width and back drops to a second line. The order stays the same.
+- Delete on the customer card gives up D31's separate band and sits beside back. It still asks for confirmation, and it is refused outright while the customer has orders.
+- A test file anywhere, the hook's own tests included, satisfies the rule; it is a reminder, not a proof.
+- `src/db` has no tests yet, so the first change there will need a real one, likely with an in-memory IndexedDB, and a stack-table row for it.

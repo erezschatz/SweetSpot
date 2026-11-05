@@ -92,12 +92,12 @@ export function CustomerDetailScreen({ id }: { id: string }) {
       </ul>
 
       {message && <p class="message" role="status">{message}</p>}
-      <div class="row danger-zone">
+      <div class="row bottom-row">
         <button type="button" class="secondary" onClick={() => void onDelete()}>{he.customers.delete}</button>
+        <button type="button" class="secondary leave" onClick={() => returnTo({ name: 'customers' }, 'push')}>
+          → {he.customers.backToList}
+        </button>
       </div>
-      <button type="button" class="secondary wide" onClick={() => returnTo({ name: 'customers' }, 'push')}>
-        → {he.customers.backToList}
-      </button>
     </section>
   );
 }

@@ -1,3 +1,4 @@
+import type { ComponentChildren } from 'preact';
 import { useState } from 'preact/hooks';
 import { useLiveQuery } from 'dexie-react-hooks';
 import type { Order, OrderStatus, PaymentMethod } from '../db/schema';
@@ -117,16 +118,21 @@ export function OrderDetailScreen({ id }: { id: string }) {
       </div>
 
       <h3>{he.orderDetail.payment}</h3>
-      <PaymentSection order={order} />
-
-      <button type="button" class="secondary wide" onClick={() => returnTo({ name: 'orders' }, 'push')}>
-        → {he.orders.backToList}
-      </button>
+      <PaymentSection
+        order={order}
+        leave={
+          <button type="button" class="secondary leave" onClick={() => returnTo({ name: 'orders' }, 'push')}>
+            → {he.orders.backToList}
+          </button>
+        }
+      />
     </section>
   );
 }
 
-function PaymentSection({ order }: { order: Order }) {
+// `leave` is the screen's back button: it shares the last row with the payment buttons
+// (D33), so every screen ends in one row of actions.
+function PaymentSection({ order, leave }: { order: Order; leave: ComponentChildren }) {
   const [editing, setEditing] = useState(false);
   const owed = outstanding(order);
 
@@ -168,25 +174,25 @@ function PaymentSection({ order }: { order: Order }) {
 
       {paidInFull(order) && <p class="message paid-in-full">{he.orderDetail.paidInFull}</p>}
 
-      {editing ? (
-        <PaymentForm order={order} onDone={() => setEditing(false)} />
-      ) : paidInFull(order) && !order.paidAt ? null : (
-        // Paid up front by the deposit alone: there is nothing to record, so no button.
-        <div class="row">
+      {editing && <PaymentForm order={order} onDone={() => setEditing(false)} />}
+      <div class="row bottom-row">
+        {/* Paid up front by the deposit alone: there is nothing to record, so no button. */}
+        {!editing && !(paidInFull(order) && !order.paidAt) && (
           <button type="button" onClick={() => setEditing(true)}>
             {order.paidAt ? he.orderDetail.editPayment : he.orderDetail.markPaid}
           </button>
-          {order.paidAt && (
-            <button
-              type="button"
-              class="secondary"
-              onClick={() => void ordersRepo.put(clearPayment(order, new Date().toISOString()))}
-            >
-              {he.orderDetail.removePayment}
-            </button>
-          )}
-        </div>
-      )}
+        )}
+        {!editing && order.paidAt && (
+          <button
+            type="button"
+            class="secondary"
+            onClick={() => void ordersRepo.put(clearPayment(order, new Date().toISOString()))}
+          >
+            {he.orderDetail.removePayment}
+          </button>
+        )}
+        {leave}
+      </div>
     </div>
   );
 }

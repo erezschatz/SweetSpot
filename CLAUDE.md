@@ -16,9 +16,9 @@ A fresh session — human or Claude — must be able to pick up from this repo a
 ## The Unities
 
 The work, its record and its location are the same thing at the same time. Every commit
-that changes source also carries its test, its doc line and a `## What was done` section
-appended to the task file in `tasks/`. This is enforced, not requested: a Stop hook
-refuses to end a turn with a half-recorded change, and `git commit` refuses an incomplete
+that changes source also carries its doc line and a `## What was done` section appended
+to the task file in `tasks/`, and its test when it touches `src/lib` or `src/db` (D33).
+This is enforced, not requested: a Stop hook refuses to end a turn with a half-recorded change, and `git commit` refuses an incomplete
 scene (`.claude/hooks/check-unit.mjs`). `CHANGELOG.md` is compiled from task records at
 release (`npm run changelog -- <version>`) and is never edited by hand. If a change cannot
 be completed with its record in this sitting, revert it; do not leave it for later.

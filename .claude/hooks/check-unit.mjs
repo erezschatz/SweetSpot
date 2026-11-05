@@ -17,7 +17,8 @@ const RULES = {
   task:   /^tasks\/(?!README\.md$)[^/_][^/]*\.md$/,     // excludes README.md and _template.md
   shared: /^CHANGELOG\.md$/,                             // compiled; never edited
 };
-const REQUIRED = ["test", "doc", "task"];           // roles a source change must be accompanied by
+const REQUIRED = ["doc", "task"];                   // roles every source change must be accompanied by
+const TESTED = /^src\/(lib|db)\//;                    // source whose change also needs a test (D33)
 const BASE = "origin/main";                         // the branch pull requests target
 const RELEASE_FILES = /^(CHANGELOG\.md|package\.json|package-lock\.json)$/;   // what a release commit may touch
 const COMPILER = "scripts/compile-changelog.mjs";
@@ -68,6 +69,7 @@ if (mode === "--pr") {
 const has = re => files.some(f => re.test(f));
 const missing = [];
 if (has(RULES.source)) {
+  if (has(TESTED) && !has(RULES.test)) missing.push("no test change");
   for (const part of REQUIRED)
     if (!has(RULES[part])) missing.push(`no ${part} change`);
 }

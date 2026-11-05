@@ -12,14 +12,14 @@ For the person doing the work. The agent's side is `CLAUDE.md`; the procedure th
 
 - Work on `main`; one developer, no branches needed. A branch is fine for an experiment you may throw away.
 - **Turn on the git binding once:** `npm install` runs `prepare`, which points `core.hooksPath` at `.githooks/`. From then on `git commit` runs the check.
-- A commit is a complete scene: the code change, its test (for anything in `src/lib`), its doc line (`docs/SPEC.md` if behaviour or architecture changed; `docs/SETUP.md` if the toolchain did), and a `## What was done` section appended to the task. The hook refuses anything less. If you cannot finish the scene in this sitting, revert; do not save it for tomorrow.
+- A commit is a complete scene: the code change, its test (for anything in `src/lib` or `src/db`, D33), its doc line (`docs/SPEC.md` if behaviour or architecture changed; `docs/SETUP.md` if the toolchain did), and a `## What was done` section appended to the task. The hook refuses anything less. If you cannot finish the scene in this sitting, revert; do not save it for tomorrow.
 - The roles, in plain words:
   - **source** — anything under `src/`.
   - **test** — a `*.test.ts` file (beside the code it tests, in `src/lib`) or anything under `tests/`.
   - **doc** — anything under `docs/`, plus `README.md` and `CLAUDE.md`.
   - **task** — a file in `tasks/` other than `README.md` and `_template.md`.
   - **shared** — `CHANGELOG.md`. Never edited by hand; the compiler writes it.
-- One source change needs at least one of each of test, doc and task in the same commit. A commit that touches no source (docs only, a task's Context) is free.
+- One source change needs a doc and a task change in the same commit, and a test change too when it touches `src/lib` or `src/db` (D33). A change only to screens, `src/ui` or `he.ts` is verified on the phone instead. A commit that touches no source (docs only, a task's Context) is free.
 
 ## 3. Finishing
 

@@ -154,7 +154,7 @@ export const he = {
   },
 
   orderDetail: {
-    edit: 'עריכה',
+    edit: 'עריכת הזמנה',
     customerCard: 'פרטי הלקוח',
     status: 'סטטוס',
     cancelConfirm: 'לבטל את ההזמנה?',

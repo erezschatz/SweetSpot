@@ -8,7 +8,8 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 // ---- per-repo: one path in each role, matching RULES in check-unit.mjs ----
-const SOURCE = "src/x.ts";
+const SOURCE = "src/lib/x.ts";
+const SCREEN = "src/screens/x.tsx";   // source with no logic: needs no test (D33)
 const TEST = "src/lib/x.test.ts";
 const DOC = "docs/a.md";
 const TASK = "tasks/1-t.md";
@@ -66,6 +67,33 @@ test("a pull request that changes source without its record is refused", () => {
   const result = run(dir, ["--pr", "main"]);
   assert.equal(result.status, 1);
   assert.match(result.stderr, /no \w+ change/);
+});
+
+test("logic changed without a test is refused, even with its doc and task", () => {
+  const { dir, git, write, commit } = repo();
+  git("checkout -q -b feature");
+  write(SOURCE, "changed\n");
+  write(DOC, "documented\n");
+  write(TASK, "# t\n\n## What was done\n\ndone\n");
+  commit("no-test");
+  const result = run(dir, ["--pr", "main"]);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /no test change/);
+});
+
+test("a screen-only change needs its doc and task but no test", () => {
+  const { dir, git, write, commit } = repo();
+  git("checkout -q -b feature");
+  write(SCREEN, "changed\n");
+  commit("screen");
+  const bare = run(dir, ["--pr", "main"]);
+  assert.equal(bare.status, 1);
+  assert.doesNotMatch(bare.stderr, /no test change/);
+  assert.match(bare.stderr, /no doc change/);
+  write(DOC, "documented\n");
+  write(TASK, "# t\n\n## What was done\n\ndone\n");
+  commit("record");
+  assert.equal(run(dir, ["--pr", "main"]).status, 0);
 });
 
 test("work-in-progress commits are fine once the pull request as a whole carries its record", () => {

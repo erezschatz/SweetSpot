@@ -162,8 +162,9 @@ button.small {
   box-shadow: 0 2px 0 var(--button-edge);
 }
 a.button { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
-/* Leaving a screen: the full width at the bottom, where the thumb ends up after reading. */
-.wide { display: flex; align-items: center; justify-content: center; inline-size: 100%; margin-block-start: 24px; }
+/* A screen ends in one row of actions; leaving it is the last one, at the far end (D33). */
+.bottom-row { margin-block-start: 24px; }
+.bottom-row .leave { margin-inline-start: auto; }
 
 .total { font-size: 1.1rem; margin-block: 12px; }
 .errors { color: #a63d2f; padding-inline-start: 1.2em; }
@@ -197,8 +198,6 @@ a.button.whatsapp-button {
 .legend { font-size: 0.85rem; }
 
 .customer-list .card-top { min-block-size: 32px; }
-/* Delete sits apart at the bottom, away from the thumb's usual path. */
-.danger-zone { margin-block-start: 32px; }
 .contact-actions a.button { flex: 1; }
 .detail-sub { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-block: 6px; }
 a.button.small { font-size: 0.9rem; padding-inline: 14px; }
