@@ -253,6 +253,6 @@ Erez's Pixel feedback across the screens.
 - (b) The rule still earns its keep where the logic lives: money, dates, phones, templates and the data layer.
 - (c) Erez wants the screen's last actions together, so leaving is one more button in that row, not a separate band.
 - With three buttons (edit and cancel a recorded payment, plus back), the row wraps at phone width and back drops to a second line. The order stays the same.
-- Delete on the customer card gives up D31's separate band and sits beside back. It still asks for confirmation, and it is refused outright while the customer has orders.
+- Delete on the customer card gives up the separate band step 05 gave it and sits beside back. It still asks for confirmation, and it is refused outright while the customer has orders.
 - A test file anywhere, the hook's own tests included, satisfies the rule; it is a reminder, not a proof.
 - `src/db` has no tests yet, so the first change there will need a real one, likely with an in-memory IndexedDB, and a stack-table row for it.
