@@ -52,3 +52,29 @@
 - **Search:** "0527" found her, and an unknown name showed "לא נמצא לקוח".
 
 A fresh-reader review led to three small fixes before commit: delete refuses before the confirm, steps back rather than adding the list to history, and a contacts error clears when she moves on. Not observed: the real Contact Picker on Android (its sheet, the permission, which numbers come back), `tel:` opening the dialer, and the WhatsApp chat opening. Not verified on a device; boxes 1–6 wait for the Pixel.
+
+## What was done
+
+2026-11-05, programmer's Mac. Erez's feedback from the Pixel, across all screens (D32).
+
+1. **The field he typed into vanished under the keyboard and the save bar.**
+   - The page now has `scroll-padding-block-end: 96px`.
+   - `src/ui/keyboard.ts` (started from `src/main.tsx`) runs on every resize of the visible area (`visualViewport`; the keyboard opening is the case that matters) and when focus moves. It scrolls the focused field clear of the part of the `.actions` bar that is over the visible area, by the amount `scrollToClear` in `src/lib/keyboard.ts` works out. The scroll is instant, so the two triggers cannot stack. Nothing moves when the field is already clear or while she is pinch-zoomed, and a tall text box keeps its top in view. The bar is above the content (`z-index: 1`).
+2. **The tab bar looked like text.** הזמנות / לקוחות / הגדרות are now pill buttons sharing the row, the current one filled.
+3. **"Back to the list" was in the wrong place.** It is now a full-width button at the bottom of the order detail, and likewise on the customer card, where it comes after Delete so that Delete is not the last thing under the thumb.
+4. **Actionable things should say "click me".** In `src/ui/base.css`:
+   - every button, link-button and header pill has a fill, an edge, a shadow and a pressed state (not when disabled);
+   - customer suggestions in the order form keep normal weight and get a card's soft shadow instead;
+   - secondary buttons and the segmented controls are tinted, not white;
+   - the underlined text actions are small outlined buttons: `button.small`, renamed from `button.link` in the order form and settings;
+   - cards that open something get a chevron and a shadow;
+   - the order's name is plain again, and a "פרטי הלקוח" button opens the customer (`he.orderDetail.customerCard`);
+   - the order title has room above it.
+
+**Tests:** 94 pass (5 new, for `scrollToClear`: already clear, hidden under the bar, above the top, a tall text box, no bar). `docs/SPEC.md` has the keyboard line and the bottom back button.
+
+**Observed by Claude** in the browser pane at 375×812, not on a device:
+- the header pills, the cards with chevrons, and the order detail with "פרטי הלקוח" and the full-width back button at the bottom.
+- To stand in for the keyboard, the viewport was shrunk to 375×420. The qty field was scrolled to sit under the save bar (bottom at 416, bar from 347). Focusing it moved it to 138–186, clear of the bar.
+
+A fresh-reader review led to the pinch-zoom guard, the instant scroll, counting only the visible part of the bar, and the pill, suggestion and Delete-order fixes above. Not observed: the real Android keyboard, and whether Chrome's own scroll or the handler does the work there. Not verified on a device; step 05's boxes still wait for the Pixel.

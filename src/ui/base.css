@@ -7,10 +7,16 @@
   --card: #ffffff;
   --line: #e8e0d6;
   --tap: 48px;
+  /* Secondary buttons are tinted, not white, so they never look like an input field. */
+  --button-tint: #f3e8df;
+  --button-edge: #d8c2b3;
   color-scheme: light;
 }
 
 * { box-sizing: border-box; }
+
+/* Leaves room for the sticky save bar when the browser scrolls a field into view. */
+html { scroll-padding-block-end: 96px; }
 
 html, body {
   margin: 0;
@@ -52,17 +58,27 @@ textarea { padding-block: 10px; resize: vertical; }
 
 .row { display: flex; flex-wrap: wrap; gap: 8px; }
 
-button {
+/* Every tappable thing looks like a button: a fill, an edge, a shadow, and a press. */
+button, a.button {
   min-height: var(--tap);
   padding-inline: 18px;
   font: inherit;
+  font-weight: 600;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--accent);
   color: #fff;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 0.18);
+  cursor: pointer;
+}
+button:active:not(:disabled), a.button:active, .top-nav a:active {
+  transform: translateY(1px); box-shadow: 0 1px 0 rgb(0 0 0 / 0.18);
 }
 button:disabled { opacity: 0.6; }
-button.secondary { background: var(--card); color: var(--accent); border: 1px solid var(--line); }
+button.secondary, a.button.secondary {
+  background: var(--button-tint); color: var(--accent); border: 1px solid var(--button-edge);
+  box-shadow: 0 2px 0 var(--button-edge);
+}
 
 .message { padding: 10px 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); }
 
@@ -70,12 +86,14 @@ h3 { font-size: 1rem; margin: 1.25em 0 0.5em; }
 a { color: var(--accent); }
 
 .header-text { flex: 1; }
-.top-nav { display: flex; gap: 4px; margin-inline-start: -10px; }
+.top-nav { display: flex; gap: 6px; margin-block-start: 6px; }
 .top-nav a {
-  min-height: var(--tap); display: inline-flex; align-items: center;
-  padding-inline: 10px; text-decoration: none; color: var(--muted); border-radius: 10px;
+  flex: 1; min-height: var(--tap); display: inline-flex; align-items: center; justify-content: center;
+  padding-inline: 10px; text-decoration: none; font-weight: 600; border-radius: 999px;
+  background: var(--button-tint); color: var(--accent); border: 1px solid var(--button-edge);
+  box-shadow: 0 2px 0 var(--button-edge);
 }
-.top-nav a.on { color: var(--accent); font-weight: 600; }
+.top-nav a.on { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 2px 0 rgb(0 0 0 / 0.18); }
 
 /* Space at the end so the floating button never covers the last card. */
 section { padding-block-end: 96px; }
@@ -85,9 +103,16 @@ section { padding-block-end: 96px; }
 
 .cards, .lines, .choices { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .card {
-  display: block; padding: 12px 14px; border-radius: 14px; background: var(--card);
-  border: 1px solid var(--line); color: inherit; text-decoration: none;
+  display: block; position: relative; padding-block: 12px; padding-inline: 14px 34px; border-radius: 14px;
+  background: var(--card); border: 1px solid var(--line); color: inherit; text-decoration: none;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.07);
 }
+/* "Opens something": the chevron points the reading direction, which is left in RTL. */
+a.card::after {
+  content: '‹'; position: absolute; inset-inline-end: 12px; inset-block-start: 50%;
+  transform: translateY(-50%); font-size: 1.6rem; color: var(--muted);
+}
+a.card:active { background: var(--button-tint); }
 .card.status-new { border-inline-start: 4px solid #c9a227; }
 .card.status-confirmed { border-inline-start: 4px solid #3f7d4e; }
 .card.status-cancelled { opacity: 0.6; }
@@ -119,32 +144,36 @@ section { padding-block-end: 96px; }
 .picked { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: var(--tap); }
 .choice {
   inline-size: 100%; text-align: start; background: var(--card); color: inherit; border: 1px solid var(--line);
+  font-weight: 400; box-shadow: 0 2px 6px rgb(0 0 0 / 0.07);
 }
 
 .segmented { display: flex; gap: 6px; }
 .segmented.wrap { flex-wrap: wrap; }
-.segmented button { flex: 1; background: var(--card); color: var(--accent); border: 1px solid var(--line); }
-.segmented button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.segmented button {
+  flex: 1; background: var(--button-tint); color: var(--accent); border: 1px solid var(--button-edge);
+  box-shadow: 0 2px 0 var(--button-edge);
+}
+.segmented button.on { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 2px 0 rgb(0 0 0 / 0.18); }
 
-button.link {
-  background: none; color: var(--muted); padding-inline: 0; text-decoration: underline; font-size: 0.9rem;
+/* Small side actions (remove an item, reset a message): still a button, just a quieter one. */
+button.small {
+  align-self: flex-start; padding-inline: 14px; font-size: 0.9rem; font-weight: 500;
+  background: var(--button-tint); color: var(--accent); border: 1px solid var(--button-edge);
+  box-shadow: 0 2px 0 var(--button-edge);
 }
-a.button {
-  min-height: var(--tap); display: inline-flex; align-items: center; padding-inline: 18px;
-  border-radius: 10px; text-decoration: none;
-}
-a.button { background: var(--accent); color: #fff; justify-content: center; }
-a.button.secondary { background: var(--card); color: var(--accent); border: 1px solid var(--line); }
+a.button { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
+/* Leaving a screen: the full width at the bottom, where the thumb ends up after reading. */
+.wide { display: flex; align-items: center; justify-content: center; inline-size: 100%; margin-block-start: 24px; }
 
 .total { font-size: 1.1rem; margin-block: 12px; }
 .errors { color: #a63d2f; padding-inline-start: 1.2em; }
 .actions {
   position: sticky; inset-block-end: 0; display: flex; gap: 8px; padding-block: 12px;
-  background: var(--bg); border-block-start: 1px solid var(--line);
+  background: var(--bg); border-block-start: 1px solid var(--line); z-index: 1;
 }
 .actions button:first-child { flex: 1; }
 
-.detail-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.detail-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-block-start: 20px; }
 .detail-head h2 { margin: 0; }
 .lines li { padding: 10px 12px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
 .lines .muted { margin: 2px 0 0; }
@@ -152,10 +181,6 @@ a.button.secondary { background: var(--card); color: var(--accent); border: 1px 
 .facts dt { color: var(--muted); }
 .facts dd { margin: 0; }
 
-/* Back to the list sits above the title, where she looks first after saving. */
-button.back {
-  background: none; color: var(--accent); padding-inline: 0; min-height: var(--tap); font-weight: 600;
-}
 .message.paid-in-full { border-color: #3f7d4e; color: #3f7d4e; font-weight: 600; }
 .deposit-amount { display: flex; gap: 8px; align-items: end; }
 .deposit-amount .field { flex: 1; margin-block: 0; }
@@ -171,8 +196,9 @@ a.button.whatsapp-button {
 .template textarea { min-block-size: 14em; font-size: 0.95rem; }
 .legend { font-size: 0.85rem; }
 
-.detail-head h2 a { color: inherit; text-decoration-color: var(--line); }
 .customer-list .card-top { min-block-size: 32px; }
 /* Delete sits apart at the bottom, away from the thumb's usual path. */
 .danger-zone { margin-block-start: 32px; }
 .contact-actions a.button { flex: 1; }
+.detail-sub { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-block: 6px; }
+a.button.small { font-size: 0.9rem; padding-inline: 14px; }

@@ -73,7 +73,7 @@ function TemplateEditor({ templateKey, saved }: { templateKey: TemplateKey; save
       {value !== defaultText && (
         <button
           type="button"
-          class="link"
+          class="small"
           onClick={() => {
             setValue(defaultText);
             void settingsRepo.setTemplate(templateKey, undefined);

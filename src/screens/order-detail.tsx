@@ -40,16 +40,16 @@ export function OrderDetailScreen({ id }: { id: string }) {
 
   return (
     <section class="detail">
-      <button type="button" class="back" onClick={() => returnTo({ name: 'orders' }, 'push')}>
-        → {he.orders.backToList}
-      </button>
       <div class="detail-head">
-        <h2>
-          <a href={href({ name: 'customer', id: order.customerId })}>{order.title}</a>
-        </h2>
+        <h2>{order.title}</h2>
         <a class="button secondary" href={href({ name: 'orderEdit', id: order.id })}>{he.orderDetail.edit}</a>
       </div>
-      {customer?.phone && <p class="muted" dir="ltr">{customer.phone}</p>}
+      <div class="detail-sub">
+        {customer?.phone && <span class="muted" dir="ltr">{customer.phone}</span>}
+        <a class="button secondary small" href={href({ name: 'customer', id: order.customerId })}>
+          {he.orderDetail.customerCard}
+        </a>
+      </div>
       <p class="badges">
         <StatusBadge status={order.status} />
         <PaymentBadge order={order} />
@@ -118,6 +118,10 @@ export function OrderDetailScreen({ id }: { id: string }) {
 
       <h3>{he.orderDetail.payment}</h3>
       <PaymentSection order={order} />
+
+      <button type="button" class="secondary wide" onClick={() => returnTo({ name: 'orders' }, 'push')}>
+        → {he.orders.backToList}
+      </button>
     </section>
   );
 }

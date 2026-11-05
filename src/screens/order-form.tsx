@@ -214,7 +214,7 @@ function LineEditor({
         />
       </label>
       {onRemove && (
-        <button type="button" class="link" onClick={onRemove}>{he.orderForm.removeLine}</button>
+        <button type="button" class="small" onClick={onRemove}>{he.orderForm.removeLine}</button>
       )}
     </div>
   );
@@ -256,7 +256,7 @@ function DepositEditor({ draft, set }: { draft: OrderDraft; set: (c: Partial<Ord
       </label>
       <button
         type="button"
-        class="link"
+        class="small"
         onClick={() => set({ hasDeposit: false, deposit: '', depositPaidAt: '', depositMethod: '' })}
       >
         {he.orderForm.removeDeposit}

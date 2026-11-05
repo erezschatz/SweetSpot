@@ -155,6 +155,7 @@ export const he = {
 
   orderDetail: {
     edit: 'עריכה',
+    customerCard: 'פרטי הלקוח',
     status: 'סטטוס',
     cancelConfirm: 'לבטל את ההזמנה?',
     payment: 'תשלום',

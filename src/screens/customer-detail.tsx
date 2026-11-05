@@ -41,9 +41,6 @@ export function CustomerDetailScreen({ id }: { id: string }) {
 
   return (
     <section class="detail">
-      <button type="button" class="back" onClick={() => returnTo({ name: 'customers' }, 'push')}>
-        → {he.customers.backToList}
-      </button>
       <div class="detail-head">
         <h2>{customer.name}</h2>
         <a class="button secondary" href={href({ name: 'customerEdit', id })}>{he.customers.edit}</a>
@@ -98,6 +95,9 @@ export function CustomerDetailScreen({ id }: { id: string }) {
       <div class="row danger-zone">
         <button type="button" class="secondary" onClick={() => void onDelete()}>{he.customers.delete}</button>
       </div>
+      <button type="button" class="secondary wide" onClick={() => returnTo({ name: 'customers' }, 'push')}>
+        → {he.customers.backToList}
+      </button>
     </section>
   );
 }

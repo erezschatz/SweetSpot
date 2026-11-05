@@ -219,3 +219,22 @@ Erez's first run of step 03 on the Pixel. This reopens D28's status moves; D28's
 - (c) WhatsApp needs a mobile; asking is a dialog for a choice she almost always makes the same way.
 - (d) Unpaid and cancelled orders are not money she received.
 - (e) Orders are her income record (step 08); losing them by deleting a contact is too easy.
+
+## D32 · 2026-11-05 · Tappable things look like buttons; the focused field clears the save bar
+Erez's Pixel feedback across the screens.
+**Decision.**
+- **Look:**
+  - Every button, link-button, header pill and segmented control has a fill, an edge and a 2 px shadow, and moves down 1 px when pressed. The floating "new" button keeps its own larger shadow.
+  - Secondary buttons are tinted (`--button-tint`, `--button-edge`), so they never look like the white input fields.
+  - The header's הזמנות / לקוחות / הגדרות are pill buttons sharing the row, with the current one filled.
+  - Cards that open something have a "‹" chevron and a soft shadow.
+  - The underlined text actions (remove an item, remove the deposit, reset a message) are small outlined buttons (`button.small`).
+  - The order's name is no longer an underlined link; a "פרטי הלקוח" button next to the phone opens the customer.
+- **Back to the list:** at the bottom of the order detail and the customer card, as a full-width button, instead of a bold link above the title.
+- **Keyboard:** with the keyboard open, the focused field is scrolled clear of the sticky save bar. `scroll-padding-block-end` asks the browser to do it, and a `visualViewport` resize / `focusin` handler does it if the browser does not, by an amount computed in `src/lib/keyboard.ts`. The handler counts only the part of the bar over the visible area, scrolls instantly, and does nothing while she is pinch-zoomed.
+**Rejected.**
+- (a) Making the save bar non-sticky while a field is focused: Erez liked the buttons riding up with the keyboard.
+- (b) `scrollIntoView({ block: 'center' })` on every focus: it jumps even when the field is already visible, and centring puts a tall text box's cursor off screen.
+- (c) A bottom tab bar now: that is step 07's navigation, and the header pills fix "looks like text" without moving it.
+- (d) Back at both the top and the bottom: two ways to do one thing on a short screen.
+**Why.** He saw the field he typed into vanish under the bar on every form, and read bold links as text. A home baker tapping one-handed needs every target to say "tap me". Hebrew wording and tap-target size still get their final word from the baker at step 09.
