@@ -6,12 +6,12 @@
 
 **Acceptance**
 
-- [ ] "New customer" offers *from contacts* when `navigator.contacts` is available (D18): picks name and number, fills the form, nothing else is read. Without the API the button is absent and the form is typed.
-- [ ] Customers list with a search box filtering by name or phone as you type.
-- [ ] Customer card: name, phone (tap to call, tap to WhatsApp), notes (editable), order history list linking to each order, total spent.
-- [ ] Edit and delete (delete refused while the customer has orders).
-- [ ] The order form's customer picker (step 03) uses the same *from contacts* path for a new customer.
-- [ ] Verified on the Pixel, including the contacts picker.
+- [x] "New customer" offers *from contacts* when `navigator.contacts` is available (D18): picks name and number, fills the form, nothing else is read. Without the API the button is absent and the form is typed.
+- [x] Customers list with a search box filtering by name or phone as you type.
+- [x] Customer card: name, phone (tap to call, tap to WhatsApp), notes (editable), order history list linking to each order, total spent.
+- [x] Edit and delete (delete refused while the customer has orders).
+- [x] The order form's customer picker (step 03) uses the same *from contacts* path for a new customer.
+- [x] Verified on the Pixel, including the contacts picker.
 
 ## What was done
 
@@ -100,3 +100,23 @@ No Vitest change: this commit touches only screens, CSS and `he.ts`. 94 Vitest t
 - The customer card ends with "מחיקה" and "→ לרשימת הלקוחות" in one row.
 
 Not verified on a device; step 05's boxes still wait for the Pixel.
+
+## What was done
+
+2026-11-05, on the Pixel, by the programmer, from the deploy of `faa085e`. He ran all of step 05's checks:
+- adding a customer from the phone's contacts;
+- calling and WhatsApp from the customer card;
+- editing the phone and the name;
+- picking the same contact in a new order;
+- delete, refused for a customer with orders and allowed for one without;
+- search by name and by digits.
+
+He also checked the D32/D33 changes:
+- the field he types into stays above the keyboard and the save bar;
+- the header pills and buttons look tappable;
+- "עריכת הזמנה";
+- the shared bottom rows.
+
+All of it worked; in his words, it all "landed perfectly". All acceptance boxes ticked.
+
+verified 2026-11-05, Pixel 9, Erez.
