@@ -13,7 +13,10 @@
 - [ ] Money: the month's materials cost (orders delivered in the month) beside the income, with the difference; lines without a cost are left out and the screen says the figure follows the recipes entered (D35).
 - [ ] Schema version 2: an `ingredients` table, `parts` on a product, `unitCost` on an order item; a backup carries ingredients, and a version 1 backup still restores. `src/db` gets its first test, with the in-memory IndexedDB and stack-table row D33 foresaw.
 - [ ] `src/lib/costing.ts`, tested: cost per unit, part cost, product cost, rounding to whole agorot, no recipe → no cost.
+- [ ] Added 2026-11-07 before work started (D36): the product form shows the recipe scaled to a typed number of units, and the minimum and recommended price (10% and 40% margin) beside the cost.
+- [ ] The order detail shows the order's margin and its share of the price under the materials cost line.
+- [ ] Shopping list at `#/shopping`, reached from the ingredients list: ingredient totals and whole packs for the open orders due within fourteen days; products without a recipe listed underneath; `src/lib/shopping.ts` tested.
 - [ ] `docs/SPEC.md` data model, routes and architecture updated in the same scene.
-- [ ] Verified on the Pixel: three ingredients, one cake with two parts, its cost on the form and the list, an ingredient repriced, an order saved before and after, both checked by hand.
+- [ ] Verified on the Pixel: three ingredients, one cake with two parts, its cost on the form and the list, an ingredient repriced, an order saved before and after, both checked by hand; the price marks, the scaled recipe and the shopping list for two open orders checked against a hand calculation.
 
 <!-- append below, in the same commit as the change; one section per change -->

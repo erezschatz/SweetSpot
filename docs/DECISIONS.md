@@ -305,3 +305,20 @@ Erez's Pixel feedback across the screens.
 - (e) Four pills already needed their own row at 360 px (D34). Ingredients are edited rarely; a tap from the products list is enough.
 - (f) A product has order history pointing at it. An ingredient has only recipes, and a recipe that uses it is the reason to refuse, as a customer with orders is refused (D31).
 - (g) The cake was made for its delivery date, so its materials belong to that month. Income is by payment month because that is when the money arrived. The difference is an estimate, and the screen says so.
+
+## D36 · 2026-11-07 · The arithmetic on top of costing comes too: scaler, price marks, order margin, shopping list
+**Decision.** D35's point (b) is narrowed. The aim is parity with the predecessor wherever a feature needs no server and no asking her again, and four of its costing features are plain arithmetic over the data step 09 already holds. They join step 09, whose Context is extended today before any work on it started; the estimate grows from three evenings to four.
+- **Scaler.** On the product form, a number of units; every recipe quantity is shown multiplied. Nothing is stored.
+- **Price marks.** Beside the cost, a minimum and a recommended price, at a 10% and a 40% margin as a share of the price (price = cost ÷ (1 − margin)), rounded up to whole shekels. The percentages are fixed, as the predecessor's are.
+- **Order margin.** The order detail shows price − cost, and its share of the price, under the materials cost line D35 gives it. The month's difference on Money is already D35's.
+- **Shopping list.** A screen reached from the ingredients list: for orders not cancelled or delivered and due within fourteen days, every recipe quantity times the line quantity, summed by ingredient, shown in the ingredient's unit and as whole packs. Products on those orders that have no recipe are listed by name underneath, so she knows what the list does not cover. Derived every time; nothing stored.
+**Rejected.**
+- (a) Configurable margin percentages.
+- (b) A separate step for the four.
+- (c) The rest of D35 (b): pre-seeded ingredient prices, import, recipe-from-photo.
+- (d) Ticking a shopping-list line as bought.
+**Why.**
+- (a) Two settings fields for numbers she did not ask to change. The predecessor's two marks are what she saw; if she wants her own, that is a request.
+- (b) They read the same tables and share the same lib; a step of their own would be renumbering for half an evening of code.
+- (c) Their maintained prices are their business, not ours; import is for a catalogue larger than hers; recipe-from-photo needs a model behind a server.
+- (d) The list is a glance before shopping, not a second order book. Storing ticks means a table and a reset rule for something she reads once.

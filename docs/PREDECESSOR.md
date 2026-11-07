@@ -27,10 +27,10 @@ Two tiers, roughly ₪40 and ₪100 a month plus VAT, with a one-week trial. She
 | Works on phone and desktop | Basic | Phone only verified (D7) | — |
 | Ingredients catalogue with prices; cascading recalculation | Pro | Yes, on her request (D35): pack price and quantity, cost summed live | step 09 |
 | Pre-seeded ingredient gallery with market prices; Excel import; recipe-from-photo | Pro | No (D3, D35) | — |
-| Recipe scaler | Pro | No (D3, D35) | — |
-| Min price (10% margin) and recommended price (40%) | Pro | Cost and margin shown; no suggested price (D35) | step 09 |
-| Monthly profitability report; per-order margin | Pro | Month's materials cost beside income only (D35) | step 09 |
-| Auto shopping list for next two weeks | Pro | No (D3, D35) | — |
+| Recipe scaler | Pro | Yes, shown, not stored (D36) | step 09 |
+| Min price (10% margin) and recommended price (40%) | Pro | Yes, same two marks, fixed (D36) | step 09 |
+| Monthly profitability report; per-order margin | Pro | Month's income − materials on Money; margin on the order (D35, D36) | step 09 |
+| Auto shopping list for next two weeks | Pro | Yes, derived, no ticks (D36) | step 09 |
 | Customer review requests | Pro | No | — |
 | Support in Hebrew via WhatsApp; they will enter your ingredients for you | — | The programmer is the support | — |
 
@@ -44,4 +44,4 @@ Two tiers, roughly ₪40 and ₪100 a month plus VAT, with a one-week trial. She
 ## Things deliberately not copied
 
 - Their one-way "customer sees a pretty page" flow. Our customer sees a WhatsApp message, which is what she already sends by hand.
-- Most of their costing engine. She asked for its core (parts, priced materials, the sum against the price) and step 09 builds that (D35); the gallery, import, scaler, suggested prices, report and shopping list stay theirs, and the paid tier is there if she ever wants them.
+- Their maintained ingredient prices, import and recipe-from-photo. She asked for the core of their costing (parts, priced materials, the sum against the price) and step 09 builds it with the arithmetic on top (D35, D36); the gallery and the server-side pieces stay theirs.

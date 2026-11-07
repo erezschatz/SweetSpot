@@ -13,11 +13,11 @@ Ordered steps. No status column: a step is open until its task file has a `## Wh
 | 06 | [Products](../tasks/06-products.md) | 0.5 |
 | 07 | [Diary front screen](../tasks/07-diary.md) | 2 |
 | 08 | [Money](../tasks/08-money.md) | 1 |
-| 09 | [Recipe costing](../tasks/09-costing.md) | 3 |
+| 09 | [Recipe costing](../tasks/09-costing.md) | 4 |
 | 10 | [Polish and hand-off](../tasks/10-handoff.md) | 1.5 |
 | 11 | [Release 1.0](../tasks/11-release.md) | 0.5 |
 
-Total: ~15 evenings. The programmer's target is two calendar weeks, which means nearly every evening; the realistic slack is in 10. Step 09 was added on 2026-11-07 (D35), when steps 00–06 had taken five days and left a week in hand.
+Total: ~16 evenings. The programmer's target is two calendar weeks, which means nearly every evening; the realistic slack is in 10. Step 09 was added on 2026-11-07 (D35, widened the same day by D36), when steps 00–06 had taken five days and left a week in hand.
 
 ## Milestones
 
@@ -32,4 +32,4 @@ Her phone: Samsung Galaxy, Chrome (D21). Orders are named by the customer (D19).
 
 ## Not in phase 1
 
-The rest of the predecessor's costing tier beyond step 09 (D35): pre-seeded ingredient prices, import, recipe-from-photo, recipe scaler, min/recommended price, profitability report, shopping list · labour and overhead on a recipe (D35) · customer approve-by-link and landing page (D4) · calendar sync and notifications (D5) · sync, cloud backup, login (D6) · iOS, dark theme, English, Samsung Internet (D7, D21) · week-grid diary (D8) · payment ledger (D9, D16) · structured flavour/layer fields and a size-to-guests suggestion (D19) · printing/PDF · invoices · photos on orders · search beyond name/phone · multiple businesses.
+The rest of the predecessor's costing tier beyond step 09 (D35, D36): pre-seeded ingredient prices, import, recipe-from-photo · labour and overhead on a recipe (D35) · customer approve-by-link and landing page (D4) · calendar sync and notifications (D5) · sync, cloud backup, login (D6) · iOS, dark theme, English, Samsung Internet (D7, D21) · week-grid diary (D8) · payment ledger (D9, D16) · structured flavour/layer fields and a size-to-guests suggestion (D19) · printing/PDF · invoices · photos on orders · search beyond name/phone · multiple businesses.
