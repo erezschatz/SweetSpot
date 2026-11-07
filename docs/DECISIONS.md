@@ -322,3 +322,13 @@ Erez's Pixel feedback across the screens.
 - (b) They read the same tables and share the same lib; a step of their own would be renumbering for half an evening of code.
 - (c) Their maintained prices are their business, not ours; import is for a catalogue larger than hers; recipe-from-photo needs a model behind a server.
 - (d) The list is a glance before shopping, not a second order book. Storing ticks means a table and a reset rule for something she reads once.
+
+## D37 · 2026-11-07 · The live docs describe SweetSpot on its own terms; the comparison is retired
+**Decision.** `docs/PREDECESSOR.md` is deleted and no live document (`CLAUDE.md`, `docs/SPEC.md`, `docs/PLAN.md`, a task's Context) defines the app by what it replaces or compares a feature to another product. Scope is stated as what SweetSpot does and does not do, with no origin. The four install promises move into the spec's Install bullet as the project's own; step 10's pointer at the deleted file is redirected to the spec, the one edit to a Context, recorded here. Step 11's box about the cancelled subscription is the record of her action and stays.
+**Rejected.**
+- (a) Rewriting the older decision entries (D3, D9, D18, D20, D22, D35, D36) and step 00's log to remove the word.
+- (b) Keeping the file as a private reference outside the repo.
+**Why.**
+- The programmer does not want the project professed as a replacement for someone else's product, and the public repo gains nothing from it. Parity was settled by D35 and D36, so the inventory has done its work.
+- (a) Dated entries are history and are never rewritten; git holds them in any case. D22's rule stands for the mentions that remain: "the predecessor", never a name.
+- (b) The rule is that what is not in the repo did not arrive. A reference nobody can reach from the repo is a trap for a fresh session. What is lost, the answer to "how did they do it" for anything not already decided, is accepted.

@@ -1,6 +1,6 @@
 # SweetSpot — how to work here
 
-SweetSpot is a local-first PWA order book for one home baker, one Android phone, Hebrew only. It replaces the parts of a subscription service she tried that she actually used. No backend, no login, no sync.
+SweetSpot is a local-first PWA order book for one home baker, one Android phone, Hebrew only. Orders, a diary of what is due, who paid what, WhatsApp messages in one tap, and what each cake costs her. No backend, no login, no sync.
 
 ## Read first, in this order
 
@@ -8,8 +8,7 @@ SweetSpot is a local-first PWA order book for one home baker, one Android phone,
 2. `docs/DECISIONS.md` — what was chosen and what was rejected. Do not re-open a listed decision without saying so.
 3. `docs/PLAN.md` — the ordered steps. Status is derived from `tasks/`, never written in the plan.
 4. `tasks/README.md` — the task-file form.
-5. `docs/PREDECESSOR.md` only when a question is "how did the predecessor do it".
-6. `docs/SETUP.md` only for toolchain problems.
+5. `docs/SETUP.md` only for toolchain problems.
 
 A fresh session — human or Claude — must be able to pick up from this repo alone. If something needed to continue the work is not in the repo, fix that gap before doing anything else.
 

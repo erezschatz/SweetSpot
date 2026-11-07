@@ -4,7 +4,7 @@ Version 0.1 (pre-code). When this file and the code disagree, fix one of them in
 
 ## Why this project exists
 
-A home baker selling cakes for special events tried a Hebrew subscription CRM for home bakers (`docs/PREDECESSOR.md`) for a week. The family decided the subscription is not worth it for the order volume. What she actually used and wants: a list of orders, a diary of what is due when, who paid what, and WhatsApp reminders she can send with one tap. Nothing that needs a server.
+A home baker selling cakes for special events takes her orders by phone and voice note and keeps them in a notebook and in WhatsApp. What she wants: a list of orders, a diary of what is due when, who paid what, WhatsApp messages she can send with one tap, and what each cake costs her in materials. Nothing that needs a server.
 
 SweetSpot is that, and nothing else. It is also, openly, a learning project for the programmer: what it takes to deliver "an app" to a non-technical person who will depend on it, under the Unities, in about two weeks of evenings.
 
@@ -21,11 +21,11 @@ SweetSpot is that, and nothing else. It is also, openly, a learning project for 
 - **WhatsApp** — four buttons on an order: *order accepted* (the written summary the customer confirms), *reminder before delivery*, *ready*, *payment reminder*. Each opens WhatsApp with a Hebrew message filled from an editable template. The customer's reply is recorded by the baker tapping a status or a payment, not by the app.
 - **Contacts** — a new customer can be picked from the phone's contacts (Contact Picker API; D18), name and number filled in.
 - **Backup/restore** — one-tap JSON export through the Android share sheet; import from a file. A nag on the front screen when the last backup is older than 14 days.
-- **Install** — PWA, add-to-home-screen, works offline, persistent storage requested.
+- **Install** — PWA, add-to-home-screen, works offline, persistent storage requested. The install page makes four promises, in her words: an icon on her home screen, opens full screen like an app, takes no space and updates itself, and her orders stay on her phone with no account (D37).
 
 ### Not phase 1 (see `docs/PLAN.md` and D3–D9)
 
-The predecessor's costing tier beyond what step 09 builds (pre-seeded ingredient prices, import, recipe-from-photo; D35, D36), labour and overhead on a recipe, branded quotes, customer approve-by-link, public landing page, calendar sync, push notifications, multi-device sync, cloud backup, login, iOS, tablet layout, English UI, printing/PDF, invoices.
+Costing beyond what step 09 builds (a supplied list of ingredient prices, import, recipe-from-photo; D35, D36), labour and overhead on a recipe, branded quotes, customer approve-by-link, public landing page, calendar sync, push notifications, multi-device sync, cloud backup, login, iOS, tablet layout, English UI, printing/PDF, invoices.
 
 ## Architecture
 

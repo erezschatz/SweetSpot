@@ -24,12 +24,12 @@ Total: ~16 evenings. The programmer's target is two calendar weeks, which means 
 - **After 01:** a blank SweetSpot opens full-screen from an icon on the programmer's Pixel, served from GitHub Pages. If this fails, the hosting decision is wrong.
 - **After 04 (the proving milestone):** on the programmer's phone — create an order, tap "remind deposit", WhatsApp opens with the Hebrew text addressed to the customer's number; force-stop Chrome, reboot, the order is still there. Nothing later is worth building if this fails.
 - **After 09:** feature-complete for phase 1; the programmer uses it for a fake week of orders before 10.
-- **After 11:** the baker has it on her phone, has made her first backup, and the old subscription can be cancelled.
+- **After 11:** the baker has it on her phone and has made her first backup.
 
 ## Answered 2026-11-02 (was "Before step 03")
 
-Her phone: Samsung Galaxy, Chrome (D21). Orders are named by the customer (D19). Payment is after delivery, cash/bit/PayBox; deposits are the exception (D16). The date that matters is delivery; the first message is "order accepted", which the customer confirms (D17). Orders arrive by call or voice note; what she juggles is event date, guests, size vs. guests, design, flavours (D19). The thing she missed in the predecessor: her contacts (D18). Her notation: `דנה לוי- עוגת פרחים, 4 שכבות, שוקולד +שוקולד- פרווה`.
+Her phone: Samsung Galaxy, Chrome (D21). Orders are named by the customer (D19). Payment is after delivery, cash/bit/PayBox; deposits are the exception (D16). The date that matters is delivery; the first message is "order accepted", which the customer confirms (D17). Orders arrive by call or voice note; what she juggles is event date, guests, size vs. guests, design, flavours (D19). What she asked for by name: picking customers from her contacts (D18). Her notation: `דנה לוי- עוגת פרחים, 4 שכבות, שוקולד +שוקולד- פרווה`.
 
 ## Not in phase 1
 
-The rest of the predecessor's costing tier beyond step 09 (D35, D36): pre-seeded ingredient prices, import, recipe-from-photo · labour and overhead on a recipe (D35) · customer approve-by-link and landing page (D4) · calendar sync and notifications (D5) · sync, cloud backup, login (D6) · iOS, dark theme, English, Samsung Internet (D7, D21) · week-grid diary (D8) · payment ledger (D9, D16) · structured flavour/layer fields and a size-to-guests suggestion (D19) · printing/PDF · invoices · photos on orders · search beyond name/phone · multiple businesses.
+Costing beyond step 09 (D35, D36): a supplied list of ingredient prices, import, recipe-from-photo · labour and overhead on a recipe (D35) · customer approve-by-link and landing page (D4) · calendar sync and notifications (D5) · sync, cloud backup, login (D6) · iOS, dark theme, English, Samsung Internet (D7, D21) · week-grid diary (D8) · payment ledger (D9, D16) · structured flavour/layer fields and a size-to-guests suggestion (D19) · printing/PDF · invoices · photos on orders · search beyond name/phone · multiple businesses.
