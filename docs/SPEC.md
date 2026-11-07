@@ -23,7 +23,7 @@ SweetSpot is that, and nothing else. It is also, openly, a learning project for 
 - **Backup/restore** — one-tap JSON export through the Android share sheet; import from a file. A nag on the front screen when the last backup is older than 14 days.
 - **Install** — PWA, add-to-home-screen, works offline, persistent storage requested. The install page makes four promises, in her words: an icon on her home screen, opens full screen like an app, takes no space and updates itself, and her orders stay on her phone with no account (D37).
 
-### Not phase 1 (see `docs/PLAN.md` and D3–D9)
+### Not phase 1 (see `docs/PLAN.md` and D3–D9, as narrowed by D16 and D35)
 
 Costing beyond what step 09 builds (a supplied list of ingredient prices, import, recipe-from-photo; D35, D36), labour and overhead on a recipe, branded quotes, customer approve-by-link, public landing page, calendar sync, push notifications, multi-device sync, cloud backup, login, iOS, tablet layout, English UI, printing/PDF, invoices.
 
@@ -74,7 +74,7 @@ What she juggles on the phone with a customer — event date, number of guests, 
 |---|---|---|
 | TypeScript | — | The programmer's language. |
 | Vite | hand-written bundling | Standard; `base` set to `/SweetSpot/` for Pages, matching the repo name's case (D24). |
-| Preact (+ `preact/hooks`) | React | Same mental model as React, 4 kB, no need for React's weight in a five-screen app. |
+| Preact (+ `preact/hooks`) | React | Same mental model as React, 4 kB, no need for React's weight in an app this size. |
 | Dexie (+ `dexie-react-hooks`, works with Preact's compat; npm installs `react` as its peer, but `@preact/preset-vite` aliases it to `preact/compat`, so none ships) | raw IndexedDB | Schema versioning, live queries, transactions; raw IDB is boilerplate the programmer does not want to own. |
 | vite-plugin-pwa | hand-written manifest + service worker | Generates both, handles update strategy. |
 | Vitest | — | Tests for `src/lib`. Same config as Vite. |
@@ -91,7 +91,7 @@ No CSS framework, no component library, no router, no date library (`Intl` and I
 
 ## Hosting and repo
 
-- Public GitHub repo (GitHub Pages on a private repo requires a paid plan; D11).
+- Public GitHub repo (GitHub Pages on a private repo requires a paid plan; D2).
 - Deployed URL: `https://erezschatz.github.io/SweetSpot/` (case-sensitive path; D24).
 - Her data never touches the repo or the host. The host serves static files and nothing else.
 

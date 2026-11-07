@@ -22,7 +22,7 @@ Total: ~16 evenings. The programmer's target is two calendar weeks, which means 
 ## Milestones
 
 - **After 01:** a blank SweetSpot opens full-screen from an icon on the programmer's Pixel, served from GitHub Pages. If this fails, the hosting decision is wrong.
-- **After 04 (the proving milestone):** on the programmer's phone — create an order, tap "remind deposit", WhatsApp opens with the Hebrew text addressed to the customer's number; force-stop Chrome, reboot, the order is still there. Nothing later is worth building if this fails.
+- **After 04 (the proving milestone):** on the programmer's phone — create an order, tap "order accepted", WhatsApp opens with the Hebrew text addressed to the customer's number; force-stop Chrome, reboot, the order is still there. Nothing later is worth building if this fails.
 - **After 09:** feature-complete for phase 1; the programmer uses it for a fake week of orders before 10.
 - **After 11:** the baker has it on her phone and has made her first backup.
 

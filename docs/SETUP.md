@@ -5,8 +5,8 @@ Read only for toolchain problems. Versions are pinned at step 01 and recorded he
 ## Machines
 
 - **Development:** the programmer's machine (WSL2 on Windows, or macOS). Node LTS; `npm`.
-- **Verification:** the programmer's Pixel 9, Chrome, installed from the Pages URL. From step 09, also the baker's Samsung Galaxy, Chrome (exact model not recorded; nothing depends on it).
-- **Hosting:** GitHub Pages for the public repo `sweetspot`, deployed by `.github/workflows/pages.yml` on push to `main`.
+- **Verification:** the programmer's Pixel 9, Chrome, installed from the Pages URL. From step 10, also the baker's Samsung Galaxy, Chrome (exact model not recorded; nothing depends on it).
+- **Hosting:** GitHub Pages for the public repo `SweetSpot` (the case matters in the Pages path, D24), deployed by `.github/workflows/pages.yml` on push to `main`.
 
 ## Pinned versions
 
@@ -44,4 +44,4 @@ npm run preview   # serve dist/ locally
 - **Private repo vs. Pages.** The repo was created private. GitHub Pages from a private repository requires GitHub Pro (or Team/Enterprise); on the Free plan the Pages settings tab says so. Either make the repo public (D2's assumption; nothing in it is secret) or confirm the plan. Step 01 cannot pass until one of these is true.
 - **Empty page, "this app cannot be installed".** The page loads but every asset and the manifest 404: the base path's case does not match the repo name. Pages paths are case-sensitive (D24).
 - **`npm ci` noise.** `glob@11` deprecated and ~10 low/moderate audit findings, all inside `workbox-build` (build-time only; D26). `fsevents` install script denied in `package.json` `allowScripts`; its binary ships prebuilt. `vite.config.ts` imports `package.json` `with { type: 'json' }` so Vite's native config loader does not warn.
-- **Pre-commit hook hangs.** `check-unit.mjs` reads stdin when it is not a TTY (that is how Claude Code hands it the hook event). `git commit` from a shell whose stdin is an open pipe, not a terminal, therefore blocked forever. `.githooks/pre-commit` now runs the script with `</dev/null`. This fix belongs in `docs/UNITIES.md` Appendix C for the next repo.
+- **Pre-commit hook hangs.** `check-unit.mjs` reads stdin when it is not a TTY (that is how Claude Code hands it the hook event). `git commit` from a shell whose stdin is an open pipe, not a terminal, therefore blocked forever. `.githooks/pre-commit` now runs the script with `</dev/null`. This fix belongs in `docs/UNITIES.md` Appendix C for the next repo. The same holds when you run it by hand from an agent shell: `node .claude/hooks/check-unit.mjs --branch HEAD </dev/null`, or it waits (seen 2026-11-07).

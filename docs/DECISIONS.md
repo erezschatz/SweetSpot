@@ -332,3 +332,10 @@ Erez's Pixel feedback across the screens.
 - The programmer does not want the project professed as a replacement for someone else's product, and the public repo gains nothing from it. Parity was settled by D35 and D36, so the inventory has done its work.
 - (a) Dated entries are history and are never rewritten; git holds them in any case. D22's rule stands for the mentions that remain: "the predecessor", never a name.
 - (b) The rule is that what is not in the repo did not arrive. A reference nobody can reach from the repo is a trap for a fresh session. What is lost, the answer to "how did they do it" for anything not already decided, is accepted.
+
+## D38 · 2026-11-07 · Step 11 no longer tracks the predecessor's subscription
+**Decision.** Step 11's box "the predecessor's subscription cancelled" is removed from its Context. What the baker pays a third party, or stops paying, is her business, not the project's. The box was also moot: she never went past the predecessor's free stage. D37 had kept the box as the record of her action, and this entry reverses that one point. In the same edit, step 11's title and changelog box are corrected from "10" and "00–09" to "11" and "00–10". D35's renumbering had left them stale.
+**Rejected.**
+- (a) Keeping the box and ticking it as "not applicable".
+**Why.**
+- (a) A box that is ticked without anything being done says the project did something it never did. The acceptance list should hold only what the project delivers.

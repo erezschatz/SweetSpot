@@ -6,10 +6,10 @@
 
 **Acceptance**
 
-- [ ] Empty catalogue on first run; a one-line hint on the empty list says what to do (D20).
-- [ ] Products list; add/edit name and price; deactivate (hidden from the order form, kept for history).
-- [ ] The order form's product picker uses this list; changing a product's price does not change existing orders.
-- [ ] Verified on the Pixel.
+- [x] Empty catalogue on first run; a one-line hint on the empty list says what to do (D20).
+- [x] Products list; add/edit name and price; deactivate (hidden from the order form, kept for history).
+- [x] The order form's product picker uses this list; changing a product's price does not change existing orders.
+- [x] Verified on the Pixel.
 
 ## What was done
 
@@ -47,3 +47,13 @@
 - After a fresh-reader review warned about narrow screens: at 360×780, with a logo and the name "העוגות של נועה" in settings, the pills sat on one row inside the screen, with no sideways scroll.
 
 Not verified on a device; boxes 1–4 wait for the Pixel.
+
+## What was done
+
+2026-11-07, on the Pixel, by the programmer, from the current deploy.
+- **Empty catalogue:** the list was empty and showed its hint.
+- **Add, edit and retire:** a product was added, renamed, repriced and retired, and the retired one moved under "הוצאו ממכירה". A second product with an existing name showed the warning and could still be saved. He asked whether that was intended. It is: D34 warns about a duplicate name but does not refuse it, because two sizes of one cake may share a name. Nothing was changed.
+- **Order form:** a new order suggested the products and filled in their prices, and did not suggest the retired one. A saved order kept its price after the product was repriced.
+- **Header:** the four header pills fit on one row with the logo and business name set.
+
+All acceptance boxes ticked. verified 2026-11-07, Pixel 9, Erez.
