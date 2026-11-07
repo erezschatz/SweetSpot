@@ -11,7 +11,7 @@ import { href } from '../lib/route';
 import { PaymentBadge, StatusBadge } from '../ui/badges';
 import { selectAll } from '../ui/inputs';
 import { WhatsAppButtons } from '../ui/whatsapp-buttons';
-import { returnTo } from '../ui/router';
+import { returnTo, startedFrom } from '../ui/router';
 
 const methods: PaymentMethod[] = ['cash', 'bit', 'paybox', 'transfer', 'other'];
 
@@ -22,6 +22,8 @@ export function OrderDetailScreen({ id }: { id: string }) {
     async () => (order ? ((await customersRepo.get(order.customerId)) ?? null) : null),
     [order?.customerId],
   );
+  // Fixed when the screen opens: the list she came from is where "back" leads.
+  const [back] = useState(startedFrom);
 
   if (order === undefined) return null;
   if (order === null) {
@@ -121,8 +123,8 @@ export function OrderDetailScreen({ id }: { id: string }) {
       <PaymentSection
         order={order}
         leave={
-          <button type="button" class="secondary leave" onClick={() => returnTo({ name: 'orders' }, 'push')}>
-            → {he.orders.backToList}
+          <button type="button" class="secondary leave" onClick={() => returnTo(back, 'push')}>
+            → {back.name === 'diary' ? he.orders.backToDiary : he.orders.backToList}
           </button>
         }
       />

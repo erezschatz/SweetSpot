@@ -8,7 +8,7 @@ import { parseBackup } from '../lib/backup';
 import { resizeImage } from '../ui/image';
 import { LogoImage } from '../ui/logo';
 
-// Temporary home of everything step 02 needs; the diary (step 07) becomes the front screen.
+// Reached from the gear in the header (D39): the business, the messages, and backup.
 export function SettingsScreen() {
   const settings = useLiveQuery(() => settingsRepo.get());
   const [message, setMessage] = useState('');

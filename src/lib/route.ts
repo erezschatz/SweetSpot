@@ -1,6 +1,7 @@
 // Hand-rolled hash routes (docs/SPEC.md, Architecture): a handful of screens do not need a router library.
 
 export type Route =
+  | { name: 'diary' }
   | { name: 'orders' }
   | { name: 'orderNew' }
   | { name: 'order'; id: string }
@@ -19,6 +20,7 @@ export function parseRoute(hash: string): Route {
   const [first, second, third] = parts;
   if (first === 'settings') return { name: 'settings' };
   if (first === 'orders') {
+    if (!second) return { name: 'orders' };
     if (second === 'new') return { name: 'orderNew' };
     if (second && third === 'edit') return { name: 'orderEdit', id: second };
     if (second) return { name: 'order', id: second };
@@ -35,12 +37,14 @@ export function parseRoute(hash: string): Route {
     if (third === 'edit') return { name: 'customerEdit', id: second };
     return { name: 'customer', id: second };
   }
-  // Until the diary (step 07) exists, the orders list is the front screen.
-  return { name: 'orders' };
+  // The diary is the front screen: no hash, and anything unknown, land there.
+  return { name: 'diary' };
 }
 
 export function href(route: Route): string {
   switch (route.name) {
+    case 'diary':
+      return '#/';
     case 'orders':
       return '#/orders';
     case 'orderNew':

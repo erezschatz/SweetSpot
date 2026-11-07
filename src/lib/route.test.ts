@@ -17,15 +17,16 @@ describe('parseRoute', () => {
     expect(parseRoute('#/products/p1')).toEqual({ name: 'productEdit', id: 'p1' });
   });
 
-  it('sends anything unknown, and no hash at all, to the orders list', () => {
-    expect(parseRoute('')).toEqual({ name: 'orders' });
-    expect(parseRoute('#/')).toEqual({ name: 'orders' });
-    expect(parseRoute('#/nothing/here')).toEqual({ name: 'orders' });
+  it('sends anything unknown, and no hash at all, to the diary', () => {
+    expect(parseRoute('')).toEqual({ name: 'diary' });
+    expect(parseRoute('#/')).toEqual({ name: 'diary' });
+    expect(parseRoute('#/nothing/here')).toEqual({ name: 'diary' });
+    expect(parseRoute('#/orders/abc/nonsense')).toEqual({ name: 'order', id: 'abc' });
   });
 
   it('is the inverse of href', () => {
     const routes: Route[] = [
-      { name: 'orders' }, { name: 'orderNew' }, { name: 'order', id: 'a b/c' },
+      { name: 'diary' }, { name: 'orders' }, { name: 'orderNew' }, { name: 'order', id: 'a b/c' },
       { name: 'orderEdit', id: 'x' }, { name: 'settings' }, { name: 'customers' }, { name: 'customerNew' },
       { name: 'customer', id: 'a b/c' }, { name: 'customerEdit', id: 'y' },
       { name: 'products' }, { name: 'productNew' }, { name: 'productEdit', id: 'p 1' },

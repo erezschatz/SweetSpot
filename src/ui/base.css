@@ -7,6 +7,7 @@
   --card: #ffffff;
   --line: #e8e0d6;
   --tap: 48px;
+  --nav: 64px;
   /* Secondary buttons are tinted, not white, so they never look like an input field. */
   --button-tint: #f3e8df;
   --button-edge: #d8c2b3;
@@ -71,7 +72,7 @@ button, a.button {
   box-shadow: 0 2px 0 rgb(0 0 0 / 0.18);
   cursor: pointer;
 }
-button:active:not(:disabled), a.button:active, .top-nav a:active {
+button:active:not(:disabled), a.button:active, .bottom-nav a:active, a.gear:active {
   transform: translateY(1px); box-shadow: 0 1px 0 rgb(0 0 0 / 0.18);
 }
 button:disabled { opacity: 0.6; }
@@ -86,14 +87,6 @@ h3 { font-size: 1rem; margin: 1.25em 0 0.5em; }
 a { color: var(--accent); }
 
 .header-text { flex: 1; }
-.top-nav { display: flex; flex-basis: 100%; gap: 6px; }
-.top-nav a {
-  flex: 1; min-inline-size: 0; min-height: var(--tap); display: inline-flex; align-items: center; justify-content: center;
-  padding-inline: 6px; text-decoration: none; font-weight: 600; border-radius: 999px;
-  background: var(--button-tint); color: var(--accent); border: 1px solid var(--button-edge);
-  box-shadow: 0 2px 0 var(--button-edge);
-}
-.top-nav a.on { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 2px 0 rgb(0 0 0 / 0.18); }
 
 /* Space at the end so the floating button never covers the last card. */
 section { padding-block-end: 96px; }
@@ -202,3 +195,42 @@ a.button.whatsapp-button {
 .detail-sub { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-block: 6px; }
 a.button.small { font-size: 0.9rem; padding-inline: 14px; }
 .card.retired { opacity: 0.6; }
+
+/* Settings is a gear in the header, not a tab (D39). */
+a.gear {
+  inline-size: var(--tap); block-size: var(--tap); display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px; color: var(--accent); background: var(--button-tint); border: 1px solid var(--button-edge);
+  box-shadow: 0 2px 0 var(--button-edge);
+}
+a.gear.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* The main screens under the thumb (step 07). Forms hide it: their save bar lives there. */
+.bottom-nav {
+  position: fixed; inset-inline: 0; inset-block-end: 0; z-index: 2; display: flex; gap: 6px;
+  padding-block: 8px max(8px, env(safe-area-inset-bottom)); padding-inline: 10px; background: var(--bg); border-block-start: 1px solid var(--line);
+}
+.bottom-nav a {
+  flex: 1; min-inline-size: 0; min-height: var(--tap); display: inline-flex; align-items: center; justify-content: center;
+  text-decoration: none; font-weight: 600; border-radius: 12px; color: var(--accent);
+}
+.bottom-nav a.on { background: var(--accent); color: #fff; box-shadow: 0 2px 0 rgb(0 0 0 / 0.18); }
+.screen.with-nav { padding-block-end: calc(var(--nav) + max(16px, env(safe-area-inset-bottom))); }
+.with-nav .fab { inset-block-end: calc(var(--nav) + 12px + env(safe-area-inset-bottom)); }
+
+/* The diary's lines at the top: what not to miss. A tap opens the orders behind the count. */
+.alert { margin-block: 10px; padding-block: 4px; padding-inline: 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--card); }
+.alert summary { min-height: var(--tap); display: flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; list-style: none; }
+.alert summary::-webkit-details-marker { display: none; }
+/* Says "opens"; turns when open. */
+.alert summary::after { content: "▾"; margin-inline-start: auto; font-size: 1.2rem; transition: transform 0.15s; }
+.alert[open] summary::after { transform: rotate(180deg); }
+.alert[open] { padding-block-end: 12px; }
+.alert.overdue { border-color: #a63d2f; background: #fbeeec; }
+.alert.overdue summary { color: #a63d2f; }
+.alert.unpaid { border-color: #c9a227; background: #fbf5e0; }
+.alert.backup { padding-block: 12px; border-color: var(--accent); background: var(--button-tint); }
+.alert.backup p { margin: 0 0 10px; }
+.day-name { font-weight: 400; }
+.diary h3 { color: var(--muted); }
+/* New orders wait on a "yes": shown, but quieter than the confirmed ones to bake. */
+.diary .card.status-new { background: #fffdf9; box-shadow: none; color: var(--muted); }

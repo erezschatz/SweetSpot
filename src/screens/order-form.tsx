@@ -21,7 +21,7 @@ import {
 } from '../lib/order-draft';
 import { CustomerPicker } from '../ui/customer-picker';
 import { selectAll } from '../ui/inputs';
-import { navigate, returnTo } from '../ui/router';
+import { navigate, returnTo, startedFrom } from '../ui/router';
 
 const methods: PaymentMethod[] = ['cash', 'bit', 'paybox', 'transfer', 'other'];
 
@@ -30,6 +30,8 @@ export function OrderFormScreen({ id }: { id?: string }) {
   const [draft, setDraft] = useState<OrderDraft | null>(id ? null : emptyDraft());
   const [errors, setErrors] = useState<DraftError[]>([]);
   const [saving, setSaving] = useState(false);
+  // Read when the form opens: by save time, history may have moved on.
+  const [cameFromList] = useState(startedFrom);
   const [saveFailed, setSaveFailed] = useState(false);
   const products = useLiveQuery(() => productsRepo.all(), [], []);
   const pastOrders = useLiveQuery(() => ordersRepo.all(), [], []);
@@ -71,9 +73,9 @@ export function OrderFormScreen({ id }: { id?: string }) {
       const existing = id ? await ordersRepo.get(id) : undefined;
       const order = orderFromDraft(draft!, { id: id ?? crypto.randomUUID(), customerId }, now, existing);
       await ordersRepo.saveWithCustomer(order, newCustomer);
-      // A new order goes back to the list, where she sees it among the others and the
-      // next one starts from the same button; an edit goes back to the order it edited.
-      returnTo(id ? { name: 'order', id } : { name: 'orders' });
+      // A new order goes back to the list it was started from (the diary or the orders list),
+      // where she sees it among the others; an edit goes back to the order it edited.
+      returnTo(id ? { name: 'order', id } : cameFromList);
     } catch {
       setSaveFailed(true);
       setSaving(false);

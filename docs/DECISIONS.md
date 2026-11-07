@@ -339,3 +339,22 @@ Erez's Pixel feedback across the screens.
 - (a) Keeping the box and ticking it as "not applicable".
 **Why.**
 - (a) A box that is ticked without anything being done says the project did something it never did. The acceptance list should hold only what the project delivers.
+
+## D39 · 2026-11-07 · Diary: four tabs and a gear; a weekly backup prompt that backs up in place
+**Decision.** Choices for step 07. Three were made by the programmer before work on it started: the money tab, the gear and the backup prompt. Two were made by Claude during the step and are marked as such. Each reads or narrows a box in the step's Context, so they are recorded here instead of being written into the Context.
+- **No money tab until step 08.** The bottom bar gets its money tab when step 08 builds the screen, not before.
+- **Settings is a gear in the header**, not a tab. The bar holds diary, orders, customers and products, and later money. The whole row may be revised once it is on the phone, to declutter it.
+- **Forms hide the bar**, as they have their own sticky save bar at the bottom. Added during the step.
+- **Order screens lead back to where she came from.** An order opened from the diary, or a new order started there, returns to the diary; otherwise to the orders list, as D29 had it. The back button names where it goes. Added during the step.
+- **The backup prompt is weekly and part of the diary.** It shows at the top of the diary when `lastBackupAt` is missing or older than 7 days, not 14. Its button runs "Backup now" in place, through the same share sheet, instead of only linking to settings. Settings keeps its own backup and restore.
+**Rejected.**
+- (a) A money tab that opens nothing until step 08.
+- (b) Six tabs at the bottom.
+- (c) Prompting only once there is an order, so that a fresh install does not open with a warning.
+- (d) The 14-day threshold.
+- (e) Always returning to the orders list from an order, as before the diary existed.
+**Why.**
+- (a) A tab that leads nowhere is a tap she learns to distrust.
+- (b) Six text labels do not fit a 360 px screen at a 48 px tap target. Settings is visited rarely.
+- (c), (d) The phone is the only copy of her book (D6). A backup is the one thing that saves it, and a week of orders is too much to lose. The prompt is cheap, and the programmer wants it seen.
+- (e) She opens an order from the diary to act on it and goes back to the diary; landing on another list loses her place.

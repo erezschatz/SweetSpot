@@ -38,10 +38,27 @@ export const he = {
   },
 
   nav: {
+    diary: 'יומן',
     orders: 'הזמנות',
     customers: 'לקוחות',
     products: 'מוצרים',
     settings: 'הגדרות',
+  },
+
+  diary: {
+    today: 'היום',
+    thisWeek: 'השבוע',
+    nextWeek: 'שבוע הבא',
+    later: 'בהמשך',
+    nothingToday: 'אין מסירות היום.',
+    empty: 'אין הזמנות פתוחות. הזמנה חדשה מתחילה בכפתור למטה.',
+    overdue: 'עבר מועד המסירה',
+    overdueHint: 'סמני "נמסרה" או עדכני את תאריך המסירה.',
+    unpaid: 'נמסרו ועוד לא שולמו',
+    backupNever: 'עוד לא גיבית.',
+    backupAgo: 'הגיבוי האחרון היה לפני',
+    backupAgoDays: 'ימים.',
+    backupWhy: 'ההזמנות נשמרות רק בטלפון הזה, וגיבוי פעם בשבוע שומר עליהן.',
   },
 
   status: {
@@ -69,6 +86,7 @@ export const he = {
     moreLines: 'ועוד',
     notFound: 'ההזמנה לא נמצאה.',
     backToList: 'לרשימת ההזמנות',
+    backToDiary: 'ליומן',
   },
 
   products: {

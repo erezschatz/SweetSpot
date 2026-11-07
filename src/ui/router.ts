@@ -22,14 +22,14 @@ export function navigate(route: Route, { replace = false } = {}): void {
 
 // The screen she was on just before this one, so leaving can step back to it instead of
 // stacking a second copy in history (Android's Back would then show it twice). Compared
-// as routes, not raw hashes: the app opens with an empty hash, which is the list.
+// as routes, not raw hashes: the app opens with an empty hash, which is the diary.
 // Empty after a reload, when the fallback below applies.
 let previousHash: string | null = null;
 window.addEventListener('hashchange', (e) => {
   previousHash = new URL(e.oldURL).hash;
 });
 
-function cameFrom(route: Route): boolean {
+export function cameFrom(route: Route): boolean {
   return previousHash !== null && href(parseRoute(previousHash)) === href(route);
 }
 
@@ -41,4 +41,9 @@ function cameFrom(route: Route): boolean {
 export function returnTo(route: Route, otherwise: 'replace' | 'push' = 'replace'): void {
   if (cameFrom(route)) history.back();
   else navigate(route, { replace: otherwise === 'replace' });
+}
+
+/** The list an order screen was opened from: the diary if she came from it, else the orders list. */
+export function startedFrom(): Route {
+  return cameFrom({ name: 'diary' }) ? { name: 'diary' } : { name: 'orders' };
 }
