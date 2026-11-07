@@ -278,3 +278,30 @@ Erez's Pixel feedback across the screens.
 - (c) Two sizes of one cake may share a name on purpose.
 - (d) "Hidden from the order form" is the acceptance. Retiring would otherwise come back whenever an old order used it.
 - Saved orders carry their own `unitPrice`, so repricing cannot change them. This is by design since step 03, not new code.
+
+## D35 · 2026-11-07 · Recipe costing comes in before hand-off, materials only
+**Decision.** D3 and D20 are reopened on the baker's own request. Shown the work in progress this week, she named one feature of the predecessor she wants: a recipe split into parts, each part made of priced materials, the sum tallied as her expenses and counted into the final price. That is the request D20 was waiting for, and it is built as step 09, after Money and before hand-off.
+- An ingredients catalogue ("חומרי גלם"): name, unit (grams, millilitres or pieces), the quantity she buys and what it costs her. The cost per unit is derived, never typed.
+- A product's recipe is a list of named parts, in her words ("בצק", "קרם", "קישוט"), each a list of ingredient lines with a quantity, for one unit of the product.
+- A product's cost is the sum, computed live from the current ingredient prices and shown beside its sale price with the margin (price − cost, and as a share of the price). A product without a recipe has no cost, not ₪0.
+- An order line snapshots `unitCost` at save when its product has a cost, exactly as it snapshots `unitPrice` (D34). Repricing an ingredient changes every product cost at once and no saved order.
+- Money shows the month's materials cost: the cost of the orders delivered in the month, beside the income, with the difference. Lines without a cost are left out, and the screen says the figure follows the recipes she entered.
+- Ingredients are reached from the products screen, not from a fifth header pill. An ingredient that a recipe uses cannot be deleted.
+- Hand-off and release move to steps 10 and 11. "Step 09" in D20, `docs/PREDECESSOR.md` and `tasks/11-release.md` was written when it meant hand-off; the task files are renamed, their Context is not rewritten.
+**Rejected.**
+- (a) After 1.0, as a 1.1 the PWA updates itself to, which is what D20 planned.
+- (b) The rest of the predecessor's paid tier: pre-seeded ingredient prices, Excel import, recipe-from-photo, the recipe scaler, min and recommended price, the profitability report, the shopping list.
+- (c) Labour and overhead lines on a recipe.
+- (d) Storing a product's cost on the product.
+- (e) A fifth pill, "חומרים".
+- (f) Retire-never-delete for ingredients, as D34 rules for products.
+- (g) Expenses by payment month, to match income.
+**Why.**
+- D3's premise was that she had not asked. She has, with a shape, so the premise is gone and the decision is remade rather than quietly ignored.
+- (a) The programmer is a week ahead of the two-week target and the step is sized at three evenings, which fits inside that week. She enters her catalogue at hand-off anyway (D20); entering the recipes in the same sitting is less work for her than a second sitting a week later.
+- (b) None of these was in her request. They are what made D3 call the tier "double the project", and the predecessor's paid tier stays the place for them.
+- (c) She said source materials. Packaging is a material and fits as an ingredient priced per piece. Her time is her judgment, not arithmetic the app should pretend to do.
+- (d) A live sum is the predecessor's "cascading recalculation" with no recompute pass to get wrong. The snapshot on the order line keeps history honest the way `unitPrice` already does.
+- (e) Four pills already needed their own row at 360 px (D34). Ingredients are edited rarely; a tap from the products list is enough.
+- (f) A product has order history pointing at it. An ingredient has only recipes, and a recipe that uses it is the reason to refuse, as a customer with orders is refused (D31).
+- (g) The cake was made for its delivery date, so its materials belong to that month. Income is by payment month because that is when the money arrived. The difference is an estimate, and the screen says so.

@@ -13,17 +13,18 @@ Ordered steps. No status column: a step is open until its task file has a `## Wh
 | 06 | [Products](../tasks/06-products.md) | 0.5 |
 | 07 | [Diary front screen](../tasks/07-diary.md) | 2 |
 | 08 | [Money](../tasks/08-money.md) | 1 |
-| 09 | [Polish and hand-off](../tasks/09-handoff.md) | 1.5 |
-| 10 | [Release 1.0](../tasks/10-release.md) | 0.5 |
+| 09 | [Recipe costing](../tasks/09-costing.md) | 3 |
+| 10 | [Polish and hand-off](../tasks/10-handoff.md) | 1.5 |
+| 11 | [Release 1.0](../tasks/11-release.md) | 0.5 |
 
-Total: ~12 evenings. The programmer's target is two calendar weeks, which means nearly every evening; the realistic slack is in 09.
+Total: ~15 evenings. The programmer's target is two calendar weeks, which means nearly every evening; the realistic slack is in 10. Step 09 was added on 2026-11-07 (D35), when steps 00–06 had taken five days and left a week in hand.
 
 ## Milestones
 
 - **After 01:** a blank SweetSpot opens full-screen from an icon on the programmer's Pixel, served from GitHub Pages. If this fails, the hosting decision is wrong.
 - **After 04 (the proving milestone):** on the programmer's phone — create an order, tap "remind deposit", WhatsApp opens with the Hebrew text addressed to the customer's number; force-stop Chrome, reboot, the order is still there. Nothing later is worth building if this fails.
-- **After 08:** feature-complete for phase 1; the programmer uses it for a fake week of orders before 09.
-- **After 10:** the baker has it on her phone, has made her first backup, and the old subscription can be cancelled.
+- **After 09:** feature-complete for phase 1; the programmer uses it for a fake week of orders before 10.
+- **After 11:** the baker has it on her phone, has made her first backup, and the old subscription can be cancelled.
 
 ## Answered 2026-11-02 (was "Before step 03")
 
@@ -31,4 +32,4 @@ Her phone: Samsung Galaxy, Chrome (D21). Orders are named by the customer (D19).
 
 ## Not in phase 1
 
-Ingredients and costing (D3, D20) · customer approve-by-link and landing page (D4) · calendar sync and notifications (D5) · sync, cloud backup, login (D6) · iOS, dark theme, English, Samsung Internet (D7, D21) · week-grid diary (D8) · payment ledger (D9, D16) · structured flavour/layer fields and a size-to-guests suggestion (D19) · printing/PDF · invoices · photos on orders · search beyond name/phone · multiple businesses.
+The rest of the predecessor's costing tier beyond step 09 (D35): pre-seeded ingredient prices, import, recipe-from-photo, recipe scaler, min/recommended price, profitability report, shopping list · labour and overhead on a recipe (D35) · customer approve-by-link and landing page (D4) · calendar sync and notifications (D5) · sync, cloud backup, login (D6) · iOS, dark theme, English, Samsung Internet (D7, D21) · week-grid diary (D8) · payment ledger (D9, D16) · structured flavour/layer fields and a size-to-guests suggestion (D19) · printing/PDF · invoices · photos on orders · search beyond name/phone · multiple businesses.

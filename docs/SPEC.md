@@ -13,10 +13,11 @@ SweetSpot is that, and nothing else. It is also, openly, a learning project for 
 ### Phase 1 (release 1.0)
 
 - **Products** — name and sale price. Used to fill order lines quickly. The baker enters her own catalogue at hand-off; the repo is public and ships no business data (D20). Until then, and alongside it, a line's product field also suggests every name from her past orders at the price she last charged (D29). A product is never deleted, only retired: a retired product is not suggested, even through an old order, and stays on the orders that used it. Changing a product's price does not touch saved orders, which carry their own unit price (D34).
+- **Costing** — an ingredients catalogue (name, unit, pack quantity and price; cost per unit derived) reached from the products screen, and on each product a recipe of named parts made of ingredient lines. A product's cost is summed live from the current ingredient prices and shown beside its price with the margin; a product without a recipe has no cost. An order line snapshots `unitCost` at save as it does `unitPrice`, so repricing an ingredient reaches every recipe and no saved order. An ingredient a recipe uses cannot be deleted (D35).
 - **Customers** — name, phone, free-text notes, derived order history. Renaming a customer renames her orders too, since an order's title is the customer's name (D31). A customer with orders cannot be deleted.
 - **Orders** — customer, one or more lines (product or free text, qty, unit price, one free-text details line in her own notation), event date, delivery date, pickup/delivery, number of guests, design notes, status, total, payment (after delivery; optional deposit).
 - **Diary** — the front screen: today, this week, next week, as a list of orders by delivery date. A week grid is explicitly *not* required; a list grouped by day is.
-- **Money** — this month's income (payments dated this month), outstanding balances (delivered and not fully paid).
+- **Money** — this month's income (payments dated this month), outstanding balances (delivered and not fully paid), and the month's materials cost: the cost of orders delivered in the month, lines without a cost left out (D35).
 - **WhatsApp** — four buttons on an order: *order accepted* (the written summary the customer confirms), *reminder before delivery*, *ready*, *payment reminder*. Each opens WhatsApp with a Hebrew message filled from an editable template. The customer's reply is recorded by the baker tapping a status or a payment, not by the app.
 - **Contacts** — a new customer can be picked from the phone's contacts (Contact Picker API; D18), name and number filled in.
 - **Backup/restore** — one-tap JSON export through the Android share sheet; import from a file. A nag on the front screen when the last backup is older than 14 days.
@@ -24,7 +25,7 @@ SweetSpot is that, and nothing else. It is also, openly, a learning project for 
 
 ### Not phase 1 (see `docs/PLAN.md` and D3–D9)
 
-Ingredients and costing, branded quotes, customer approve-by-link, public landing page, calendar sync, push notifications, multi-device sync, cloud backup, login, iOS, tablet layout, English UI, printing/PDF, invoices.
+The predecessor's costing tier beyond what step 09 builds (pre-seeded ingredient prices, import, recipe-from-photo, scaler, min/recommended price, profitability report, shopping list; D35), labour and overhead on a recipe, branded quotes, customer approve-by-link, public landing page, calendar sync, push notifications, multi-device sync, cloud backup, login, iOS, tablet layout, English UI, printing/PDF, invoices.
 
 ## Architecture
 
