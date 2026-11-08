@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addDays, daysBetween, formatDay, localIsoDate, parseIsoDate, weekdayName, weekStart } from './dates';
+import { addDays, daysBetween, formatDay, formatMonth, localIsoDate, parseIsoDate, weekdayName, weekStart } from './dates';
 
 describe('localIsoDate', () => {
   it('pads month and day', () => {
@@ -70,5 +70,13 @@ describe('weekdayName', () => {
   it('names the day in Hebrew', () => {
     expect(weekdayName('2026-11-12')).toContain('חמישי');
     expect(weekdayName('2026-11-14')).toContain('שבת');
+  });
+});
+
+describe('formatMonth', () => {
+  it('names the month and year in Hebrew', () => {
+    expect(formatMonth('2026-11')).toMatch(/נובמבר/);
+    expect(formatMonth('2026-11')).toMatch(/2026/);
+    expect(formatMonth('2027-01')).toMatch(/ינואר/);
   });
 });

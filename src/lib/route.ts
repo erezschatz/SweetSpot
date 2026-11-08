@@ -13,12 +13,14 @@ export type Route =
   | { name: 'products' }
   | { name: 'productNew' }
   | { name: 'productEdit'; id: string }
+  | { name: 'money' }
   | { name: 'settings' };
 
 export function parseRoute(hash: string): Route {
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
   const [first, second, third] = parts;
   if (first === 'settings') return { name: 'settings' };
+  if (first === 'money') return { name: 'money' };
   if (first === 'orders') {
     if (!second) return { name: 'orders' };
     if (second === 'new') return { name: 'orderNew' };
@@ -67,6 +69,8 @@ export function href(route: Route): string {
       return '#/products/new';
     case 'productEdit':
       return `#/products/${encodeURIComponent(route.id)}`;
+    case 'money':
+      return '#/money';
     case 'settings':
       return '#/settings';
   }

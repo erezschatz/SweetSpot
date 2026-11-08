@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Order } from '../db/schema';
-import { clearPayment, listOrders, orderTotal, outstanding, paidInFull, paidSoFar, paymentBadge, recordPayment } from './orders';
+import { clearPayment, listOrders, orderTotal, outstanding, owingOrders, paidInFull, paidSoFar, paymentBadge, recordPayment } from './orders';
 
 const base = { total: 32000, paidAmount: 0, status: 'confirmed' as const };
 
@@ -126,5 +126,20 @@ describe('recordPayment / clearPayment', () => {
     const cleared = clearPayment(recordPayment(order, { amount: 22000, date: '2026-11-20', method: 'bit' }, now), now);
     expect([cleared.paidAmount, cleared.paidAt, cleared.paidMethod, cleared.deposit]).toEqual([0, undefined, undefined, 10000]);
     expect(paymentBadge(cleared)).toBe('owes');
+  });
+});
+
+describe('owingOrders', () => {
+  const o = (id: string, extra: object) => ({
+    ...base, id, deliveryDate: '2026-11-10', createdAt: `2026-11-01T10:00:0${id}`, status: 'delivered' as const, ...extra,
+  });
+  it('keeps delivered orders with something left, oldest delivery first', () => {
+    const late = o('1', { deliveryDate: '2026-11-20' });
+    const early = o('2', { deliveryDate: '2026-11-05', deposit: 10000, depositPaidAt: '2026-11-01' });
+    const paid = o('3', { paidAmount: 32000, paidAt: '2026-11-10' });
+    const open = o('4', { status: 'confirmed' });
+    const cancelled = o('5', { status: 'cancelled' });
+    const free = o('6', { total: 0 });
+    expect(owingOrders([late, early, paid, open, cancelled, free]).map((x) => x.id)).toEqual(['2', '1']);
   });
 });

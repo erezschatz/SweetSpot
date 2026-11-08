@@ -45,3 +45,10 @@ const weekdayFormat = new Intl.DateTimeFormat('he-IL', { weekday: 'long' });
 export function weekdayName(iso: string): string {
   return weekdayFormat.format(parseIsoDate(iso));
 }
+
+const monthFormat = new Intl.DateTimeFormat('he-IL', { month: 'long', year: 'numeric' });
+
+/** `YYYY-MM` → "נובמבר 2026", the heading of a month on the money screen. */
+export function formatMonth(month: string): string {
+  return monthFormat.format(parseIsoDate(`${month}-01`));
+}

@@ -39,6 +39,18 @@ export function paymentBadge(order: Payments & Pick<Order, 'status'>): PaymentBa
   return null;
 }
 
+type OwingOrder = Payments & Pick<Order, 'status' | 'deliveryDate' | 'createdAt'>;
+
+/**
+ * Delivered and still owing, oldest delivery first: the diary's "don't forget" line and the
+ * money screen's list are the same orders.
+ */
+export function owingOrders<T extends OwingOrder>(orders: T[]): T[] {
+  return orders
+    .filter((o) => paymentBadge(o) === 'owes')
+    .sort((a, b) => a.deliveryDate.localeCompare(b.deliveryDate) || a.createdAt.localeCompare(b.createdAt));
+}
+
 const closed: OrderStatus[] = ['delivered', 'cancelled'];
 
 /** The orders list: by delivery date, delivered and cancelled hidden unless asked for. */

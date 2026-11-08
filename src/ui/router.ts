@@ -43,7 +43,9 @@ export function returnTo(route: Route, otherwise: 'replace' | 'push' = 'replace'
   else navigate(route, { replace: otherwise === 'replace' });
 }
 
-/** The list an order screen was opened from: the diary if she came from it, else the orders list. */
+/** The list an order screen was opened from: the diary or the money screen if she came from one, else the orders list. */
 export function startedFrom(): Route {
-  return cameFrom({ name: 'diary' }) ? { name: 'diary' } : { name: 'orders' };
+  if (cameFrom({ name: 'diary' })) return { name: 'diary' };
+  if (cameFrom({ name: 'money' })) return { name: 'money' };
+  return { name: 'orders' };
 }

@@ -9,6 +9,7 @@ import { OrdersScreen } from './screens/orders';
 import { OrderFormScreen } from './screens/order-form';
 import { OrderDetailScreen } from './screens/order-detail';
 import { SettingsScreen } from './screens/settings';
+import { MoneyScreen } from './screens/money';
 import { CustomersScreen } from './screens/customers';
 import { CustomerDetailScreen } from './screens/customer-detail';
 import { CustomerFormScreen } from './screens/customer-form';
@@ -42,6 +43,7 @@ export function App() {
       {route.name === 'products' && <ProductsScreen />}
       {route.name === 'productNew' && <ProductFormScreen />}
       {route.name === 'productEdit' && <ProductFormScreen key={route.id} id={route.id} />}
+      {route.name === 'money' && <MoneyScreen />}
       {route.name === 'settings' && <SettingsScreen />}
       {withNav && <BottomNav route={route} />}
     </main>

@@ -32,3 +32,31 @@ export function agorotToInput(amount: Agorot): string {
 export function sum(amounts: Agorot[]): Agorot {
   return amounts.reduce((total, a) => total + a, 0);
 }
+
+/** `YYYY-MM`: the calendar month a payment date falls in. */
+export type Month = string;
+
+export function monthOf(isoDate: string): Month {
+  return isoDate.slice(0, 7);
+}
+
+export function previousMonth(month: Month): Month {
+  const [y, m] = month.split('-').map(Number);
+  return m === 1 ? `${y! - 1}-12` : `${y}-${String(m! - 1).padStart(2, '0')}`;
+}
+
+type PaymentDates = { deposit?: Agorot; depositPaidAt?: string; paidAmount: Agorot; paidAt?: string };
+
+/**
+ * Money that came in during the month (step 08): a deposit on the day it was paid, the
+ * payment on the day it was paid, each in its own month. Status is not asked: a cancelled
+ * order's deposit was still received, and so was any payment recorded on it.
+ */
+export function monthIncome(orders: PaymentDates[], month: Month): Agorot {
+  let total = 0;
+  for (const o of orders) {
+    if (o.depositPaidAt && monthOf(o.depositPaidAt) === month) total += o.deposit ?? 0;
+    if (o.paidAt && monthOf(o.paidAt) === month) total += o.paidAmount;
+  }
+  return total;
+}

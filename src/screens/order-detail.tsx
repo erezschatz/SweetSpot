@@ -124,7 +124,7 @@ export function OrderDetailScreen({ id }: { id: string }) {
         order={order}
         leave={
           <button type="button" class="secondary leave" onClick={() => returnTo(back, 'push')}>
-            → {back.name === 'diary' ? he.orders.backToDiary : he.orders.backToList}
+            → {back.name === 'diary' ? he.orders.backToDiary : back.name === 'money' ? he.orders.backToMoney : he.orders.backToList}
           </button>
         }
       />

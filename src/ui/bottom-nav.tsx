@@ -1,13 +1,14 @@
 import { he } from '../i18n/he';
 import { href, type Route } from '../lib/route';
 
-// The main screens, under the thumb (step 07). Money joins at step 08, not before (D39);
-// settings is the gear in the header.
+// The main screens, under the thumb (step 07; money since step 08, D39). Settings is the
+// gear in the header.
 const tabs: { route: Route; label: string; owns: (r: Route) => boolean }[] = [
   { route: { name: 'diary' }, label: he.nav.diary, owns: (r) => r.name === 'diary' },
   { route: { name: 'orders' }, label: he.nav.orders, owns: (r) => r.name.startsWith('order') },
   { route: { name: 'customers' }, label: he.nav.customers, owns: (r) => r.name.startsWith('customer') },
   { route: { name: 'products' }, label: he.nav.products, owns: (r) => r.name.startsWith('product') },
+  { route: { name: 'money' }, label: he.nav.money, owns: (r) => r.name === 'money' },
 ];
 
 /** Forms keep their sticky save bar at the bottom, so the tabs step aside there. */

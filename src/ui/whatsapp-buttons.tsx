@@ -1,9 +1,9 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import type { Customer, Order, TemplateKey } from '../db/schema';
+import type { Customer, Order, Settings, TemplateKey } from '../db/schema';
 import { settingsRepo } from '../db/repositories';
 import { he } from '../i18n/he';
 import { toWhatsAppNumber, whatsAppLink } from '../lib/phone';
-import { fillTemplate, templateText, templateValues } from '../lib/template';
+import { fillTemplate, templateText, templateValues, type TemplateValues } from '../lib/template';
 
 const keys: TemplateKey[] = ['accepted', 'reminder', 'ready', 'payment'];
 
@@ -44,7 +44,7 @@ export function WhatsAppButtons({ order, customer }: { order: Order; customer: C
           <a
             key={key}
             class="button whatsapp-button"
-            href={whatsAppLink(number, fillTemplate(templateText(settings.templates[key], he.whatsapp.defaults[key]), values))}
+            href={messageLink(number, key, values, settings)}
             target="_blank"
             rel="noopener"
           >
@@ -54,4 +54,21 @@ export function WhatsAppButtons({ order, customer }: { order: Order; customer: C
       </div>
     </>
   );
+}
+
+function messageLink(number: string, key: TemplateKey, values: TemplateValues, settings: Settings): string {
+  return whatsAppLink(number, fillTemplate(templateText(settings.templates[key], he.whatsapp.defaults[key]), values));
+}
+
+/**
+ * The payment reminder alone, for a row on the money screen. Nothing when there is no
+ * number to send to or nothing owed; the order itself says why.
+ */
+export function paymentReminderLink(order: Order, customer: Customer | undefined, settings: Settings): string | null {
+  if (!customer) return null;
+  const number = toWhatsAppNumber(customer.phone);
+  if (number === null) return null;
+  const values = templateValues(order, customer.name, settings.businessName);
+  if (values.owes === '') return null;
+  return messageLink(number, 'payment', values, settings);
 }

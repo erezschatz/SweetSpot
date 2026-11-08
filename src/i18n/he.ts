@@ -42,6 +42,7 @@ export const he = {
     orders: 'הזמנות',
     customers: 'לקוחות',
     products: 'מוצרים',
+    money: 'כסף',
     settings: 'הגדרות',
   },
 
@@ -87,6 +88,7 @@ export const he = {
     notFound: 'ההזמנה לא נמצאה.',
     backToList: 'לרשימת ההזמנות',
     backToDiary: 'ליומן',
+    backToMoney: 'למסך הכסף',
   },
 
   products: {
@@ -248,6 +250,16 @@ export const he = {
     explain: 'כך ייראו ההודעות שנפתחות בוואטסאפ. מה שבסוגריים מסולסלים מתמלא מההזמנה; שורה שאין לה מה להגיד (למשל בלי תאריך אירוע) לא תישלח.',
     legend: '{name} שם הלקוח · {items} מה הוזמן · {deliveryDate} תאריך מסירה · {eventDate} תאריך האירוע · {guests} מספר אורחים · {total} סה״כ · {paid} שולם · {owes} נשאר לתשלום · {business} שם העסק',
     reset: 'חזרה לנוסח המקורי',
+  },
+
+  money: {
+    thisMonth: 'נכנס החודש',
+    lastMonth: 'בחודש שעבר',
+    incomeHint: 'מקדמות ותשלומים לפי היום שבו שולמו.',
+    owing: 'נמסרו ועוד לא שולמו',
+    nobodyOwes: 'אין חובות פתוחים. כל מה שנמסר שולם.',
+    left: 'נשאר',
+    remind: 'תזכורת בוואטסאפ',
   },
 
   storage: {

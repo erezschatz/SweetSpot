@@ -358,3 +358,15 @@ Erez's Pixel feedback across the screens.
 - (b) Six text labels do not fit a 360 px screen at a 48 px tap target. Settings is visited rarely.
 - (c), (d) The phone is the only copy of her book (D6). A backup is the one thing that saves it, and a week of orders is too much to lose. The prompt is cheap, and the programmer wants it seen.
 - (e) She opens an order from the diary to act on it and goes back to the diary; landing on another list loses her place.
+
+## D40 · 2026-11-08 · Money: every recorded payment counts in its month; an order opened there leads back to it
+**Decision.** Choices made by Claude during step 08.
+- **Income takes no notice of status.** A deposit counts in the month of its `depositPaidAt` and the payment in the month of its `paidAt`, on any order. The step's Context names cancelled orders' deposits; a payment recorded on a cancelled order counts too, by the same reasoning.
+- **Months are calendar months** of the phone's local dates, compared as `YYYY-MM`.
+- **An order opened from the money screen leads back to it**, the way D39 has the diary; its back button reads "למסך הכסף".
+**Rejected.**
+- (a) Counting only deposits on a cancelled order and leaving out a payment recorded on it.
+- (b) Back to the orders list from an order opened on the money screen.
+**Why.**
+- (a) The screen answers "how much came in". Money she recorded as received did come in, whatever happened to the order afterwards; if it was given back, clearing the payment on the order takes it out.
+- (b) She opens an owing order to act on it, then returns to the rest of the list; landing on another list loses her place (D39, e).

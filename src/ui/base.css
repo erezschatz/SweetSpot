@@ -234,3 +234,8 @@ a.gear.on { background: var(--accent); color: #fff; border-color: var(--accent);
 .diary h3 { color: var(--muted); }
 /* New orders wait on a "yes": shown, but quieter than the confirmed ones to bake. */
 .diary .card.status-new { background: #fffdf9; box-shadow: none; color: var(--muted); }
+
+/* The money screen (step 08): two month figures side by side, then who owes what. */
+.figure { display: flex; flex-direction: column; gap: 4px; padding-block: 12px; padding-inline: 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
+.figure strong { font-size: 1.5rem; }
+.owing { display: flex; flex-direction: column; gap: 6px; }

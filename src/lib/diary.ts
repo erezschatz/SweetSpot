@@ -1,7 +1,7 @@
 import type { Order } from '../db/schema';
 import { addDays, daysBetween, localIsoDate, weekStart } from './dates';
 import { sum, type Agorot } from './money';
-import { outstanding, paymentBadge } from './orders';
+import { outstanding, owingOrders } from './orders';
 
 // The front screen's arithmetic (step 07). Weeks run Sunday to Saturday. "Today" is the
 // phone's local date, passed in so the tests can stand on any day.
@@ -50,9 +50,7 @@ export function buildDiary<T extends DiaryOrder>(orders: T[], today: string): Di
 
   return {
     overdue: open.filter((o) => o.deliveryDate < today),
-    unpaid: orders
-      .filter((o) => paymentBadge(o) === 'owes')
-      .sort((a, b) => a.deliveryDate.localeCompare(b.deliveryDate) || a.createdAt.localeCompare(b.createdAt)),
+    unpaid: owingOrders(orders),
     sections: [
       { key: 'today', days: groupByDay(inRange(today, addDays(today, 1))) },
       { key: 'thisWeek', days: groupByDay(inRange(addDays(today, 1), nextWeek)) },
