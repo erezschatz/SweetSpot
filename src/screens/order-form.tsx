@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'preact/hooks';
 import { useLiveQuery } from 'dexie-react-hooks';
 import type { Customer, PaymentMethod } from '../db/schema';
-import { customersRepo, ordersRepo, productsRepo } from '../db/repositories';
+import { customersRepo, ingredientsRepo, ordersRepo, productsRepo } from '../db/repositories';
+import { ingredientMap, productCost } from '../lib/costing';
 import { he } from '../i18n/he';
 import { localIsoDate } from '../lib/dates';
 import { agorotToInput, formatShekels } from '../lib/money';
@@ -71,7 +72,14 @@ export function OrderFormScreen({ id }: { id?: string }) {
           : undefined;
       const customerId = c.kind === 'existing' ? c.id : newCustomer!.id;
       const existing = id ? await ordersRepo.get(id) : undefined;
-      const order = orderFromDraft(draft!, { id: id ?? crypto.randomUUID(), customerId }, now, existing);
+      // Read at save, not from the live lists: the cost a line keeps is the one at this moment.
+      const [allProducts, ingredients] = await Promise.all([productsRepo.all(), ingredientsRepo.all()]);
+      const prices = ingredientMap(ingredients);
+      const costOf = (productId: string) => {
+        const product = allProducts.find((p) => p.id === productId);
+        return product ? productCost(product, prices) : null;
+      };
+      const order = orderFromDraft(draft!, { id: id ?? crypto.randomUUID(), customerId }, now, existing, costOf);
       await ordersRepo.saveWithCustomer(order, newCustomer);
       // A new order goes back to the list it was started from (the diary or the orders list),
       // where she sees it among the others; an edit goes back to the order it edited.

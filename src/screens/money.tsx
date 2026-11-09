@@ -4,6 +4,7 @@ import { he } from '../i18n/he';
 import { formatDay, formatMonth, localIsoDate } from '../lib/dates';
 import { formatShekels, monthIncome, monthOf, previousMonth, sum } from '../lib/money';
 import { outstanding, owingOrders } from '../lib/orders';
+import { monthMaterials } from '../lib/costing';
 import { href } from '../lib/route';
 import { paymentReminderLink } from '../ui/whatsapp-buttons';
 
@@ -20,6 +21,8 @@ export function MoneyScreen() {
   const lastMonth = previousMonth(thisMonth);
   const owing = owingOrders(orders);
   const byId = new Map(customers.map((c) => [c.id, c]));
+  const income = monthIncome(orders, thisMonth);
+  const materials = monthMaterials(orders, thisMonth);
 
   return (
     <section class="money">
@@ -28,7 +31,7 @@ export function MoneyScreen() {
           <span class="muted">
             {he.money.thisMonth} · {formatMonth(thisMonth)}
           </span>
-          <strong>{formatShekels(monthIncome(orders, thisMonth))}</strong>
+          <strong>{formatShekels(income)}</strong>
         </div>
         <div class="figure">
           <span class="muted">
@@ -38,6 +41,22 @@ export function MoneyScreen() {
         </div>
       </div>
       <p class="muted">{he.money.incomeHint}</p>
+
+      {/* D35: by delivery month, from the costs saved on the lines; an estimate, and it says so. */}
+      {(materials.cost > 0 || materials.uncosted > 0) && (
+        <>
+          <dl class="facts">
+            <dt>{he.money.materials}</dt>
+            <dd>{formatShekels(materials.cost)}</dd>
+            <dt>{he.money.difference}</dt>
+            <dd><strong>{formatShekels(income - materials.cost)}</strong></dd>
+          </dl>
+          <p class="muted">
+            {he.money.materialsHint}
+            {materials.uncosted > 0 && ` ${he.money.uncosted} ${materials.uncosted}`}
+          </p>
+        </>
+      )}
 
       <h2>
         {he.money.owing}

@@ -31,6 +31,12 @@ describe('productFromDraft', () => {
     const edited = productFromDraft({ name: 'עוגת פרחים', price: '350', active: false }, 'p1', now, p('p1', 'עוגת פרחים'));
     expect([edited.price, edited.active, edited.createdAt]).toEqual([35000, false, '2026-11-01T00:00:00Z']);
   });
+
+  it('carries a recipe, and drops an empty one', () => {
+    const parts = [{ name: 'בצק', lines: [{ ingredientId: 'i1', qty: 300 }] }];
+    expect(productFromDraft({ name: 'עוגה', price: '200', active: true, parts }, 'p1', now).parts).toEqual(parts);
+    expect(productFromDraft({ name: 'עוגה', price: '200', active: true, parts: [] }, 'p1', now)).not.toHaveProperty('parts');
+  });
 });
 
 describe('splitCatalogue', () => {

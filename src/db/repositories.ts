@@ -1,5 +1,6 @@
-import { db, type Customer, type Order, type Product, type Settings, type TemplateKey } from './schema';
+import { db, type Customer, type Ingredient, type Order, type Product, type Settings, type TemplateKey } from './schema';
 import { BACKUP_SCHEMA_VERSION } from '../lib/backup';
+import { usedIngredientIds } from '../lib/costing';
 
 // Screens read and write through these, never through db.<table> directly, so a later
 // schema version changes one file. Screens that need to re-render use useLiveQuery
@@ -85,5 +86,21 @@ export const ordersRepo = {
     db.transaction('rw', db.customers, db.orders, async () => {
       if (newCustomer) await db.customers.put(newCustomer);
       await db.orders.put(order);
+    }),
+};
+
+export const ingredientsRepo = {
+  all: (): Promise<Ingredient[]> => db.ingredients.orderBy('name').toArray(),
+  get: (id: string) => db.ingredients.get(id),
+  put: (ingredient: Ingredient) => db.ingredients.put(ingredient),
+  /**
+   * Refused (false) while a recipe uses it, as a customer with orders is refused (D35). In
+   * one transaction, so a recipe saved in between cannot be left pointing at nothing.
+   */
+  deleteIfUnused: (id: string): Promise<boolean> =>
+    db.transaction('rw', db.products, db.ingredients, async () => {
+      if (usedIngredientIds(await db.products.toArray()).has(id)) return false;
+      await db.ingredients.delete(id);
+      return true;
     }),
 };

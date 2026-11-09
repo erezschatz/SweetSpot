@@ -1,4 +1,4 @@
-import type { Product } from '../db/schema';
+import type { Product, RecipePart } from '../db/schema';
 import { parseShekels } from './money';
 
 // The catalogue (step 06): each cake once, with its price. Products are never deleted,
@@ -15,20 +15,25 @@ export function validateProduct(draft: { name: string; price: string }): Product
   return errors;
 }
 
-/** Call only when validateProduct returned no errors. An edit keeps id and createdAt. */
+/**
+ * Call only when validateProduct returned no errors. An edit keeps id and createdAt. No
+ * `parts` (or none left) saves a product without a recipe.
+ */
 export function productFromDraft(
-  draft: { name: string; price: string; active: boolean },
+  draft: { name: string; price: string; active: boolean; parts?: RecipePart[] },
   id: string,
   now: string,
   existing?: Product,
 ): Product {
-  return {
+  const product: Product = {
     id,
     name: draft.name.trim(),
     price: parseShekels(draft.price)!,
     active: draft.active,
     createdAt: existing?.createdAt ?? now,
   };
+  if (draft.parts && draft.parts.length > 0) product.parts = draft.parts;
+  return product;
 }
 
 /** What she sells now, by name; retired ones apart, after them. */

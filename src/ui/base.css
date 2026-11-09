@@ -239,3 +239,10 @@ a.gear.on { background: var(--accent); color: #fff; border-color: var(--accent);
 .figure { display: flex; flex-direction: column; gap: 4px; padding-block: 12px; padding-inline: 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
 .figure strong { font-size: 1.5rem; }
 .owing { display: flex; flex-direction: column; gap: 6px; }
+
+/* The recipe on the product form (step 09): ingredient, quantity, its unit, remove. */
+.recipe-line { display: grid; grid-template-columns: minmax(0, 1fr) 4.5em 3.6em auto; gap: 6px; align-items: center; margin-block-end: 8px; }
+.recipe-line .unit { font-size: 0.85rem; }
+.recipe-line .remove-line { min-inline-size: var(--tap); padding-inline: 0; }
+.recipe-part-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.alert.scaled { margin-block: 14px; }

@@ -12,6 +12,12 @@ export interface LineDraft {
   unitPrice: string;
   /** The price was filled from a suggestion, not typed by her; the next suggestion may replace it. */
   priceFromSuggestion?: boolean;
+  /**
+   * The cost the line was saved with, and for which product (D41). Kept apart from
+   * `productId`, which comes and goes while she retypes the name: the saved cost applies
+   * again whenever the line is back on that product.
+   */
+  savedCost?: { productId: string; unitCost: Agorot };
   details: string;
 }
 
@@ -65,6 +71,7 @@ export function draftFromOrder(order: Order, customerName: string): OrderDraft {
       name: item.name,
       qty: String(item.qty),
       unitPrice: agorotToInput(item.unitPrice),
+      ...(item.unitCost !== undefined && item.productId ? { savedCost: { productId: item.productId, unitCost: item.unitCost } } : {}),
       details: item.details,
     })),
     deliveryDate: order.deliveryDate,
@@ -173,22 +180,29 @@ function nonNegative(a: Agorot | null): a is Agorot {
 /**
  * Builds the Order to save. Call only when validateDraft returned no errors.
  * On edit, `existing` keeps what the form does not touch: status, final payment, createdAt.
+ * `costOf` is a product's materials cost now, or null; a line takes it at save unless it
+ * already carries the cost it was first saved with (D35, D41).
  */
 export function orderFromDraft(
   draft: OrderDraft,
   ids: { id: string; customerId: string },
   now: string,
   existing?: Order,
+  costOf: (productId: string) => Agorot | null = () => null,
 ): Order {
   const items = draft.lines
     .filter((l) => !isBlank(l))
-    .map((l) => ({
-      ...(l.productId ? { productId: l.productId } : {}),
-      name: l.name.trim(),
-      qty: parseQty(l.qty)!,
-      unitPrice: parseShekels(l.unitPrice) ?? 0,
-      details: l.details.trim(),
-    }));
+    .map((l) => {
+      const unitCost = !l.productId ? null : l.savedCost?.productId === l.productId ? l.savedCost.unitCost : costOf(l.productId);
+      return {
+        ...(l.productId ? { productId: l.productId } : {}),
+        name: l.name.trim(),
+        qty: parseQty(l.qty)!,
+        unitPrice: parseShekels(l.unitPrice) ?? 0,
+        ...(unitCost !== null ? { unitCost } : {}),
+        details: l.details.trim(),
+      };
+    });
 
   const order: Order = {
     id: ids.id,

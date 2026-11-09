@@ -7,13 +7,14 @@ const tabs: { route: Route; label: string; owns: (r: Route) => boolean }[] = [
   { route: { name: 'diary' }, label: he.nav.diary, owns: (r) => r.name === 'diary' },
   { route: { name: 'orders' }, label: he.nav.orders, owns: (r) => r.name.startsWith('order') },
   { route: { name: 'customers' }, label: he.nav.customers, owns: (r) => r.name.startsWith('customer') },
-  { route: { name: 'products' }, label: he.nav.products, owns: (r) => r.name.startsWith('product') },
+  // Ingredients and the shopping list are reached from products (D35), so the tab stays lit there.
+  { route: { name: 'products' }, label: he.nav.products, owns: (r) => r.name.startsWith('product') || r.name.startsWith('ingredient') || r.name === 'shopping' },
   { route: { name: 'money' }, label: he.nav.money, owns: (r) => r.name === 'money' },
 ];
 
 /** Forms keep their sticky save bar at the bottom, so the tabs step aside there. */
 export function showsBottomNav(route: Route): boolean {
-  return !['orderNew', 'orderEdit', 'customerNew', 'customerEdit', 'productNew', 'productEdit'].includes(route.name);
+  return !['orderNew', 'orderEdit', 'customerNew', 'customerEdit', 'productNew', 'productEdit', 'ingredientNew', 'ingredientEdit'].includes(route.name);
 }
 
 export function BottomNav({ route }: { route: Route }) {

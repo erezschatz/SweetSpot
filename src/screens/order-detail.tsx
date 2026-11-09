@@ -6,6 +6,7 @@ import { customersRepo, ordersRepo } from '../db/repositories';
 import { he } from '../i18n/he';
 import { formatDay, localIsoDate } from '../lib/dates';
 import { agorotToInput, formatShekels, parseShekels } from '../lib/money';
+import { formatShare, margin, orderCost } from '../lib/costing';
 import { allStatuses, clearPayment, lineTotal, outstanding, paidInFull, paidSoFar, recordPayment } from '../lib/orders';
 import { href } from '../lib/route';
 import { PaymentBadge, StatusBadge } from '../ui/badges';
@@ -143,6 +144,7 @@ function PaymentSection({ order, leave }: { order: Order; leave: ComponentChildr
       <dl class="facts">
         <dt>{he.orderDetail.total}</dt>
         <dd>{formatShekels(order.total)}</dd>
+        <MaterialsCost order={order} />
         {order.deposit !== undefined && (
           <>
             <dt>
@@ -244,5 +246,27 @@ function PaymentForm({ order, onDone }: { order: Order; onDone: () => void }) {
         <button type="button" class="secondary" onClick={onDone}>{he.orderForm.cancel}</button>
       </div>
     </div>
+  );
+}
+
+/**
+ * The cost the lines were saved with, and what is left of the price (D35, D36). Nothing
+ * when no line has a cost; a note when only some do, since the margin then looks better than it is.
+ */
+function MaterialsCost({ order }: { order: Order }) {
+  const { cost, costed, uncosted } = orderCost(order.items);
+  if (costed === 0) return null;
+  const m = margin(order.total, cost);
+  return (
+    <>
+      <dt>{he.orderDetail.cost}</dt>
+      <dd>{formatShekels(cost)}</dd>
+      <dt>{he.orderDetail.margin}</dt>
+      <dd>
+        {formatShekels(m.amount)}
+        {m.share !== null && ` · ${formatShare(m.share)}`}
+        {uncosted > 0 && <span class="muted"> · {he.orderDetail.someUncosted}</span>}
+      </dd>
+    </>
   );
 }

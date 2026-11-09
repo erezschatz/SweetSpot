@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Order } from '../db/schema';
-import { draftFromOrder, draftTotal, emptyDraft, emptyLine, lineSuggestions, orderFromDraft, setLineName, validateDraft, type OrderDraft } from './order-draft';
+import { draftFromOrder, draftTotal, emptyDraft, emptyLine, lineSuggestions, orderFromDraft, setLineName, validateDraft, type LineDraft, type OrderDraft } from './order-draft';
 
 // Her notebook line: "דנה לוי- עוגת פרחים, 4 שכבות, שוקולד +שוקולד- פרווה".
 function notebookDraft(): OrderDraft {
@@ -199,5 +199,47 @@ describe('setLineName', () => {
     const picked = setLineName(emptyLine(), 'עוגת פרחים', suggestions);
     const typedOn = setLineName(picked, 'עוגת פרחים גדולה', suggestions);
     expect([typedOn.unitPrice, 'productId' in typedOn]).toEqual(['320', false]);
+  });
+});
+
+describe('unitCost on an order line (D35, D41)', () => {
+  const costOf = (id: string) => (id === 'p1' ? 960 : null);
+  const linked = (extra: Partial<OrderDraft['lines'][number]> = {}) => ({
+    ...notebookDraft(),
+    lines: [{ productId: 'p1', name: 'עוגת פרחים', qty: '2', unitPrice: '320', details: '', ...extra }],
+  });
+
+  it('takes the product cost at save', () => {
+    expect(orderFromDraft(linked(), ids, now, undefined, costOf).items[0]!.unitCost).toBe(960);
+  });
+
+  it('leaves it out for a product without a cost and for a free-text line', () => {
+    expect(orderFromDraft(linked({ productId: 'p2' }), ids, now, undefined, costOf).items[0]).not.toHaveProperty('unitCost');
+    const free = { ...notebookDraft(), lines: [{ name: 'מגש', qty: '1', unitPrice: '50', details: '' }] };
+    expect(orderFromDraft(free, ids, now, undefined, costOf).items[0]).not.toHaveProperty('unitCost');
+  });
+
+  it('keeps the cost an edited order was saved with', () => {
+    const saved = orderFromDraft(linked(), ids, now, undefined, costOf);
+    const draft = draftFromOrder(saved, 'דנה לוי');
+    const repriced = (id: string) => (id === 'p1' ? 1500 : null);
+    expect(orderFromDraft(draft, ids, now, saved, repriced).items[0]!.unitCost).toBe(960);
+  });
+
+  it('takes the new product\'s cost when the line moves to another product', () => {
+    const suggestions = [{ name: 'עוגת שוקולד', unitPrice: 25000, productId: 'p3' }];
+    const moved = setLineName(linked({ savedCost: { productId: 'p1', unitCost: 960 } }).lines[0]!, 'עוגת שוקולד', suggestions);
+    const draft = { ...notebookDraft(), lines: [moved] };
+    expect(orderFromDraft(draft, ids, now, undefined, (id) => (id === 'p3' ? 2000 : 1500)).items[0]!.unitCost).toBe(2000);
+  });
+
+  it('keeps the saved cost when she retypes the same product name letter by letter', () => {
+    const suggestions = [{ name: 'עוגת פרחים', unitPrice: 32000, productId: 'p1' }];
+    let line: LineDraft = linked({ savedCost: { productId: 'p1', unitCost: 960 } }).lines[0]!;
+    line = setLineName(line, 'עוגת פרח', suggestions); // matches nothing: unlinked for a moment
+    expect(line.productId).toBeUndefined();
+    line = setLineName(line, 'עוגת פרחים', suggestions);
+    const draft = { ...notebookDraft(), lines: [line] };
+    expect(orderFromDraft(draft, ids, now, undefined, () => 1500).items[0]!.unitCost).toBe(960);
   });
 });

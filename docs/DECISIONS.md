@@ -370,3 +370,25 @@ Erez's Pixel feedback across the screens.
 **Why.**
 - (a) The screen answers "how much came in". Money she recorded as received did come in, whatever happened to the order afterwards; if it was given back, clearing the payment on the order takes it out.
 - (b) She opens an owing order to act on it, then returns to the rest of the list; landing on another list loses her place (D39, e).
+
+## D41 · 2026-11-09 · Costing: parts rounded before they are summed; a saved cost survives an edit; the shopping list starts today
+**Decision.** Choices made by Claude during step 09.
+- **Rounding.** Each part's cost is rounded to whole agorot, and the product's cost is the sum of the rounded parts.
+- **Edits.** An order line keeps the `unitCost` it was first saved with when the order is edited and saved again, including after she retypes the product's name and it links to the same product again. A line saved on another product takes that product's cost at save. A line saved without a cost takes one at its next save, if its product has a recipe by then.
+- **Shopping window.** Open orders due today and in the thirteen days after it. Overdue open orders are left out.
+- **Unit price shown** per kilo or litre for grams and millilitres, per piece for pieces.
+- **Price marks** round up to whole shekels, in integer arithmetic.
+- **A version 1 backup** restores with no ingredients, and the settings row is marked with the current schema version after any restore.
+- **Test dependency.** fake-indexeddb, dev only, pinned exactly at 6.2.6 (16 October 2026). 6.2.8 was a day old when the step started.
+**Rejected.**
+- (a) Rounding once, at the product.
+- (b) Taking the current cost again at every save of an order.
+- (c) Counting overdue open orders in the shopping list.
+- (d) A price per gram or millilitre.
+- (e) The newest fake-indexeddb.
+**Why.**
+- (a) The form shows the parts and the total together; with one rounding they can be an agora apart, and she would be right to doubt the sum (D14).
+- (b) Fixing a typo in the address would quietly change what a delivered cake cost her. The cost is history, as `unitPrice` is (D34, D35).
+- (c) An open order whose day has passed is almost always delivered and not yet marked. The diary already shows it as overdue, which is where it gets fixed.
+- (d) A gram of flour costs 0.6 agorot. The price per kilo is what is on the shelf.
+- (e) A release one day old has had no time to be caught if it is bad. Three weeks is enough for a test-only package.

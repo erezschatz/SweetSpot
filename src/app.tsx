@@ -10,6 +10,9 @@ import { OrderFormScreen } from './screens/order-form';
 import { OrderDetailScreen } from './screens/order-detail';
 import { SettingsScreen } from './screens/settings';
 import { MoneyScreen } from './screens/money';
+import { IngredientsScreen } from './screens/ingredients';
+import { IngredientFormScreen } from './screens/ingredient-form';
+import { ShoppingScreen } from './screens/shopping';
 import { CustomersScreen } from './screens/customers';
 import { CustomerDetailScreen } from './screens/customer-detail';
 import { CustomerFormScreen } from './screens/customer-form';
@@ -44,6 +47,10 @@ export function App() {
       {route.name === 'productNew' && <ProductFormScreen />}
       {route.name === 'productEdit' && <ProductFormScreen key={route.id} id={route.id} />}
       {route.name === 'money' && <MoneyScreen />}
+      {route.name === 'ingredients' && <IngredientsScreen />}
+      {route.name === 'ingredientNew' && <IngredientFormScreen />}
+      {route.name === 'ingredientEdit' && <IngredientFormScreen key={route.id} id={route.id} />}
+      {route.name === 'shopping' && <ShoppingScreen />}
       {route.name === 'settings' && <SettingsScreen />}
       {withNav && <BottomNav route={route} />}
     </main>

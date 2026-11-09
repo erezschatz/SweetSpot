@@ -14,6 +14,10 @@ export type Route =
   | { name: 'productNew' }
   | { name: 'productEdit'; id: string }
   | { name: 'money' }
+  | { name: 'ingredients' }
+  | { name: 'ingredientNew' }
+  | { name: 'ingredientEdit'; id: string }
+  | { name: 'shopping' }
   | { name: 'settings' };
 
 export function parseRoute(hash: string): Route {
@@ -21,6 +25,13 @@ export function parseRoute(hash: string): Route {
   const [first, second, third] = parts;
   if (first === 'settings') return { name: 'settings' };
   if (first === 'money') return { name: 'money' };
+  if (first === 'shopping') return { name: 'shopping' };
+  // Like a product, an ingredient has no screen of its own: tapping it opens the form.
+  if (first === 'ingredients') {
+    if (!second) return { name: 'ingredients' };
+    if (second === 'new') return { name: 'ingredientNew' };
+    return { name: 'ingredientEdit', id: second };
+  }
   if (first === 'orders') {
     if (!second) return { name: 'orders' };
     if (second === 'new') return { name: 'orderNew' };
@@ -71,6 +82,14 @@ export function href(route: Route): string {
       return `#/products/${encodeURIComponent(route.id)}`;
     case 'money':
       return '#/money';
+    case 'ingredients':
+      return '#/ingredients';
+    case 'ingredientNew':
+      return '#/ingredients/new';
+    case 'ingredientEdit':
+      return `#/ingredients/${encodeURIComponent(route.id)}`;
+    case 'shopping':
+      return '#/shopping';
     case 'settings':
       return '#/settings';
   }

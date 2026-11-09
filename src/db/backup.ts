@@ -1,6 +1,7 @@
 import { db, type Settings } from './schema';
 import { settingsRepo } from './repositories';
 import {
+  BACKUP_SCHEMA_VERSION,
   backupFileName,
   base64ToBytes,
   bytesToBase64,
@@ -13,14 +14,15 @@ export type BackupOutcome = 'shared' | 'downloaded' | 'cancelled';
 
 /** Writes every table to one JSON file and hands it to the share sheet (or downloads it). */
 export async function backupNow(now = new Date()): Promise<BackupOutcome> {
-  const [settings, products, customers, orders] = await Promise.all([
+  const [settings, products, customers, orders, ingredients] = await Promise.all([
     settingsRepo.get(),
     db.products.toArray(),
     db.customers.toArray(),
     db.orders.toArray(),
+    db.ingredients.toArray(),
   ]);
   const text = serialiseBackup(
-    { settings: await settingsForFile(settings), products, customers, orders },
+    { settings: await settingsForFile(settings), products, customers, orders, ingredients },
     now.toISOString(),
   );
   const name = backupFileName(now);
@@ -32,12 +34,14 @@ export async function backupNow(now = new Date()): Promise<BackupOutcome> {
 
 /** Replaces everything on the phone with a backup already checked by parseBackup. */
 export async function restoreBackup(backup: Backup): Promise<void> {
-  const { settings, products, customers, orders } = backup;
+  const { settings, products, customers, orders, ingredients } = backup;
 
-  // One transaction: if any write fails, Dexie rolls all four tables back.
-  await db.transaction('rw', [db.settings, db.products, db.customers, db.orders], async () => {
-    await Promise.all([db.settings.clear(), db.products.clear(), db.customers.clear(), db.orders.clear()]);
-    await db.settings.put(settingsFromFile(settings));
+  // One transaction: if any write fails, Dexie rolls all five tables back.
+  await db.transaction('rw', [db.settings, db.products, db.customers, db.orders, db.ingredients], async () => {
+    await Promise.all([db.settings.clear(), db.products.clear(), db.customers.clear(), db.orders.clear(), db.ingredients.clear()]);
+    // The row says which version wrote it; after a restore it is this app's version.
+    await db.settings.put({ ...settingsFromFile(settings), schemaVersion: BACKUP_SCHEMA_VERSION });
+    await db.ingredients.bulkAdd(ingredients);
     await db.products.bulkAdd(products);
     await db.customers.bulkAdd(customers);
     await db.orders.bulkAdd(orders);
