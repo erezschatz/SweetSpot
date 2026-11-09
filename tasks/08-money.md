@@ -6,10 +6,10 @@
 
 **Acceptance**
 
-- [ ] Money screen: this month's income (payments dated this month), previous month for comparison, and a list of delivered orders with an outstanding balance (customer, amount, delivery date, tap → order, tap → WhatsApp payment reminder).
-- [ ] Income counts a deposit on its `depositPaidAt` month and the payment on its `paidAt` month; cancelled orders' paid deposits still count as income.
-- [ ] `src/lib/money.ts` extended with month totals; tested.
-- [ ] Verified on the Pixel against a hand-calculated set of five orders.
+- [x] Money screen: this month's income (payments dated this month), previous month for comparison, and a list of delivered orders with an outstanding balance (customer, amount, delivery date, tap → order, tap → WhatsApp payment reminder).
+- [x] Income counts a deposit on its `depositPaidAt` month and the payment on its `paidAt` month; cancelled orders' paid deposits still count as income.
+- [x] `src/lib/money.ts` extended with month totals; tested.
+- [x] Verified on the Pixel against a hand-calculated set of five orders.
 
 ## What was done
 
@@ -58,3 +58,9 @@ Known gaps:
 - As with the diary, an order opened from the money screen, then edited and saved, goes back to the orders list, not to the money screen: `startedFrom` looks only at the screen just before.
 
 Not verified on a device; boxes 1, 2 and 4 wait for the Pixel, against a hand-calculated set of five orders.
+
+## What was done
+
+2026-11-09, on the Pixel, by the programmer, from the current deploy. Erez reported that all of it landed, with no item failing and no further detail: the run asked for was five orders checked by hand against the two month figures and the owing list, and a reminder opening WhatsApp. The known gaps stand; nothing was changed.
+
+All acceptance boxes ticked. verified 2026-11-09, Pixel 9, Erez.

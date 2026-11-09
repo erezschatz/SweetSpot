@@ -6,12 +6,12 @@
 
 **Acceptance**
 
-- [ ] Front screen (`#/`): sections *today*, *this week*, *next week*, *later*, each a day-grouped list of orders by delivery date with status and paid/owes badge; confirmed orders first, new (unconfirmed) orders shown but visually quieter.
-- [ ] A line for overdue items (delivery date passed, not delivered/cancelled) at the top, if any; and a line for *delivered, not paid* — since payment is after delivery (D16), this is her real "don't forget" list.
-- [ ] Bottom navigation: diary · orders · customers · products · money · settings. Primary "new order" action reachable with the thumb.
-- [ ] Backup nag at the top when `lastBackupAt` is older than 14 days or missing, linking to settings.
-- [ ] `src/lib/dates.ts` (week boundaries, Sunday–Saturday weeks, Hebrew day names via `Intl`) tested.
-- [ ] Verified on the Pixel across a week boundary (change the phone's date).
+- [x] Front screen (`#/`): sections *today*, *this week*, *next week*, *later*, each a day-grouped list of orders by delivery date with status and paid/owes badge; confirmed orders first, new (unconfirmed) orders shown but visually quieter.
+- [x] A line for overdue items (delivery date passed, not delivered/cancelled) at the top, if any; and a line for *delivered, not paid* — since payment is after delivery (D16), this is her real "don't forget" list.
+- [x] Bottom navigation: diary · orders · customers · products · money · settings. Primary "new order" action reachable with the thumb.
+- [x] Backup nag at the top when `lastBackupAt` is older than 14 days or missing, linking to settings.
+- [x] `src/lib/dates.ts` (week boundaries, Sunday–Saturday weeks, Hebrew day names via `Intl`) tested.
+- [x] Verified on the Pixel across a week boundary (change the phone's date).
 
 ## What was done
 
@@ -78,3 +78,9 @@ Known gaps:
 - After editing an order and saving, the detail is opened from the form, so its back button leads to the orders list even if the order was first opened from the diary.
 
 Not verified on a device; boxes 1–4 and 6 wait for the Pixel, across a week boundary (change the phone's date).
+
+## What was done
+
+2026-11-09, on the Pixel, by the programmer, from the current deploy. Erez reported that all of it landed, with no item failing and no further detail; the gaps the section above listed as not observed (a week boundary by changing the phone's date, saving a new order started from the diary, the Android back gesture, the backup button through the share sheet) were part of the run asked for. The three known back-navigation gaps stand; nothing was changed.
+
+All acceptance boxes ticked. verified 2026-11-09, Pixel 9, Erez.
