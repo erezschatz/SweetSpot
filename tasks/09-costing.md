@@ -120,3 +120,14 @@ Known gaps:
 - On a phone upgraded from version 1, the settings row keeps `schemaVersion: 1` until a restore; nothing reads it.
 
 Not verified on a device; every box except the `src/lib`, `src/db` and `docs/SPEC.md` ones waits for the Pixel, by the step's own last box.
+
+## What was done
+
+2026-11-09, programmer's Mac. Erez asked why an amount with agorot read "₪25.1" rather than "₪25.10"; nothing prevented it. D42.
+
+- `src/lib/money.ts`: `formatShekels` uses two formatters. A whole amount is shown without decimals and any amount with agorot to exactly two digits. This reaches every screen and the WhatsApp messages. Input fields still start from "25.1".
+- `src/lib/money.test.ts`: the half-shekel case now expects "120.50", and a new test covers ₪25.10, ₪12.55, ₪0.05, a negative margin and ₪0. 163 tests in all.
+- `docs/SPEC.md`: the formatting rule under Data model. D42.
+- This closes the known gap the section above listed ("₪25.1").
+
+In the browser pane's Chrome, `formatShekels` gave "₪25.10", "₪12.55", "₪0.05", "₪320", "-₪25.10" and "₪0". Not observed on a screen or a device; it rides on step 09's Pixel run.

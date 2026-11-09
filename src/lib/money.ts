@@ -3,15 +3,12 @@
 
 export type Agorot = number;
 
-const formatter = new Intl.NumberFormat('he-IL', {
-  style: 'currency',
-  currency: 'ILS',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 2,
-});
+const wholeShekels = new Intl.NumberFormat('he-IL', { style: 'currency', currency: 'ILS', maximumFractionDigits: 0 });
+const withAgorot = new Intl.NumberFormat('he-IL', { style: 'currency', currency: 'ILS', minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
+/** ₪320 for whole shekels; ₪25.10, never ₪25.1, once there are agorot (D42). */
 export function formatShekels(amount: Agorot): string {
-  return formatter.format(amount / 100);
+  return amount % 100 === 0 ? wholeShekels.format(amount / 100) : withAgorot.format(amount / 100);
 }
 
 /** "120", "120.5", "₪1,200", "1200 ש"ח" → agorot. Returns null when there is no number. */

@@ -54,7 +54,7 @@ GitHub repo ──(Actions on push to main)──► GitHub Pages ──► Chro
 
 ## Data model
 
-All ids are `crypto.randomUUID()`. Dates are ISO `YYYY-MM-DD` strings; timestamps are ISO datetimes. Money is integer agorot (₪1 = 100) to avoid float drift; the UI shows shekels.
+All ids are `crypto.randomUUID()`. Dates are ISO `YYYY-MM-DD` strings; timestamps are ISO datetimes. Money is integer agorot (₪1 = 100) to avoid float drift; the UI shows shekels, whole amounts without decimals and any amount with agorot to two digits, ₪25.10 (D42).
 
 | Table | Fields |
 |---|---|

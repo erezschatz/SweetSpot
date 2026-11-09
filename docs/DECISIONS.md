@@ -392,3 +392,12 @@ Erez's Pixel feedback across the screens.
 - (c) An open order whose day has passed is almost always delivered and not yet marked. The diary already shows it as overdue, which is where it gets fixed.
 - (d) A gram of flour costs 0.6 agorot. The price per kilo is what is on the shelf.
 - (e) A release one day old has had no time to be caught if it is bad. Three weeks is enough for a test-only package.
+
+## D42 · 2026-11-09 · Amounts with agorot show both digits
+**Decision.** `formatShekels` shows a whole amount without decimals (₪320) and any amount with agorot to exactly two digits (₪25.10, ₪0.05). It applies everywhere amounts are shown, the WhatsApp messages included. Input fields are unchanged: they still start from "25.1", which reads back the same.
+**Rejected.**
+- (a) As before: up to two digits, so ₪25.10 read "₪25.1".
+- (b) Two digits on every amount, ₪320.00.
+**Why.**
+- (a) Erez asked why both could not be real numbers. "₪25.1" is not how anyone writes money, and next to "₪12.55" it looks like a different kind of figure. Costing (step 09) made such amounts common.
+- (b) Prices are almost always whole shekels; ".00" on each would be noise on every card and in every message.

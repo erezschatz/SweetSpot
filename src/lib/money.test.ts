@@ -24,7 +24,14 @@ describe('formatShekels', () => {
   it('shows whole shekels without decimals and halves with', () => {
     expect(formatShekels(45000)).toMatch(/450/);
     expect(formatShekels(45000)).not.toMatch(/\.00/);
-    expect(formatShekels(12050)).toMatch(/120[.,]5/);
+    expect(formatShekels(12050)).toMatch(/120[.,]50/);
+  });
+  it('always gives agorot two digits', () => {
+    expect(formatShekels(2510)).toMatch(/25[.,]10/);
+    expect(formatShekels(1255)).toMatch(/12[.,]55/);
+    expect(formatShekels(5)).toMatch(/0[.,]05/);
+    expect(formatShekels(-2510)).toMatch(/25[.,]10/);
+    expect(formatShekels(0)).not.toMatch(/[.,]/);
   });
 });
 
