@@ -418,3 +418,13 @@ Erez's Pixel feedback across the screens.
 - (b) Erez's wording; "מרכיב" is the baker's word for what goes into the cake.
 - (c) A question whose answer cannot be yes wastes a tap and reads like a mistake.
 - (d) Both are hand-off polish, which is what step 10 is; Erez placed them "before we deliver".
+
+## D44 · 2026-11-10 · Possible later features live in the plan, not in tasks
+**Decision.** Ideas for after 1.0 that nobody has committed to are listed under "Possible later" in `docs/PLAN.md`, each with the decisions it would touch. The first four, from Erez: export to a file (PDF for the accountant, a flat file for an LLM), a photo on each recipe, backup to a cloud drive, recipe method and extraction.
+**Rejected.**
+- (a) A task file for each.
+- (b) Leaving them in conversation only.
+**Why.**
+- (a) A task file with no "What was done" counts as open work (`tasks/README.md`), and these are not work yet.
+- (b) A fresh session must be able to pick up from the repo alone (`CLAUDE.md`).
+- Listing them reopens nothing. Cloud backup still stands against D6 and photo extraction against D35 and D36, until a new entry says otherwise.
