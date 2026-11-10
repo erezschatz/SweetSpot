@@ -159,3 +159,9 @@ Observed by Claude in the browser pane at 360×780:
 - delete on an ingredient a recipe uses showed the refusal with no dialog (none was opened), and the ingredient stayed.
 
 The test rows were removed afterwards. Not verified on a device.
+
+## What was done
+
+2026-11-10, on the Pixel, by the programmer, from the deploy of 3b2b1c6: the three fixes of D43. The buttons between products, ingredients and the shopping list, the "מרכיב" and "בחירת מוצרים" wording, and the refusal to delete an ingredient a recipe uses, with no dialog first. Erez reported all buttons good and no issue found.
+
+verified 2026-11-10, Pixel 9, Erez.
