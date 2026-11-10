@@ -19,9 +19,9 @@ export function ProductsScreen() {
   return (
     <section>
       <h2>{he.products.title}</h2>
-      <p>
-        <a href={href({ name: 'ingredients' })}>{he.products.ingredientsLink}</a>
-      </p>
+      <div class="screen-links">
+        <a class="button secondary" href={href({ name: 'ingredients' })}>{he.products.ingredientsLink}</a>
+      </div>
       {products.length === 0 && <p class="muted">{he.products.empty}</p>}
       <ProductCards products={active} costOf={costOf} />
 

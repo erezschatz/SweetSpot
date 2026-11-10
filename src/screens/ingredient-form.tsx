@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'preact/hooks';
+import { useLiveQuery } from 'dexie-react-hooks';
 import type { Ingredient } from '../db/schema';
-import { ingredientsRepo } from '../db/repositories';
+import { ingredientsRepo, productsRepo } from '../db/repositories';
 import { he } from '../i18n/he';
 import {
   displayUnitCost,
+  usedIngredientIds,
   ingredientFromDraft,
   parseQuantity,
   units,
@@ -24,6 +26,7 @@ export function IngredientFormScreen({ id }: { id?: string }) {
   const [errors, setErrors] = useState<IngredientError[]>([]);
   const [message, setMessage] = useState('');
   const [saving, setSaving] = useState(false);
+  const products = useLiveQuery(() => productsRepo.all(), [], []);
 
   // Editing: load once; later database changes do not overwrite her typing.
   useEffect(() => {
@@ -67,7 +70,10 @@ export function IngredientFormScreen({ id }: { id?: string }) {
   }
 
   async function remove() {
-    if (!existing || !confirm(he.ingredients.removeConfirm)) return;
+    if (!existing) return;
+    // Refused before asking: "delete?" followed by "cannot delete" asks a question with no yes (D43).
+    if (usedIngredientIds(products).has(existing.id)) return setMessage(he.ingredients.inUse);
+    if (!confirm(he.ingredients.removeConfirm)) return;
     try {
       if (await ingredientsRepo.deleteIfUnused(existing.id)) returnTo({ name: 'ingredients' });
       else setMessage(he.ingredients.inUse);

@@ -13,15 +13,12 @@ export function IngredientsScreen() {
   return (
     <section>
       <h2>{he.ingredients.title}</h2>
-      <p>
-        <a href={href({ name: 'products' })}>→ {he.ingredients.backToProducts}</a>
+      <div class="screen-links">
+        <a class="button secondary" href={href({ name: 'products' })}>→ {he.ingredients.backToProducts}</a>
         {ingredients.length > 0 && (
-          <>
-            {' · '}
-            <a href={href({ name: 'shopping' })}>{he.ingredients.toShopping}</a>
-          </>
+          <a class="button secondary" href={href({ name: 'shopping' })}>{he.ingredients.toShopping}</a>
         )}
-      </p>
+      </div>
       {ingredients.length === 0 && <p class="muted">{he.ingredients.empty}</p>}
       <ul class="cards">
         {ingredients.map((i) => (

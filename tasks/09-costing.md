@@ -6,18 +6,18 @@
 
 **Acceptance**
 
-- [ ] Ingredients list, reached from the products screen: add and edit name, unit (grams, millilitres, pieces), pack quantity and pack price; the derived cost per unit is shown. Delete is refused while a recipe uses the ingredient. The empty list says what to do.
-- [ ] Product form: the recipe as named parts, each a list of ingredient lines with a quantity, for one unit of the product; parts and lines are added and removed in place; the part names are hers.
-- [ ] A product with a recipe shows its cost and margin on the form and its cost beside the price on the list; a product without one shows neither.
-- [ ] Changing an ingredient's price changes every product cost that uses it and no saved order. An order line saved while its product has a cost carries `unitCost`; the order detail shows the materials cost under the total when any line has one.
-- [ ] Money: the month's materials cost (orders delivered in the month) beside the income, with the difference; lines without a cost are left out and the screen says the figure follows the recipes entered (D35).
-- [ ] Schema version 2: an `ingredients` table, `parts` on a product, `unitCost` on an order item; a backup carries ingredients, and a version 1 backup still restores. `src/db` gets its first test, with the in-memory IndexedDB and stack-table row D33 foresaw.
-- [ ] `src/lib/costing.ts`, tested: cost per unit, part cost, product cost, rounding to whole agorot, no recipe → no cost.
-- [ ] Added 2026-11-07 before work started (D36): the product form shows the recipe scaled to a typed number of units, and the minimum and recommended price (10% and 40% margin) beside the cost.
-- [ ] The order detail shows the order's margin and its share of the price under the materials cost line.
-- [ ] Shopping list at `#/shopping`, reached from the ingredients list: ingredient totals and whole packs for the open orders due within fourteen days; products without a recipe listed underneath; `src/lib/shopping.ts` tested.
-- [ ] `docs/SPEC.md` data model, routes and architecture updated in the same scene.
-- [ ] Verified on the Pixel: three ingredients, one cake with two parts, its cost on the form and the list, an ingredient repriced, an order saved before and after, both checked by hand; the price marks, the scaled recipe and the shopping list for two open orders checked against a hand calculation.
+- [x] Ingredients list, reached from the products screen: add and edit name, unit (grams, millilitres, pieces), pack quantity and pack price; the derived cost per unit is shown. Delete is refused while a recipe uses the ingredient. The empty list says what to do.
+- [x] Product form: the recipe as named parts, each a list of ingredient lines with a quantity, for one unit of the product; parts and lines are added and removed in place; the part names are hers.
+- [x] A product with a recipe shows its cost and margin on the form and its cost beside the price on the list; a product without one shows neither.
+- [x] Changing an ingredient's price changes every product cost that uses it and no saved order. An order line saved while its product has a cost carries `unitCost`; the order detail shows the materials cost under the total when any line has one.
+- [x] Money: the month's materials cost (orders delivered in the month) beside the income, with the difference; lines without a cost are left out and the screen says the figure follows the recipes entered (D35).
+- [x] Schema version 2: an `ingredients` table, `parts` on a product, `unitCost` on an order item; a backup carries ingredients, and a version 1 backup still restores. `src/db` gets its first test, with the in-memory IndexedDB and stack-table row D33 foresaw.
+- [x] `src/lib/costing.ts`, tested: cost per unit, part cost, product cost, rounding to whole agorot, no recipe → no cost.
+- [x] Added 2026-11-07 before work started (D36): the product form shows the recipe scaled to a typed number of units, and the minimum and recommended price (10% and 40% margin) beside the cost.
+- [x] The order detail shows the order's margin and its share of the price under the materials cost line.
+- [x] Shopping list at `#/shopping`, reached from the ingredients list: ingredient totals and whole packs for the open orders due within fourteen days; products without a recipe listed underneath; `src/lib/shopping.ts` tested.
+- [x] `docs/SPEC.md` data model, routes and architecture updated in the same scene.
+- [x] Verified on the Pixel: three ingredients, one cake with two parts, its cost on the form and the list, an ingredient repriced, an order saved before and after, both checked by hand; the price marks, the scaled recipe and the shopping list for two open orders checked against a hand calculation.
 
 <!-- append below, in the same commit as the change; one section per change -->
 ## What was done
@@ -131,3 +131,31 @@ Not verified on a device; every box except the `src/lib`, `src/db` and `docs/SPE
 - This closes the known gap the section above listed ("₪25.1").
 
 In the browser pane's Chrome, `formatShekels` gave "₪25.10", "₪12.55", "₪0.05", "₪320", "-₪25.10" and "₪0". Not observed on a screen or a device; it rides on step 09's Pixel run.
+
+## What was done
+
+2026-11-10, on the Pixel, by the programmer, from the deploy of 28fcfa2, against the scenario Claude wrote for this step (sections A–H: upgrade, ingredients, recipe, orders and repricing, shopping list, money, backup, look). Erez reported everything as passing, with three remarks:
+- the ways to the ingredients and to the shopping list were text links, and should be buttons;
+- a recipe's part should be called "מרכיב", and the ingredient picker's empty choice "בחירת מוצרים";
+- deleting an ingredient a recipe uses (C8) asked "למחוק?" first, and only then said it could not be deleted.
+
+Erez also named two items for before delivery: the app's own dialogs in place of the browser's, and moving some buttons. Both went to step 10 (D43).
+
+All acceptance boxes ticked. verified 2026-11-10, Pixel 9, Erez.
+
+## What was done
+
+2026-11-10, programmer's Mac. The three remarks above, D43.
+- `src/screens/products.tsx`, `src/screens/ingredients.tsx`, `src/screens/shopping.tsx`: the ways between products, ingredients and the shopping list became secondary buttons in a row under the heading (`.screen-links`). The shopping-list button still appears only once there is an ingredient.
+- `src/ui/recipe-editor.tsx`: the way to the ingredients, when a recipe has none, is a small button.
+- `src/i18n/he.ts`: "חלק" became "מרכיב" in the recipe's explanation, field, buttons, part cost and error. The picker's empty choice reads "בחירת מוצרים".
+- `src/screens/ingredient-form.tsx`: the form reads the products. Delete on an ingredient a recipe uses shows the refusal at once and asks nothing; otherwise it asks as before. `deleteIfUnused` still refuses inside its transaction.
+- `tasks/10-handoff.md`: two boxes added to the Context before work on the step started: the app's own dialogs, and the buttons Erez lists.
+- `docs/SPEC.md`: the costing bullet. D43.
+
+Observed by Claude in the browser pane at 360×780:
+- the ingredients screen showed "→ למוצרים" and "רשימת קניות" as buttons;
+- the recipe read "שם המרכיב", "בחירת מוצרים", "הסרת המרכיב" and "עלות המרכיב: ₪4.50";
+- delete on an ingredient a recipe uses showed the refusal with no dialog (none was opened), and the ingredient stayed.
+
+The test rows were removed afterwards. Not verified on a device.

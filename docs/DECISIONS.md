@@ -401,3 +401,20 @@ Erez's Pixel feedback across the screens.
 **Why.**
 - (a) Erez asked why both could not be real numbers. "₪25.1" is not how anyone writes money, and next to "₪12.55" it looks like a different kind of figure. Costing (step 09) made such amounts common.
 - (b) Prices are almost always whole shekels; ".00" on each would be noise on every card and in every message.
+
+## D43 · 2026-11-10 · After step 09 on the Pixel: buttons to neighbouring screens, "מרכיב", a refusal without a question; two look-and-feel items for step 10
+**Decision.** From Erez's run of step 09 on the Pixel.
+- **Buttons, not links.** The way from products to ingredients, from ingredients to the shopping list, and back from each, are buttons in a row under the heading. So is the way to the ingredients when a recipe has none.
+- **Wording.** A recipe's part is a "מרכיב" (שם המרכיב, מרכיב חדש, הסרת המרכיב, עלות המרכיב). The ingredient picker's empty choice reads "בחירת מוצרים". The code keeps the name `parts`.
+- **Deleting an ingredient a recipe uses** is refused at the tap, with the reason, before any "למחוק?" is asked. The repository still refuses it inside its transaction.
+- **Step 10 gains two boxes**, added to its Context before work on it started: the app's own dialogs in place of the browser's `confirm()`, and moving the buttons Erez lists. The bottom bar is not part of it.
+**Rejected.**
+- (a) Text links for actions.
+- (b) "חלק" for a part of a recipe.
+- (c) Asking "למחוק?" and then saying it cannot be deleted.
+- (d) A separate task file for the look-and-feel items.
+**Why.**
+- (a) Every tappable thing looks like a button (`src/ui/base.css`); a link was the odd one out and easy to miss.
+- (b) Erez's wording; "מרכיב" is the baker's word for what goes into the cake.
+- (c) A question whose answer cannot be yes wastes a tap and reads like a mistake.
+- (d) Both are hand-off polish, which is what step 10 is; Erez placed them "before we deliver".

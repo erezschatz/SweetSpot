@@ -246,3 +246,6 @@ a.gear.on { background: var(--accent); color: #fff; border-color: var(--accent);
 .recipe-line .remove-line { min-inline-size: var(--tap); padding-inline: 0; }
 .recipe-part-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .alert.scaled { margin-block: 14px; }
+
+/* Ways on to a neighbouring screen (products ↔ ingredients ↔ shopping): buttons, not links (D43). */
+.screen-links { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 8px 14px; }

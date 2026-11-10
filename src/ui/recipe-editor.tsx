@@ -23,7 +23,8 @@ export function RecipeEditor({
   if (ingredients.length === 0) {
     return (
       <p class="message">
-        {he.recipe.noIngredients} <a href={href({ name: 'ingredients' })}>{he.recipe.toIngredients}</a>
+        {he.recipe.noIngredients}{' '}
+        <a class="button secondary small" href={href({ name: 'ingredients' })}>{he.recipe.toIngredients}</a>
       </p>
     );
   }

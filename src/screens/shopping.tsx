@@ -18,9 +18,9 @@ export function ShoppingScreen() {
   return (
     <section>
       <h2>{he.shopping.title}</h2>
-      <p>
-        <a href={href({ name: 'ingredients' })}>→ {he.ingredients.title}</a>
-      </p>
+      <div class="screen-links">
+        <a class="button secondary" href={href({ name: 'ingredients' })}>→ {he.ingredients.title}</a>
+      </div>
       <p class="muted">
         {he.shopping.explain} {formatDay(list.until)} · {list.orderCount} {he.shopping.orders}
       </p>
