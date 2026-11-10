@@ -7,6 +7,8 @@ import { backupNow, restoreBackup } from '../db/backup';
 import { parseBackup } from '../lib/backup';
 import { resizeImage } from '../ui/image';
 import { LogoImage } from '../ui/logo';
+import { ask, tell } from '../ui/dialog';
+import { href } from '../lib/route';
 
 // Reached from the gear in the header (D39): the business, the messages, and backup.
 export function SettingsScreen() {
@@ -45,6 +47,9 @@ export function SettingsScreen() {
 
       <h2>{he.storage.title}</h2>
       <StorageStatus />
+      <div class="screen-links">
+        <a class="button secondary" href={href({ name: 'install' })}>{he.install.settingsLink}</a>
+      </div>
 
       <p class="muted">{he.version} {__APP_VERSION__}</p>
     </section>
@@ -169,7 +174,7 @@ function BackupButtons({ onMessage }: { onMessage: (m: string) => void }) {
       onMessage(he.backup.errors[parsed.error]);
       return;
     }
-    if (!confirm(he.backup.restoreConfirm)) return;
+    if (!(await ask({ message: he.backup.restoreConfirm, yes: he.backup.restoreYes, no: he.goBack, danger: true }))) return;
     try {
       await restoreBackup(parsed.backup);
     } catch {
@@ -178,7 +183,7 @@ function BackupButtons({ onMessage }: { onMessage: (m: string) => void }) {
       return;
     }
     // A reload is the plain way to make every screen and input show the restored data.
-    alert(he.backup.restored);
+    await tell(he.backup.restored, he.backup.restoredOk);
     location.reload();
   }
 

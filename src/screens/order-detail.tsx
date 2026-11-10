@@ -12,6 +12,7 @@ import { href } from '../lib/route';
 import { PaymentBadge, StatusBadge } from '../ui/badges';
 import { selectAll } from '../ui/inputs';
 import { WhatsAppButtons } from '../ui/whatsapp-buttons';
+import { ask } from '../ui/dialog';
 import { returnTo, startedFrom } from '../ui/router';
 
 const methods: PaymentMethod[] = ['cash', 'bit', 'paybox', 'transfer', 'other'];
@@ -38,8 +39,15 @@ export function OrderDetailScreen({ id }: { id: string }) {
 
   async function setStatus(status: OrderStatus) {
     if (status === order!.status) return;
-    if (status === 'cancelled' && !confirm(he.orderDetail.cancelConfirm)) return;
-    await ordersRepo.put({ ...order!, status, updatedAt: new Date().toISOString() });
+    if (
+      status === 'cancelled' &&
+      !(await ask({ message: he.orderDetail.cancelConfirm, yes: he.orderDetail.cancelYes, no: he.orderDetail.cancelNo, danger: true }))
+    ) {
+      return;
+    }
+    // Read again after the question: the order may have changed while the dialog was open.
+    const current = (await ordersRepo.get(order!.id)) ?? order!;
+    await ordersRepo.put({ ...current, status, updatedAt: new Date().toISOString() });
   }
 
   return (

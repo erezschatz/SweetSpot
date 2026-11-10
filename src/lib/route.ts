@@ -18,6 +18,7 @@ export type Route =
   | { name: 'ingredientNew' }
   | { name: 'ingredientEdit'; id: string }
   | { name: 'shopping' }
+  | { name: 'install' }
   | { name: 'settings' };
 
 export function parseRoute(hash: string): Route {
@@ -26,6 +27,7 @@ export function parseRoute(hash: string): Route {
   if (first === 'settings') return { name: 'settings' };
   if (first === 'money') return { name: 'money' };
   if (first === 'shopping') return { name: 'shopping' };
+  if (first === 'install') return { name: 'install' };
   // Like a product, an ingredient has no screen of its own: tapping it opens the form.
   if (first === 'ingredients') {
     if (!second) return { name: 'ingredients' };
@@ -90,6 +92,8 @@ export function href(route: Route): string {
       return `#/ingredients/${encodeURIComponent(route.id)}`;
     case 'shopping':
       return '#/shopping';
+    case 'install':
+      return '#/install';
     case 'settings':
       return '#/settings';
   }

@@ -16,6 +16,7 @@ import {
 import { agorotToInput, formatShekels, parseShekels } from '../lib/money';
 import { selectAll } from '../ui/inputs';
 import { navigate, returnTo } from '../ui/router';
+import { ask } from '../ui/dialog';
 
 const emptyDraft: IngredientDraft = { name: '', unit: 'g', packQty: '', packPrice: '' };
 
@@ -73,7 +74,7 @@ export function IngredientFormScreen({ id }: { id?: string }) {
     if (!existing) return;
     // Refused before asking: "delete?" followed by "cannot delete" asks a question with no yes (D43).
     if (usedIngredientIds(products).has(existing.id)) return setMessage(he.ingredients.inUse);
-    if (!confirm(he.ingredients.removeConfirm)) return;
+    if (!(await ask({ message: he.ingredients.removeConfirm, yes: he.ingredients.remove, no: he.goBack, danger: true }))) return;
     try {
       if (await ingredientsRepo.deleteIfUnused(existing.id)) returnTo({ name: 'ingredients' });
       else setMessage(he.ingredients.inUse);

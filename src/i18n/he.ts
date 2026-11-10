@@ -1,6 +1,8 @@
 // Every user-facing string lives here. The baker is addressed in the feminine.
 export const he = {
   appName: 'SweetSpot',
+  // The "no" of the app's dialogs (D45): "ביטול" would be ambiguous next to "ביטול ההזמנה".
+  goBack: 'חזרה',
   tagline: 'יומן ההזמנות שלך',
   version: 'גרסה',
 
@@ -27,7 +29,9 @@ export const he = {
     failed: 'הגיבוי נכשל. נסי שוב.',
     restore: 'שחזור מקובץ',
     restoreConfirm: 'השחזור ימחק את כל מה שיש עכשיו בטלפון ויחליף אותו בתוכן הקובץ. להמשיך?',
+    restoreYes: 'שחזור',
     restored: 'השחזור הושלם.',
+    restoredOk: 'המשך',
     errors: {
       notJson: 'זה לא קובץ גיבוי. בחרי קובץ ששמו מתחיל ב־sweetspot.',
       notSweetSpot: 'הקובץ הזה לא נוצר ב־SweetSpot. שום דבר לא השתנה.',
@@ -274,6 +278,8 @@ export const he = {
     customerCard: 'פרטי הלקוח',
     status: 'סטטוס',
     cancelConfirm: 'לבטל את ההזמנה?',
+    cancelYes: 'ביטול ההזמנה',
+    cancelNo: 'השארת ההזמנה',
     payment: 'תשלום',
     total: 'סה״כ',
     depositPaid: 'מקדמה ששולמה',
@@ -340,6 +346,32 @@ export const he = {
     difference: 'נשאר אחרי חומרי הגלם',
     materialsHint: 'עלות ההזמנות שנמסרו החודש, לפי המתכונים שהזנת. הערכה בלבד.',
     uncosted: 'פריטים שנשמרו בלי עלות לא נספרו:',
+  },
+
+  // Step 10: the install page (docs/SPEC.md, Install; D37). Chrome's menu wording varies
+  // between versions, so the steps name both labels it uses.
+  install: {
+    title: 'התקנה למסך הבית',
+    banner: 'כדאי להתקין את SweetSpot למסך הבית.',
+    bannerButton: 'איך מתקינים',
+    promises: [
+      'אייקון במסך הבית, כמו כל אפליקציה.',
+      'נפתחת במסך מלא, בלי שורת הכתובת של הדפדפן.',
+      'לא תופסת מקום בטלפון, ומתעדכנת לבד.',
+      'ההזמנות נשארות בטלפון שלך. בלי חשבון ובלי סיסמה.',
+    ],
+    installNow: 'התקנה עכשיו',
+    byHand: 'איך מתקינים',
+    orByHand: 'או ידנית',
+    steps: [
+      'בכרום, הקישי על שלוש הנקודות ⋮ בפינה העליונה.',
+      'בחרי "התקנת האפליקציה" או "הוספה למסך הבית".',
+      'הקישי "התקנה".',
+      'מעכשיו פתחי את SweetSpot מהאייקון במסך הבית, לא מהדפדפן.',
+    ],
+    installed: 'SweetSpot מותקנת במסך הבית. אין צורך לעשות דבר.',
+    toDiary: 'ליומן',
+    settingsLink: 'התקנה למסך הבית',
   },
 
   storage: {

@@ -10,6 +10,7 @@ import { toWhatsAppNumber, whatsAppLink } from '../lib/phone';
 import { href } from '../lib/route';
 import { PaymentBadge, StatusBadge } from '../ui/badges';
 import { returnTo } from '../ui/router';
+import { ask } from '../ui/dialog';
 
 export function CustomerDetailScreen({ id }: { id: string }) {
   // null = looked and not found; undefined = still loading.
@@ -34,7 +35,7 @@ export function CustomerDetailScreen({ id }: { id: string }) {
   // checks again inside its transaction.
   async function onDelete() {
     if (history.orders.length > 0) return setMessage(he.customers.deleteRefused);
-    if (!confirm(he.customers.deleteConfirm)) return;
+    if (!(await ask({ message: he.customers.deleteConfirm, yes: he.customers.delete, no: he.goBack, danger: true }))) return;
     if (await customersRepo.deleteIfNoOrders(id)) returnTo({ name: 'customers' });
     else setMessage(he.customers.deleteRefused);
   }

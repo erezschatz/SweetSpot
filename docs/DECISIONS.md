@@ -428,3 +428,19 @@ Erez's Pixel feedback across the screens.
 - (a) A task file with no "What was done" counts as open work (`tasks/README.md`), and these are not work yet.
 - (b) A fresh session must be able to pick up from the repo alone (`CLAUDE.md`).
 - Listing them reopens nothing. Cloud backup still stands against D6 and photo extraction against D35 and D36, until a new entry says otherwise.
+
+## D45 · 2026-11-10 · Step 10: the app's own dialogs, an install page reached from the diary while in a tab
+**Decision.** Choices made by Claude during step 10, on the two boxes D43 added and the install box.
+- **Dialogs.** One module, `src/ui/dialog.tsx`, with `ask()` (a question, two buttons) and `tell()` (a statement, one button), each awaited from the event handler as `confirm()` was. A native `<dialog>` opened with `showModal()`, rendered into a node of its own. The buttons name what they do. The "no" is "חזרה", or "השארת ההזמנה" for a cancellation, never "ביטול", which next to "ביטול ההזמנה" could mean either. Destructive yeses are drawn red. Back or Escape answers no, and so does the dialog closing by any other way. One dialog at a time; focus starts on the safe answer. All four questions and the one notice (restore done) use it.
+- **Install page** at `#/install`. A line at the top of the diary points to it whenever the app runs in a Chrome tab instead of from the home-screen icon, and settings has a button to it. Chrome's own install dialog is offered when Chrome has made it available; the menu steps are listed until the app is installed, naming both labels Chrome uses.
+- The page claims nothing it cannot be sure of. A sentence saying orders typed in the tab carry over to the installed app was written and taken out, since it was not checked on her phone.
+**Rejected.**
+- (a) A dialog library.
+- (b) A `<dialog>` in each screen's own markup with open/closed state.
+- (c) The install steps only as a section in settings.
+- (d) The install page as the front screen whenever the app is not installed.
+**Why.**
+- (a) Under a hundred lines of our own against a dependency and a stack-table row (CLAUDE.md).
+- (b) Four screens would each carry the same state and markup, and an `await` reads as plainly as `confirm()` did.
+- (c) Before the app is installed she has no reason to open settings; the diary is what she sees.
+- (d) The programmer works in a tab too, and the diary must stay usable there. A line at the top is enough.

@@ -2,6 +2,7 @@ import { render } from 'preact';
 import { registerSW } from 'virtual:pwa-register';
 import { App } from './app';
 import { keepFocusedFieldVisible } from './ui/keyboard';
+import { listenForInstallPrompt } from './ui/install';
 import './ui/base.css';
 
 // Ask Chrome not to evict her data under storage pressure. Installed PWAs are usually
@@ -12,5 +13,6 @@ void navigator.storage?.persist?.();
 registerSW({ immediate: true });
 
 keepFocusedFieldVisible();
+listenForInstallPrompt();
 
 render(<App />, document.getElementById('app')!);

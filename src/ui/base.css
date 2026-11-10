@@ -249,3 +249,20 @@ a.gear.on { background: var(--accent); color: #fff; border-color: var(--accent);
 
 /* Ways on to a neighbouring screen (products ↔ ingredients ↔ shopping): buttons, not links (D43). */
 .screen-links { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 8px 14px; }
+
+/* The app's own dialogs (D45): a card in the middle of a dimmed page, buttons at full tap size. */
+.app-dialog {
+  inline-size: min(100vw - 32px, 420px); padding: 20px 18px 16px; border: none; border-radius: 18px;
+  background: var(--card); color: var(--fg); box-shadow: 0 12px 40px rgb(0 0 0 / 0.25);
+}
+.app-dialog::backdrop { background: rgb(43 33 24 / 0.45); }
+.app-dialog p { margin: 0 0 18px; font-size: 1.05rem; }
+.app-dialog .actions { position: static; display: flex; gap: 10px; padding: 0; background: none; border: none; }
+.app-dialog .actions button { flex: 1; }
+button.danger { background: #a63d2f; }
+
+/* The install page (step 10). */
+.promises { padding-inline-start: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+.steps { padding-inline-start: 1.4em; display: flex; flex-direction: column; gap: 8px; }
+.alert.install { padding-block: 10px; }
+.alert.install p { margin: 0 0 8px; }

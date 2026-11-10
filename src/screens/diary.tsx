@@ -9,6 +9,7 @@ import { backupDue, buildDiary, daysSinceBackup, totalOwed, type DiarySection } 
 import { formatShekels } from '../lib/money';
 import { href } from '../lib/route';
 import { OrderCard } from '../ui/order-card';
+import { isInstalled } from '../ui/install';
 
 // The front screen (step 07): what is due, from today on. Delivered and cancelled orders
 // leave it, except the delivered ones still owing, which have a line of their own.
@@ -23,6 +24,13 @@ export function DiaryScreen() {
 
   return (
     <section class="diary">
+      {/* Opened in a Chrome tab, not from the icon: until it is installed, show her how. */}
+      {!isInstalled() && (
+        <div class="alert install">
+          <p>{he.install.banner}</p>
+          <a class="button" href={href({ name: 'install' })}>{he.install.bannerButton}</a>
+        </div>
+      )}
       <BackupPrompt lastBackupAt={settings.lastBackupAt} today={today} />
 
       {diary.overdue.length > 0 && (

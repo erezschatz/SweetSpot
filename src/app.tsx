@@ -13,6 +13,7 @@ import { MoneyScreen } from './screens/money';
 import { IngredientsScreen } from './screens/ingredients';
 import { IngredientFormScreen } from './screens/ingredient-form';
 import { ShoppingScreen } from './screens/shopping';
+import { InstallScreen } from './screens/install';
 import { CustomersScreen } from './screens/customers';
 import { CustomerDetailScreen } from './screens/customer-detail';
 import { CustomerFormScreen } from './screens/customer-form';
@@ -51,6 +52,7 @@ export function App() {
       {route.name === 'ingredientNew' && <IngredientFormScreen />}
       {route.name === 'ingredientEdit' && <IngredientFormScreen key={route.id} id={route.id} />}
       {route.name === 'shopping' && <ShoppingScreen />}
+      {route.name === 'install' && <InstallScreen />}
       {route.name === 'settings' && <SettingsScreen />}
       {withNav && <BottomNav route={route} />}
     </main>

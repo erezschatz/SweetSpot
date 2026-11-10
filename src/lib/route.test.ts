@@ -13,6 +13,7 @@ describe('parseRoute', () => {
     expect(parseRoute('#/ingredients/new')).toEqual({ name: 'ingredientNew' });
     expect(parseRoute('#/ingredients/i1')).toEqual({ name: 'ingredientEdit', id: 'i1' });
     expect(parseRoute('#/shopping')).toEqual({ name: 'shopping' });
+    expect(parseRoute('#/install')).toEqual({ name: 'install' });
     expect(parseRoute('#/customers')).toEqual({ name: 'customers' });
     expect(parseRoute('#/customers/new')).toEqual({ name: 'customerNew' });
     expect(parseRoute('#/customers/c1')).toEqual({ name: 'customer', id: 'c1' });
@@ -32,7 +33,7 @@ describe('parseRoute', () => {
   it('is the inverse of href', () => {
     const routes: Route[] = [
       { name: 'diary' }, { name: 'orders' }, { name: 'orderNew' }, { name: 'order', id: 'a b/c' },
-      { name: 'orderEdit', id: 'x' }, { name: 'settings' }, { name: 'money' }, { name: 'ingredients' }, { name: 'ingredientNew' }, { name: 'ingredientEdit', id: 'i 1' }, { name: 'shopping' }, { name: 'customers' }, { name: 'customerNew' },
+      { name: 'orderEdit', id: 'x' }, { name: 'settings' }, { name: 'money' }, { name: 'ingredients' }, { name: 'ingredientNew' }, { name: 'ingredientEdit', id: 'i 1' }, { name: 'shopping' }, { name: 'install' }, { name: 'customers' }, { name: 'customerNew' },
       { name: 'customer', id: 'a b/c' }, { name: 'customerEdit', id: 'y' },
       { name: 'products' }, { name: 'productNew' }, { name: 'productEdit', id: 'p 1' },
     ];
