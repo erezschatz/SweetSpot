@@ -38,6 +38,7 @@ Ideas the programmer noted on 2026-11-10 (D44). Not planned and not tasks: none 
 - **A photo on each recipe**, beside its parts. Photos on orders are cut below; a recipe photo is a separate idea. Backups grow with every photo, as the logo already shows (D23).
 - **Backup stored in a cloud drive** (Drive, for instance), instead of or beside the share sheet. Reopens D6, which rejects any account or remote store.
 - **Recipes as recipes, and extracting them**: in the programmer's words, "recipes and extract recipes". Read as: the method (steps, times, notes) kept with a product's ingredients, and filling a recipe from text or a photo instead of line by line. To be confirmed when it is picked up. Extracting from a photo is D35 (b) and D36 (c), which say it needs a model behind a server.
+- **Email as a contact option** (added 2026-11-10): an email address on a customer, and the order messages sent by email (a `mailto:` link, as WhatsApp is a `wa.me` link) for a customer who prefers it. Touches the customer row in the data model and the WhatsApp-only messages of D17 and D30.
 
 ## Not in phase 1
 
