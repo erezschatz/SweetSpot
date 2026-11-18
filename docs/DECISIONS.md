@@ -444,3 +444,12 @@ Erez's Pixel feedback across the screens.
 - (b) Four screens would each carry the same state and markup, and an `await` reads as plainly as `confirm()` did.
 - (c) Before the app is installed she has no reason to open settings; the diary is what she sees.
 - (d) The programmer works in a tab too, and the diary must stay usable there. A line at the top is enough.
+
+## D46 · 2026-11-11 · MIT license and a README
+**Decision.** The repository is under the MIT license (`LICENSE`, and `"license": "MIT"` in `package.json`), with a `README.md` at the root saying what the app is, how to run it, and where the record lives. Erez's choice, on noticing the public repo (D2) had no license.
+**Rejected.**
+- (a) No license.
+- (b) A copyleft license (GPL, AGPL).
+**Why.**
+- (a) A public repo without a license is all rights reserved: readable, but nobody may reuse it, which is not what a public learning project means.
+- (b) The code is a small personal app; nothing is gained by placing conditions on whoever reuses it. The baker's data is not in the repo (D20), so the license covers code only.

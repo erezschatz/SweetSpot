@@ -2,6 +2,7 @@
   "name": "sweetspot",
   "version": "0.0.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "prepare": "git config core.hooksPath .githooks",
