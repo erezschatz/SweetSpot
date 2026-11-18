@@ -11,8 +11,8 @@
 - [x] Install page at `#/install` (or a section in settings) with the four promises from the Install bullet of `docs/SPEC.md` (D37) and the add-to-home-screen steps for Chrome on Android.
 - [ ] Verified on the baker's Galaxy in Chrome: installed, persistent storage granted, backup shared to her Drive, one customer picked from contacts, one real order entered, one real WhatsApp message sent.
 - [ ] Her first three remarks written down here as candidate tasks for 1.1.
-- [ ] Added 2026-11-10 before work started (D43): the browser's own dialogs (`confirm()`: cancelling an order, deleting a customer or an ingredient, restoring a backup) are replaced by the app's own, in Hebrew and in its style.
-- [ ] Added 2026-11-10 before work started (D43): buttons the programmer finds out of place are moved, from his list of which ones and where. The bottom bar stays as it is.
+- [x] Added 2026-11-10 before work started (D43): the browser's own dialogs (`confirm()`: cancelling an order, deleting a customer or an ingredient, restoring a backup) are replaced by the app's own, in Hebrew and in its style.
+- [x] Added 2026-11-10 before work started (D43): buttons the programmer finds out of place are moved, from his list of which ones and where. The bottom bar stays as it is.
 
 ## What was done
 
@@ -70,4 +70,6 @@ Still open in this step: the fake week, the Hebrew review, the button moves (wai
 
 **2026-11-18.** Erez closed the first three boxes: the fake week, the Hebrew review and the install page. He reported no fixes with them, so none is listed under the first box. verified 2026-11-18, Erez.
 
-Still open in this step: the app's own dialogs and the button moves (D43; the moves wait on Erez's list), the hand-off on her Galaxy, and her first three remarks.
+**2026-11-18, later.** Erez closed the two boxes D43 added. He found the app's own dialogs good on his phone. No buttons are to be moved: his list is empty, so the box is closed with no change. verified 2026-11-18, Erez.
+
+Still open in this step: the hand-off on her Galaxy and her first three remarks. The step moves to her testing.
