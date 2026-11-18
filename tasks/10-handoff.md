@@ -6,9 +6,9 @@
 
 **Acceptance**
 
-- [ ] The programmer has used the app for a fake week (five orders, two customers, payments) and fixed what annoyed him; each fix is listed here, not in a new task.
-- [ ] Every Hebrew string reviewed for gender and tone (the baker is addressed in the feminine).
-- [ ] Install page at `#/install` (or a section in settings) with the four promises from the Install bullet of `docs/SPEC.md` (D37) and the add-to-home-screen steps for Chrome on Android.
+- [x] The programmer has used the app for a fake week (five orders, two customers, payments) and fixed what annoyed him; each fix is listed here, not in a new task.
+- [x] Every Hebrew string reviewed for gender and tone (the baker is addressed in the feminine).
+- [x] Install page at `#/install` (or a section in settings) with the four promises from the Install bullet of `docs/SPEC.md` (D37) and the add-to-home-screen steps for Chrome on Android.
 - [ ] Verified on the baker's Galaxy in Chrome: installed, persistent storage granted, backup shared to her Drive, one customer picked from contacts, one real order entered, one real WhatsApp message sent.
 - [ ] Her first three remarks written down here as candidate tasks for 1.1.
 - [ ] Added 2026-11-10 before work started (D43): the browser's own dialogs (`confirm()`: cancelling an order, deleting a customer or an ingredient, restoring a backup) are replaced by the app's own, in Hebrew and in its style.
@@ -67,3 +67,7 @@ Not observed:
 - the page on an installed app.
 
 Still open in this step: the fake week, the Hebrew review, the button moves (waiting on Erez's list), and the hand-off on her Galaxy. Not verified on a device.
+
+**2026-11-18.** Erez closed the first three boxes: the fake week, the Hebrew review and the install page. He reported no fixes with them, so none is listed under the first box. verified 2026-11-18, Erez.
+
+Still open in this step: the app's own dialogs and the button moves (D43; the moves wait on Erez's list), the hand-off on her Galaxy, and her first three remarks.
