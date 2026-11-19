@@ -453,3 +453,61 @@ Erez's Pixel feedback across the screens.
 **Why.**
 - (a) A public repo without a license is all rights reserved: readable, but nobody may reuse it, which is not what a public learning project means.
 - (b) The code is a small personal app; nothing is gained by placing conditions on whoever reuses it. The baker's data is not in the repo (D20), so the license covers code only.
+
+<!-- Compiled from tasks/ by scripts/compile-record.mjs. Do not edit below this line by hand. -->
+
+## D47 · 2026-11-19 · Only Claude Code works here; no Codex bindings
+
+**Decision** — The instructions stay in `CLAUDE.md`. No `AGENTS.md`, no `.codex/hooks.json`, no `.codex/agents/unities-reader.toml` (runbook 4.10 not installed). `AGENTS.md` is in the doc rule only so that the day it appears it counts as a doc.
+**Rejected** — Moving the instructions to `AGENTS.md` with `CLAUDE.md` as the one line `@AGENTS.md`, and installing the Codex files.
+**Why** — Erez answered on 2026-11-19 that nobody works here with another agent. One developer, one agent; the Codex files would be unverified and unused. Recorded because no earlier version of the runbook asked (it is new in 0.5.0).
+
+Source: [tasks/adopt-unities.md](../tasks/adopt-unities.md)
+
+## D48 · 2026-11-19 · Ideas for later are not-in-scope lines in a decision, not a hand-kept list in the plan
+
+**Decision** — The ideas D44 put under "Possible later" in `docs/PLAN.md` are carried here as `Not in scope: Later — …` lines, as written there. A new idea enters as a small task file of its own: its `## Context` is the idea as it arrived, its decision carries such a line, and its `## What was done` says only that the idea was written down. The scene of recording an idea is complete when it is committed, so the compiled plan lists that file as a done step, never as open work. One becomes work only by a new decision that places it, and the decisions named beside it are the ones that decision would reopen or narrow. Ideas the programmer noted on 2026-11-10; none has a step, an estimate or a task file.
+**Rejected** — (a) Keeping "Possible later" in the plan's hand-written introduction: from today the gate refuses any edit to it, so no idea could be added. (b) A task file per idea that stays open until the idea is built: D44 rejected that, because an open task file is a step the plan says is to be done.
+**Why** — The plan is now compiled (runbook 4.5), and its only inputs besides the task files are `Milestone:` and `Not in scope:` lines in decisions. "Not in scope" is true of these ideas: they are not in phase 1, and the prefix `Later —` keeps them apart from what was cut on purpose.
+Supersedes: D44
+Not in scope: Later — **Export the data to a file**: a PDF or sheet for the accountant (income, orders, materials by month), and a flat export (plain text or CSV) to hand to an LLM. The backup JSON already holds everything; this is a readable view of it. Touches "printing/PDF" under *Not in phase 1*.
+Not in scope: Later — **A photo on each recipe**, beside its parts. Photos on orders are cut below; a recipe photo is a separate idea. Backups grow with every photo, as the logo already shows (D23).
+Not in scope: Later — **Backup stored in a cloud drive** (Drive, for instance), instead of or beside the share sheet. Reopens D6, which rejects any account or remote store.
+Not in scope: Later — **Recipes as recipes, and extracting them**: in the programmer's words, "recipes and extract recipes". Read as: the method (steps, times, notes) kept with a product's ingredients, and filling a recipe from text or a photo instead of line by line. To be confirmed when it is picked up. Extracting from a photo is D35 (b) and D36 (c), which say it needs a model behind a server.
+Not in scope: Later — **Email as a contact option** (added 2026-11-10): an email address on a customer, and the order messages sent by email (a `mailto:` link, as WhatsApp is a `wa.me` link) for a customer who prefers it. Touches the customer row in the data model and the WhatsApp-only messages of D17 and D30.
+
+Source: [tasks/adopt-unities.md](../tasks/adopt-unities.md)
+
+## D49 · 2026-11-19 · The plan as it stood
+
+**Decision** — The milestones and the "Not in phase 1" list of the hand-written `docs/PLAN.md` move here, as written, one line each; the step table gives way to the compiled steps. The estimates table, its total and "Answered 2026-11-02" stay above the marker as the plan's fixed introduction, as history.
+**Rejected** — Dropping the estimates and the 2026-11-02 answers, which the compiler cannot produce; their content is history and is cited by the decisions D16–D21 and D35.
+**Why** — Runbook 5.4: a repository adopted before 2026-11-11 converts its plan once. Erez chose on 2026-11-19 to keep the estimates and the answers as the fixed introduction.
+Milestone: **After 01:** a blank SweetSpot opens full-screen from an icon on the programmer's Pixel, served from GitHub Pages. If this fails, the hosting decision is wrong.
+Milestone: **After 04 (the proving milestone):** on the programmer's phone — create an order, tap "order accepted", WhatsApp opens with the Hebrew text addressed to the customer's number; force-stop Chrome, reboot, the order is still there. Nothing later is worth building if this fails.
+Milestone: **After 09:** feature-complete for phase 1; the programmer uses it for a fake week of orders before 10.
+Milestone: **After 11:** the baker has it on her phone and has made her first backup.
+Not in scope: Costing beyond step 09 (D35, D36): a supplied list of ingredient prices, import, recipe-from-photo
+Not in scope: labour and overhead on a recipe (D35)
+Not in scope: customer approve-by-link and landing page (D4)
+Not in scope: calendar sync and notifications (D5)
+Not in scope: sync, cloud backup, login (D6)
+Not in scope: iOS, dark theme, English, Samsung Internet (D7, D21)
+Not in scope: week-grid diary (D8)
+Not in scope: payment ledger (D9, D16)
+Not in scope: structured flavour/layer fields and a size-to-guests suggestion (D19)
+Not in scope: printing/PDF
+Not in scope: invoices
+Not in scope: photos on orders
+Not in scope: search beyond name/phone
+Not in scope: multiple businesses
+
+Source: [tasks/adopt-unities.md](../tasks/adopt-unities.md)
+
+## D50 · 2026-11-19 · The test rule of D33 survives the new check script
+
+**Decision** — The new `check-unit.mjs` keeps `REQUIRED = ["doc", "task"]` plus `TESTED = /^src\/(lib|db)\//`: a test change is required only when logic in `src/lib` or `src/db` changes. Its tests keep the two D33 cases (logic without a test is refused; a screen-only change needs no test), and drop the runbook's three tombstone tests, since this repo has no retired files (`RULES.retired` matches nothing).
+**Rejected** — The runbook's Appendix A as written, `REQUIRED = ["test", "doc", "task"]`, which would require a test for every screen change again.
+**Why** — D33 is a listed decision and the runbook says to fill the rules from what the repo is, not from its examples (its §2, item 6). Screens are verified on the phone.
+
+Source: [tasks/adopt-unities.md](../tasks/adopt-unities.md)

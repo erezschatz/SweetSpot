@@ -15,22 +15,32 @@ A fresh session — human or Claude — must be able to pick up from this repo a
 ## The Unities
 
 The work, its record and its location are the same thing at the same time. Every commit
-that changes source also carries its doc line and a `## What was done` section appended
-to the task file in `tasks/`, and its test when it touches `src/lib` or `src/db` (D33).
-This is enforced, not requested: a Stop hook refuses to end a turn with a half-recorded change, and `git commit` refuses an incomplete
+that changes source also carries its doc line, a `## What was done` section appended to
+the task file in `tasks/`, and its test when it touches `src/lib` or `src/db` (D33),
+read cold against the diff by a reader that did not write it: code, test, document, review
+are one unit. This is enforced, not requested: a Stop hook
+refuses to end a turn with a half-recorded change, and `git commit` refuses an incomplete
 scene (`.claude/hooks/check-unit.mjs`). `CHANGELOG.md` is compiled from task records at
 release (`npm run changelog -- <version>`) and is never edited by hand. If a change cannot
 be completed with its record in this sitting, revert it; do not leave it for later.
-Any choice with a rejected alternative gets a dated entry in `docs/DECISIONS.md`; a listed
-decision is not reopened quietly but by a new entry. Before committing, have a reader that
-has not seen the work check that the task record describes the diff. The agent does not
+Any choice with a rejected alternative gets a dated entry under `## Decisions` in the task
+file of the work that made it; a listed decision is not reopened quietly but by a new
+entry that supersedes it. `docs/DECISIONS.md` and `docs/PLAN.md` are read, never written:
+they are compiled from the task files (`npm run record`), the commit carries the
+compiler's output, and the gate refuses one where they are out of date. A review item
+(`## Review` in the task file) is done when every *Done when* line holds for the running
+program, not when its wording is satisfied; whatever a fix needs beyond its item is
+recorded as a decision before it is built. Before committing, give the staged diff and
+the task file to a reader that has not seen the work — a read-only subagent, never
+yourself — to carry out `docs/reviewer.md`; write what it finds into the task file and
+its name on the record's `Reviewed by:` line. The agent does not
 claim a build is green or a feature works where it runs; Erez does. The developer's side
 of all this is `docs/working-on-a-task.md`.
 
 - Steps strictly in order unless a decision says otherwise.
 - A step is done when every acceptance box is ticked, `## What was done` is written, **and the programmer ran it on the phone**. Record the verification line in that section.
 - `docs/SPEC.md` is edited in the same scene as any behaviour or architecture change.
-- Any choice with a rejected alternative gets a dated `docs/DECISIONS.md` entry.
+- Any choice with a rejected alternative gets a dated `## Decisions` entry in the task file of the step being worked; `docs/DECISIONS.md` and `docs/PLAN.md` are compiled from those, never edited.
 - `CHANGELOG.md` is compiled from task files at release; never edited by hand.
 
 ## Code rules

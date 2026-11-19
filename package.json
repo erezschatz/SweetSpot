@@ -11,7 +11,8 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "record": "node scripts/compile-record.mjs"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.6",
